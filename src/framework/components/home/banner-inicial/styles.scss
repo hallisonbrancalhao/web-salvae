@@ -1,0 +1,9 @@
+.banner-inicial {
+  &__content {
+    @apply flex flex-col justify-center items-center h-screen bg-cover text-white text-center px-16;
+  }
+
+  &__title {
+    @apply text-5xl font-bold mb-4;
+  }
+}

@@ -1,0 +1,5 @@
+.home-page {
+  &__titulo {
+    @apply text-5xl font-bold mb-4 text-center bg-slate-700;
+  }
+}

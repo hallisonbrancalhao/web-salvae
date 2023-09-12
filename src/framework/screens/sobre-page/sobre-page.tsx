@@ -1,17 +1,18 @@
 import React from 'react';
 import Image from 'next/image'
-import Linha from '../../public/assets/linha-do-tempo.svg'
-import Foto from '../../public/assets/timeline.svg'
+import Linha from '../../../../assets/images/linha-do-tempo.svg'
+import Foto from '../../../../assets/images/timeline.svg'
 import TimeLine from './time-line';
+import './styles.scss'
 
 export default async function Sobre() {
     return (
-        <div className='flex h-auto flex-col items-center bg-gradient-to-t from-[#081918] to-[#052C2C]'>
-            <h1 className='font-black text-[80px] text-[#FFB133] mt-10'>Sobre nós</h1>
-            <div className="w-[390px] h-[7px] bg-[#ffb133] rounded-lg"></div>
-            <div className="flex justify-center w-full">
-                <div className="w-auto">
-                    <div className="justify-end mt-[590px]">
+        <div className="container">
+            <h1 className='sobrenos'>Sobre nós</h1>
+            <div className="divisor"></div>
+            <div className="container-timeline">
+                <div className="timeline">
+                    <div className="linha1">
                         <TimeLine
                             timeLineText='Neste ano o guia maringa gastronomica doaijfjw foiew fowihoiwhn fwoihfwe 
                             fwoihfw fwoihfw  fweoihfw ih.'
@@ -20,11 +21,11 @@ export default async function Sobre() {
                         />
                     </div>
                 </div>
-                <div className="">
-                    <Image src={Linha} alt='' width={100} height={100} className="w-10 h-[1700px]" />
+                <div>
+                    <Image src={Linha} alt='' width={100} height={100} className="imagem-linha" />
                 </div>
-                <div className="w-auto">
-                    <div className="justify-start mt-[90px]">
+                <div className="timeline">
+                    <div className="linha2">
                         <TimeLine
                             timeLineText='Neste ano o guia maringa gastronomica doaijfjw foiew fowihoiwhn fwoihfwe 
                             fwoihfw fwoihfw  fweoihfw ih.'
@@ -32,7 +33,7 @@ export default async function Sobre() {
                             foto={Foto}
                         />
                     </div>
-                    <div className="justify-start mt-[640px]">
+                    <div className="linha3">
                         <TimeLine
                             timeLineText='Neste ano o guia maringa gastronomica doaijfjw foiew fowihoiwhn fwoihfwe 
                             fwoihfw fwoihfw  fweoihfw ih.'

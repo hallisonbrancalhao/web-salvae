@@ -1,7 +1,7 @@
-.layout-sobre {
-  @apply flex text-white;
+.layout {
+  @apply flex;
 
-  &__nav {
-    @apply bg-gray-900 h-screen w-64 fixed top-0 left-0;
+  &__sidebar {
+    @apply bg-[#081918] h-screen w-64 fixed top-0 left-0;
   }
 }

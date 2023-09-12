@@ -1,0 +1,7 @@
+.container-sobre{
+    @apply bg-slate-500 flex;
+
+    &__lado2 {
+        @apply p-60;
+    }
+}

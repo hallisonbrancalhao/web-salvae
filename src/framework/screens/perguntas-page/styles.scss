@@ -1,0 +1,58 @@
+.container{
+    @apply flex h-screen mt-10;
+
+    .titulo{
+        @apply flex flex-col items-center w-1/2 bg-faq-bg-image;
+
+        .h1{
+            @apply font-black text-[70px] max-w-md text-white;
+        }
+
+        .frequente{
+            @apply text-[#FFB133];
+        }
+    }
+
+    .caixa{
+        @apply w-1/2;
+
+        .texto{
+            @apply w-[550px];
+        }
+    }
+}
+
+.bg-faq-bg-image {
+    background-image: url('/assets/faqbg.png');
+    background-size: cover;
+  }
+  
+  body {
+    @apply bg-gradient-to-t from-[#081918] to-[#052C2C];
+  }
+  
+  .title {
+    @apply py-2 px-3;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+    background: #051918;
+    color: white
+  }
+  
+  .expandable-text {
+    @apply rounded-lg py-3 px-8 text-sm text-start;
+    margin: 30px;
+    background: #051918;
+    color: #A3B8B8;
+  }
+  
+  .divider {
+    width: 100%;
+    height: 1px;
+    background-color: #ffb133;
+    margin: 10px 0;
+  }
+  

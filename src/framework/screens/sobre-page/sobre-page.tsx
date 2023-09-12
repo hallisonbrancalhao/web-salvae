@@ -2,10 +2,10 @@ import React from 'react';
 import Image from 'next/image'
 import Linha from '../../../../assets/images/linha-do-tempo.svg'
 import Foto from '../../../../assets/images/timeline.svg'
-import TimeLine from './time-line';
+import TimeLine from '../../components/sobre/time-line';
 import './styles.scss'
 
-export default async function Sobre() {
+export default function Sobre() {
     return (
         <div className="container">
             <h1 className='sobrenos'>Sobre nós</h1>

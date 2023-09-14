@@ -37,7 +37,7 @@ export default function Restaurantes() {
     });
 
     return (
-        <div className='container'>
+        <div className='container-restaurente'>
             <h1 className='h1'>Dashboard</h1>
             <div className="container-pesquisa">
                 <h2 className='h2'>Restaurantes</h2>

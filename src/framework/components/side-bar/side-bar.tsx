@@ -1,21 +1,25 @@
 import "./styles.scss";
 import Link from "next/link";
+import Logo from "/assets/images/logo.svg";
+import Image from "next/image";
 
 export default function Sidebar() {
   return (
-    <div>
-      <ul>
-        <li>
-          <Link href="/dashboard/cadastro-restaurante">
-            Cadastro Restaurante
-          </Link>
-        </li>
-        <li>
-          <Link href="/dashboard/cadastro-patrocinadores">
-            Cadastro Patrocinadores
-          </Link>
-        </li>
-      </ul>
-    </div>
+    <aside>
+      <div className="container-sidebar">
+        <div className="container-sidebar__image">
+          <Image src={Logo} width={235} height={97} alt="Logo Salvae" />
+        </div>
+        <div className="container-sidebar__links">
+          <ul>
+            <li>Dashbord</li>
+            <li>Cadastro Restuarante</li>
+            <li>Cadastro Cupom</li>
+            <li>Vizualizar patrocinador</li>
+            <li>Sair</li>
+          </ul>
+        </div>
+      </div>
+    </aside>
   );
 }

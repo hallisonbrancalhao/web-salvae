@@ -18,9 +18,9 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({ initialText, expandedTe
 
   return (
     <div className={`expandable-text ${expanded ? 'expanded' : ''}`}>
-      <div className="title text-[18px]">
+      <div className="container-text">
         {initialText}
-        <div className="w-6">
+        <div className="container-botao">
           <button className={`expand-button ${expanded ? 'transition-all rotate-180' : 'transition-all'}`} onClick={toggleExpanded}>
             <Image src={ArrowImage} alt='' />
           </button>

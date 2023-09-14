@@ -1,4 +1,7 @@
+import Sidebar from "@/framework/components/side-bar/side-bar";
 import type { Metadata } from "next";
+import "./styles.scss";
+import "src/app/globals.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -10,5 +13,10 @@ export default function PrivateLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <section>{children}</section>;
+  return (
+    <section className="privates-container">
+      <Sidebar />
+      <main>{children}</main>
+    </section>
+  );
 }

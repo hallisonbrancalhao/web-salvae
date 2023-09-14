@@ -1,22 +1,22 @@
-.container {
-    @apply items-center;
+.container-sidebar {
+  @apply items-center bg-black h-screen;
 
-    &__image {
-        @apply w-auto h-auto object-contain p-8 ;
-    }
+  &__image {
+    @apply w-auto h-auto object-contain p-8;
+  }
 
-    &__links{
-        @apply text-xl text-start text-white;
+  &__links {
+    @apply text-xl text-start text-white;
 
-        ul{
-            @apply list-none py-4 m-0;
+    ul {
+      @apply list-none py-4 m-0;
 
-            li {
-                @apply py-2 px-4;
-                &:hover{
-                    @apply underline cursor-pointer text-yellow-500;
-                }
-            }
+      li {
+        @apply py-2 px-4;
+        &:hover {
+          @apply underline cursor-pointer text-yellow-500;
         }
+      }
     }
+  }
 }

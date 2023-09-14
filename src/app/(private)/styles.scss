@@ -1,7 +1,3 @@
-.layout {
+.privates-container {
   @apply flex;
-
-  &__sidebar {
-    @apply bg-[#081918] h-screen w-64 fixed top-0 left-0;
-  }
 }

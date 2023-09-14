@@ -1,5 +1,51 @@
-.home-page {
-  &__titulo {
-    @apply text-5xl font-bold mb-4 text-center bg-slate-700;
+.fundo-inicial {
+  @apply bg-[#081918] flex flex-col items-center justify-center text-center py-20 px-4;
+}
+
+.frase-impacto {
+  @apply text-4xl font-bold mb-4 text-[#FFB133];
+  font-size: 120px;
+}
+
+.sub-texto {
+  @apply text-[#B4B4B4] text-lg mt-10;
+}
+
+.play-story {
+  @apply rounded-full text-[#005559] focus:outline-none text-white;
+}
+
+.ios {
+  @apply ml-6;
+}
+
+.frase-2 {
+  @apply font-bold text-[#FFB133] text-4xl mt-52 flex justify-between align-middle items-center gap-5;
+  font-size: 100px;
+}
+
+.fundo-2 {
+  @apply -scroll-ml-96 font-bold text-[#FFB133] text-left bg-[#081918] px-4 flex justify-between items-center;
+}
+
+.frase-3 {
+  @apply font-bold mb-28 mt-64 text-[#FFB133];
+  font-size: 80px;
+}
+
+.fundo-4 {
+  @apply font-bold mb-28 mt-64 text-[#FFB133] text-center bg-[#081918] py-20 px-4;
+  font-size: 80px;
+}
+
+.como-funciona {
+  @apply flex gap-6;
+
+  h1 {
+    @apply text-center text-[#FFB133] text-[80px];
+  }
+
+  .imagem {
+    @apply py-4;
   }
 }

@@ -6,7 +6,8 @@ import InputFieldImage from '../../components/cadastro/form-image';
 import InputPassword from '../../components/cadastro/form-senha';
 import InputCep from '../../components/cadastro/form-cep';
 import InputCnpj from '../../components/cadastro/form-cnpj';
-import InputMask from 'react-input-mask'
+import SelectField from '../../components/cadastro/form-categoria';
+import axios from 'axios';
 import "./styles.scss";
 
 export default function CadastroRestaurante() {
@@ -48,6 +49,44 @@ export default function CadastroRestaurante() {
         setError('');
     };
 
+    async function fetchAddressByCep(cep: any) {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = response.data;
+
+            return {
+                rua: data.logradouro,
+                bairro: data.bairro,
+                cidade: data.localidade,
+                estado: data.uf,
+            };
+        } catch (error) {
+            console.error('Erro ao buscar o endereço pelo CEP:', error);
+            return null;
+        }
+    }
+
+    const handleCepChange = async (event: { target: { value: any; }; }) => {
+        const newCep = event.target.value;
+        if (newCep.length === 9) {
+            setCep(newCep)
+            const addressData = await fetchAddressByCep(newCep);
+
+            if (addressData) {
+                setRua(addressData.rua);
+                setBairro(addressData.bairro);
+                setCidade(addressData.cidade);
+                setEstado(addressData.estado);
+            }
+        }
+    };
+
+    const categorias = [
+        { value: 'pizza', label: 'Pizza' },
+        { value: 'hamburger', label: 'Hamburger' },
+        { value: 'sorvete', label: 'Sorvete' },
+    ];
+
     return (
         <div className='container-restaurente'>
             <h1 className='h1'>Cadastro do Restaurante</h1>
@@ -65,11 +104,11 @@ export default function CadastroRestaurante() {
                         name="instagram" />
                 </div>
 
-                <hr className="divisor"/>
+                <hr className="divisor" />
 
                 <div className="bloco-1">
-                    <InputCep label="CEP" value={cep}   
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setCep(e.target.value)}
+                    <InputCep label="CEP" value={cep}
+                        onChange={handleCepChange}
                         name="cep"
                     />
                 </div>
@@ -95,19 +134,23 @@ export default function CadastroRestaurante() {
                         name="estado" />
                 </div>
 
-                <hr className="divisor"/>
+                <hr className="divisor" />
 
                 <div className="bloco-1-3">
-                    <InputField label="Categoria do Restaurante" value={categoria}
+                    <SelectField
+                        label="Categoria do Restaurante"
+                        name="categoria"
+                        value={categoria}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setCategoria(e.target.value)}
-                        name="categoria" />
+                        options={categorias}
+                    />
                     <InputCnpj label="CNPJ" value={cnpj}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setCnpj(e.target.value)}
                         name="cnpj" />
                 </div>
 
 
-                <hr className="divisor"/>
+                <hr className="divisor" />
 
                 <div className="bloco-2-3">
                     <InputPassword label="Senha" value={password}
@@ -118,7 +161,7 @@ export default function CadastroRestaurante() {
                         name="passwordConfirma" />
                 </div>
 
-                <hr className="divisor"/>
+                <hr className="divisor" />
 
                 <div className="container-botao">
                     <button

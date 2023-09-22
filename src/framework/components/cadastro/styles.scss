@@ -2,7 +2,11 @@
     @apply mb-5;
 
     .input{
-        @apply rounded-lg w-[30rem] h-[45px] px-2 border border-[#052C2C];
+        @apply text-[24px] rounded-lg w-[30rem] h-[45px] px-2 border border-[#052C2C];
+    }
+
+    .input-rua{
+        @apply rounded-lg w-[40rem] h-[45px] px-2 border border-[#052C2C];
     }
 
     .container-imagem {

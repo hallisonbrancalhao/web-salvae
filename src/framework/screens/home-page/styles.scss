@@ -1,22 +1,36 @@
-.fundo-inicial {
-  @apply bg-[#081918] flex flex-col items-center justify-center text-center py-20 px-4;
+.fundo{ 
+  @apply   bg-[#081918]
 }
 
-.frase-impacto {
-  @apply text-4xl font-bold mb-4 text-[#FFB133];
-  font-size: 120px;
-}
+  .fundo-inicial{
+    @apply  flex flex-col items-center justify-center text-center py-20 px-4;
 
-.sub-texto {
-  @apply text-[#B4B4B4] text-lg mt-10;
-}
+    &__frase-impacto{
+      @apply text-4xl font-bold mb-4 text-[#FFB133] text-[120px];
+    }
 
-.play-story {
-  @apply rounded-full text-[#005559] focus:outline-none text-white;
-}
+    &__sub-texto{
+      @apply text-[#B4B4B4] text-lg mt-10 my-10;
+    }
 
-.ios {
-  @apply ml-6;
+    &__como-funciona {
+        @apply flex gap-6 text-center flex flex-col items-center justify-center text-center py-20 px-4;
+      
+        h1 {
+          @apply  text-[#FFB133] text-[80px];
+        }
+      
+        &__imagem {
+          @apply py-4;
+        }
+      
+      }
+    
+  }
+
+
+.aplicativos{
+  @apply flex gap-32 my-12 justify-between
 }
 
 .frase-2 {
@@ -25,7 +39,7 @@
 }
 
 .fundo-2 {
-  @apply -scroll-ml-96 font-bold text-[#FFB133] text-left bg-[#081918] px-4 flex justify-between items-center;
+  @apply -scroll-ml-96 font-bold text-[#FFB133] text-left  px-4 flex justify-between items-center;
 }
 
 .frase-3 {
@@ -34,7 +48,7 @@
 }
 
 .fundo-4 {
-  @apply font-bold mb-28 mt-64 text-[#FFB133] text-center bg-[#081918] py-20 px-4;
+  @apply font-bold mb-28 mt-64 text-[#FFB133] text-center  py-20 px-4;
   font-size: 80px;
 }
 
@@ -48,4 +62,34 @@
   .imagem {
     @apply py-4;
   }
+
+}
+
+.container-bg {
+  @apply bg-background;
+
+  &__campo-clpl{
+    @apply flex items-center justify-between;
+  }
+
+  &__cleular{
+    @apply ml-10;
+  }
+
+  &__teste{
+    @apply flex-col;
+  }
+
+  &__logo{
+    @apply ml-48;
+  }
+
+  &__aplicativos{
+    @apply   text-center text-[#081918] text-[44px] mr-72  mt-10;
+  }
+
+  &__mobile{
+    @apply  flex gap-32  py-16 mr-72;
+  }
+
 }

@@ -9,6 +9,10 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
+      backgroundImage: {
+        'background': "url('/assets/images/bg-bottom.svg')",
+        
+      },
       colors: {
         primary: {
           "50": "#f9fafb",

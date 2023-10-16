@@ -1,7 +1,9 @@
-export default function Restaurantes() {
+import Restaurantes from "@/framework/screens/restaurantes-page/restaurantes-page";
+
+export default function Restaurante() {
   return (
-    <main>
-      <h1> Página restaurantes </h1>
-    </main>
+    <>
+      <Restaurantes />
+    </>
   );
 }

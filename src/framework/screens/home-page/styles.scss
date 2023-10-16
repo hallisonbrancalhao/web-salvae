@@ -26,20 +26,27 @@
       
       }
     
+      &__aplicativos{
+        @apply flex gap-11;
+      }
+  }
+
+  .parceiros{
+    @apply text-center;
+
+    &__frase{
+      @apply text-[100px] text-[#fff];
+    }
+
+    &__imagens-parceiros{
+      @apply flex justify-center gap-5 rounded-full overflow-hidden;
+    }
   }
 
 
-.aplicativos{
-  @apply flex gap-32 my-12 justify-between
-}
-
-.frase-2 {
-  @apply font-bold text-[#FFB133] text-4xl mt-52 flex justify-between align-middle items-center gap-5;
-  font-size: 100px;
-}
-
 .fundo-2 {
-  @apply -scroll-ml-96 font-bold text-[#FFB133] text-left  px-4 flex justify-between items-center;
+  @apply -scroll-ml-96 font-bold  text-left  px-4 flex justify-between items-center;
+  
 }
 
 .frase-3 {
@@ -52,18 +59,7 @@
   font-size: 80px;
 }
 
-.como-funciona {
-  @apply flex gap-6;
 
-  h1 {
-    @apply text-center text-[#FFB133] text-[80px];
-  }
-
-  .imagem {
-    @apply py-4;
-  }
-
-}
 
 .container-bg {
   @apply bg-background;

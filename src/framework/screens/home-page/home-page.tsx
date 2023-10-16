@@ -4,8 +4,9 @@ import Logo from "assets/images/logo.svg";
 import Ios from "assets/images/ios.svg";
 import Play from "assets/images/play.svg";
 import Phone from "assets/images/img-phone.svg";
-import BgBottom from "assets/images/bg-bottom.svg";
-
+import Parceiro1 from "assets/images/parceiro1.svg";
+import Parceiro2 from "assets/images/parceiro2.svg";
+import Olho from "assets/images/olho.svg";
 export default function HomePage() {
 
 
@@ -26,7 +27,7 @@ export default function HomePage() {
 
               </h3>
             </div>
-            <div className="aplicativos ">
+            <div className="fundo-inicial__aplicativos ">
               <Image src={Play} width={239} height={80} alt="" />
               <Image src={Ios} width={270} height={80} alt="" />
             </div>
@@ -51,7 +52,9 @@ export default function HomePage() {
               <table>
                 <tbody>
                   <tr>
-                    <td className="items-center">olho</td>
+                    <td className="items-center">
+                      <Image src={Olho} width={50} height={50} alt="" />
+                    </td>
                     <td>
                       veja as categorias dos restaurantes{" "}
                       <p>que temos desconto</p>
@@ -63,9 +66,13 @@ export default function HomePage() {
           </div>
 
           {/* Seção 3 */}
-          <div className="fundo-inicial">
-            <div className="frase-2">
+          <div className="parceiros">
+            <div className="parceiros__frase">
               <h1>Conheça nossos parceiros</h1>
+            </div>
+            <div className="parceiros__imagens-parceiros">
+              <Image src={Parceiro1} width={157} height={130} alt="" />
+              <Image src={Parceiro2} width={157} height={130} alt="" />
             </div>
           </div>
 

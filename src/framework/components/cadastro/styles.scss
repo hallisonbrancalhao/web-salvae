@@ -1,0 +1,31 @@
+.container {
+    @apply mb-5;
+
+    .input{
+        @apply text-[24px] rounded-lg w-[30rem] h-[45px] px-2 border border-[#052C2C];
+    }
+
+    .input-rua{
+        @apply rounded-lg w-[40rem] h-[45px] px-2 border border-[#052C2C];
+    }
+
+    .container-imagem {
+        @apply flex items-center mt-1;
+
+        .imagem {
+            @apply hidden;
+        }
+
+        .imagem-botao {
+            @apply bg-gray-300 hover:bg-gray-400 text-white rounded-lg w-[30rem] h-[45px];
+        }
+    }
+
+    .upload {
+        @apply mt-2;
+
+        .upload-imagem {
+            @apply max-h-40 mx-auto;
+        }
+    }
+}

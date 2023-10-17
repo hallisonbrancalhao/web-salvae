@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons'
 import Editar from '../../../../assets/images/editar.svg'
 import Excluir from '../../../../assets/images/excluir.svg'
+import '../../screens/restaurantes-page/styles.scss'
 
 interface RestaurantesProps {
     foto: string
@@ -38,7 +39,6 @@ const Restaurante: React.FC<RestaurantesProps> = ({ foto, nome, avaliacao, statu
                         icon={toggleIcon}
                         className={toggleStatus ? 'ativado' : 'desativado'}
                         onClick={handleToggleClick}
-                        style={{ fontSize: '32px' }}
                     />
                 </div>
                 <div className="item-cabecalho2">

@@ -7,6 +7,7 @@ import Phone from "assets/images/img-phone.svg";
 import Parceiro1 from "assets/images/parceiro1.svg";
 import Parceiro2 from "assets/images/parceiro2.svg";
 import Olho from "assets/images/olho.svg";
+
 export default function HomePage() {
 
 

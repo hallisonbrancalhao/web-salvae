@@ -9,19 +9,24 @@ import InputCnpj from '../../components/cadastro/form-cnpj';
 import SelectField from '../../components/cadastro/form-categoria';
 import axios from 'axios';
 import "./styles.scss";
-import {URL_RESTAURANTE} from '../../constantes/URL.API'
+import { SalvaRestaurante } from '@/services/repositories/salvar-restaurante';
 
 export default function CadastroRestaurante() {
+    const [cnpj, setCnpj] = useState('');
     const [nome, setNome] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
     const [instagram, setInstagram] = useState('');
-    const [uploadedImage, setUploadedImage] = useState(null);
-    const handleImageUpload = (imageFile: React.SetStateAction<null>) => {
-        setUploadedImage(imageFile);
+    const [fotoPerfil, setFotoPerfil] = useState(null);
+    const handleFotoPerfil = (imageFile: React.SetStateAction<null>) => {
+        setFotoPerfil(imageFile);
+    };
+    const [fotoCapa, setUFotoCapa] = useState(null);
+    const handleFotoCapa = (imageFile: React.SetStateAction<null>) => {
+        setUFotoCapa(imageFile);
     };
     const [password, setPassword] = useState('');
     const [passwordConfirma, setPasswordConfirma] = useState('');
-
+    const [categoria, setCategoria] = useState(['']);
     const [cep, setCep] = useState('');
     const [rua, setRua] = useState('');
     const [complemento, setComplemento] = useState('');
@@ -29,8 +34,6 @@ export default function CadastroRestaurante() {
     const [bairro, setBairro] = useState('');
     const [cidade, setCidade] = useState('');
     const [estado, setEstado] = useState('');
-    const [categoria, setCategoria] = useState('');
-    const [cnpj, setCnpj] = useState('');
 
     const [error, setError] = useState('');
 
@@ -83,13 +86,16 @@ export default function CadastroRestaurante() {
     };
 
     const SalvarDados = async () => {
-        try {
-            await axios.post(URL_RESTAURANTE, {
-                nome: nome,
-                whatsapp: whatsapp,
-                instagram: instagram,
-                uploadedImage: uploadedImage,
-                password: password,
+        SalvaRestaurante({
+            cnpj: cnpj,
+            nome: nome,
+            whatsapp: whatsapp,
+            instagram: instagram,
+            fotoPerfil: fotoPerfil,
+            senha: password,
+            categoria: categoria,
+            fotoCapa: null,
+            endereco: {
                 cep: cep,
                 rua: rua,
                 complemento: complemento,
@@ -97,13 +103,8 @@ export default function CadastroRestaurante() {
                 bairro: bairro,
                 cidade: cidade,
                 estado: estado,
-                categoria: categoria,
-                cnpj: cnpj,
-            });
-            console.log("Funcionou")
-        } catch (error) {
-            console.log("Erro no cadastro")
-        };
+            },
+        })
     }
     const categorias = [
         { value: 'pizza', label: 'Pizza' },
@@ -119,7 +120,7 @@ export default function CadastroRestaurante() {
                     <InputField label="Nome do Restaurante" value={nome}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNome(e.target.value)}
                         name="nome" />
-                    <InputFieldImage onImageUpload={handleImageUpload} label="Logo Restaurante" />
+                    <InputFieldImage onImageUpload={handleFotoPerfil} label="Logo Restaurante" />
                     <InputFone label="WhatsApp" value={whatsapp}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setWhatsapp(e.target.value)}
                         name="whatsapp" />
@@ -201,7 +202,7 @@ export default function CadastroRestaurante() {
                     <div className="erro">
                         <p className="erro2">{error}</p>
                         <button
-                            
+
                             className="erro-botao">
                             Fechar
                         </button>

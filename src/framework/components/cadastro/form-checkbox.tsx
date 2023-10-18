@@ -12,9 +12,9 @@ const Checkbox = ({ onChange, name, values, label, options }) => {
   return (
     <div>
       <label>{label}</label>
-      <div className="checkbox-container">
+      <div className="checkbox-container" style={{ display: 'flex' }}>
         {options.map((option: { value: any; label?: any; }) => (
-          <div key={option.value} className="checkbox-item">
+          <div key={option.value} className="checkbox-item" style={{ marginRight: '20px' }}>
             <input
               type="checkbox"
               id={option.value}
@@ -22,7 +22,7 @@ const Checkbox = ({ onChange, name, values, label, options }) => {
               checked={values[option.value] || false}
               onChange={(event) => handleCheckboxChange(event, option)}
             />
-            <label htmlFor={option.value}>{option.label}</label>
+            <label htmlFor={option.value} style={{ marginLeft: '10px' }}>{option.label}</label>
           </div>
         ))}
       </div>

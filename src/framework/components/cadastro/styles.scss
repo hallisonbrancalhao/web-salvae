@@ -1,11 +1,15 @@
 .container {
     @apply mb-5;
 
-    .input{
+    .checkbox-item {
+        @apply grid grid-cols-3 gap-3 text-[30px] mb-20 ml-[30px];
+    }
+
+    .input {
         @apply text-[24px] rounded-lg w-[30rem] h-[45px] px-2 border border-[#052C2C];
     }
 
-    .input-rua{
+    .input-rua {
         @apply rounded-lg w-[40rem] h-[45px] px-2 border border-[#052C2C];
     }
 

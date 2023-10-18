@@ -4,7 +4,6 @@ import InputField from '../../components/cadastro/form-text';
 import SelectEstabelecimento from '@/framework/components/cadastro/form-estabelecimento';
 import InputFieldImage from '../../components/cadastro/form-image';
 import Checkbox from '@/framework/components/cadastro/form-checkbox';
-import axios from 'axios';
 import "./styles.scss";
 import { Estabelecimento } from '@/services/base/types/estabelecimento';
 import { SalvaCupom } from '@/services/repositories';

@@ -119,7 +119,7 @@ export default function CadastroRestaurante() {
                     <InputField label="Nome do Restaurante" value={nome}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNome(e.target.value)}
                         name="nome" />
-                    <InputFieldImage onImageUpload={handleImageUpload} />
+                    <InputFieldImage onImageUpload={handleImageUpload} label="Logo Restaurante" />
                     <InputFone label="WhatsApp" value={whatsapp}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setWhatsapp(e.target.value)}
                         name="whatsapp" />

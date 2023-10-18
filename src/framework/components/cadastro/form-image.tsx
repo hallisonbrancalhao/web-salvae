@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import './styles.scss'
 
-const InputFieldImage = ({ onImageUpload }) => {
+const InputFieldImage = ({ onImageUpload, label }) => {
     const [uploadedImage, setUploadedImage] = useState(null);
     const fileInputRef = useRef(null);
 
@@ -19,7 +19,7 @@ const InputFieldImage = ({ onImageUpload }) => {
     return (
         <div className="container">
             <label htmlFor="image">
-                Logo do Restaurante:
+                {label}:
             </label>
             <div className="container-imagem">
                 <input

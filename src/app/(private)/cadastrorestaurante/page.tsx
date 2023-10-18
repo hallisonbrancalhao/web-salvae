@@ -3,7 +3,7 @@ import CadastroRestaurantesPage from "@/framework/screens/cadastro-restaurantes-
 export default function CadastroRestaurantes() {
   return (
     <>
-      <CadastroRestaurantesPage />
+      <CadastroRestaurantesPage/>
     </>
   );
 }

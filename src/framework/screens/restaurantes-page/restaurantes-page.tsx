@@ -11,8 +11,8 @@ export default function Restaurantes() {
         {
             nome: "TentaZione Pizzaria",
             foto: Foto,
-            avaliacao: 4,
-            status: true
+            avaliacao: 4.5,
+            status: false
         },
         {
             nome: "Outro Restaurante",

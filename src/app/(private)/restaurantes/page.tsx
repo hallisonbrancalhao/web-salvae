@@ -2,8 +2,8 @@ import Restaurantes from "@/framework/screens/restaurantes-page/restaurantes-pag
 
 export default function Restaurante() {
   return (
-    <>
-      <Restaurantes />
-    </>
+    <section>
+      <Restaurantes/>
+    </section>
   );
 }

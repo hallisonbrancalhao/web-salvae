@@ -14,9 +14,17 @@ export default function PrivateLayout({
   children: React.ReactNode;
 }) {
   return (
+    <html lang="pt-BR">
+      <body>
+
     <section className="privates-container">
       <Sidebar />
+      <div className="lateral">
+      </div>
       <main>{children}</main>
+        
     </section>
+      </body>
+    </html>
   );
 }

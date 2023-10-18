@@ -2,9 +2,8 @@ import TelaPatrocinador from "@/framework/screens/tela-patrocinadores/tela-patro
 
 export default function Patrocinadores() {
     return (
-        <main>
-            <h1></h1>
+        
             <TelaPatrocinador />
-        </main>
+        
     );
 }

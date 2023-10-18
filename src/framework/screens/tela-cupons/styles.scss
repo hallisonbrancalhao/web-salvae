@@ -1,5 +1,5 @@
 .tela-de-cupons{
-    @apply bg-[#062C2D] h-screen;
+    @apply bg-[#062C2D] h-screen sm:ml-64;
 
     &__cabecalho{
         @apply flex  items-center;
@@ -49,9 +49,9 @@
     }
 }
 .cabecalho {
-    @apply flex justify-center bg-white text-[#052C2C] w-[1850px] h-[50px] rounded-lg ml-5 mr-5 mb-5 items-center font-bold;
+    @apply flex justify-between bg-white text-[#052C2C]  h-[50px] rounded-lg ml-5 mr-5 mb-5 items-center font-bold;
 
     .item-cabecalho {
-        @apply flex justify-center w-full;
+        @apply flex justify-between;
     }
 }

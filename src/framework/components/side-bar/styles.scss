@@ -1,12 +1,16 @@
+.aside{
+  @apply fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0;
+}
+
 .container-sidebar {
-  @apply items-center bg-black h-screen;
+  @apply  bg-black h-full px-3 py-4 overflow-y-auto;
 
   &__image {
     @apply w-auto h-auto object-contain p-8;
   }
 
   &__links {
-    @apply text-xl text-start text-white;
+    @apply text-xl text-start text-white space-y-2;
 
     ul {
       @apply list-none py-4 m-0;

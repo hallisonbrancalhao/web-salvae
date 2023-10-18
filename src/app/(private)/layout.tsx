@@ -15,10 +15,14 @@ export default function PrivateLayout({
   return (
     <html lang="pt-BR">
       <body>
-        <section className="privates-container">
-          <Sidebar />
-          <main>{children}</main>
-        </section>
+
+    <section className="privates-container">
+      <Sidebar />
+      <div className="lateral">
+      </div>
+      <main>{children}</main>
+        
+    </section>
       </body>
     </html>
   );

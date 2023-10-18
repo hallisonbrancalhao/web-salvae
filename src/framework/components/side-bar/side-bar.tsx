@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Sidebar() {
   return (
-    <aside>
+    <aside className="aside">
       <div className="container-sidebar">
         <div className="container-sidebar__image">
           <Image src={Logo} width={235} height={97} alt="Logo Salvae" />

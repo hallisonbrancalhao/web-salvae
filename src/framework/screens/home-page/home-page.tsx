@@ -49,11 +49,11 @@ export default function HomePage() {
                 Desconto para todos <p>os tipos de comida</p>
               </h1>
             </div>
-            <div className="sub-texto-2">
+            <div className="tabela-olho">
               <table>
                 <tbody>
                   <tr>
-                    <td className="items-center">
+                    <td className="olho">
                       <Image src={Olho} width={50} height={50} alt="" />
                     </td>
                     <td>

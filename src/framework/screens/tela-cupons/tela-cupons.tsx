@@ -62,12 +62,12 @@ export default function TelaCupons() {
                         </div>
                     </div>
                     <div className="cabecalho">
-                <div className="item-cabecalho">FOTO</div>
-                <div className="item-cabecalho">NOME DO CUPOM</div>
-                <div className="item-cabecalho">CADEGORIA</div>
-                <div className="item-cabecalho">STATUS</div>
-                <div className="item-cabecalho">AÇÕES</div>
-            </div>
+                        <div className="item-cabecalho">FOTO</div>
+                        <div className="item-cabecalho">NOME DO CUPOM</div>
+                        <div className="item-cabecalho">CADEGORIA</div>
+                        <div className="item-cabecalho">STATUS</div>
+                        <div className="item-cabecalho">AÇÕES</div>
+                    </div>
                 </div>
             </div>
         </>

@@ -60,7 +60,7 @@ const InputFieldImage = ({ onImageUpload, label }) => {
                     <img
                         src={URL.createObjectURL(uploadedImage)}
                         alt="Selected"
-                        className="upload-imagem"
+                        className="botao-imagem"
                     />
                 </div>
             )}

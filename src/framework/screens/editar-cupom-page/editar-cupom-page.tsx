@@ -1,28 +1,36 @@
-"use client"
-import React, { useState } from 'react';
+'use client'
+import React, { useState, useEffect } from 'react';
 import InputField from '../../components/cadastro/form-text';
 import SelectEstabelecimento from '@/framework/components/cadastro/form-estabelecimento';
 import InputFieldImage from '../../components/cadastro/form-image';
 import Checkbox from '@/framework/components/cadastro/form-checkbox';
 import "./styles.scss";
 import { Estabelecimento } from '@/services/base/types/estabelecimento';
-import { CupomRepository } from '@/services/repositories/cupom.repository';
+import { Cupom } from '@/services/base/types/cupom';
+import { CupomRepository } from '@/services/repositories';
 
-export default function CadastroCupom({ estabelecimento: params }: { estabelecimento: Estabelecimento[] }) {
-    const cupom = new CupomRepository()
-
+export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: params }: { estabelecimento: Estabelecimento[], cupom: Cupom }) {
+    const cupomEditado = new CupomRepository()
     const [restaurante, setRestaurante] = useState('');
     const [nome, setNome] = useState('');
     const [sobre, setSobre] = useState('');
     const [uploadedImage, setUploadedImage] = useState(null);
-    const handleImageUpload = (imageFile: React.SetStateAction<null>) => {
-        setUploadedImage(imageFile);
-    };
-
     const [categoria, setCategoria] = useState([]);
     const [dias, setDias] = useState([]);
-
     const [error, setError] = useState('');
+
+    useEffect(() => {
+        setRestaurante(params.restaurante);
+        setNome(params.nome);
+        setSobre(params.sobre);
+        setUploadedImage(params.uploadedImage);
+        setCategoria(params.categoria);
+        setDias(params.dias);
+    }, []);
+
+    const handleImageUpload = (imageFile) => {
+        setUploadedImage(imageFile);
+    };
 
     const handleSubmit = (event: { preventDefault: () => void; }) => {
         event.preventDefault();
@@ -30,16 +38,19 @@ export default function CadastroCupom({ estabelecimento: params }: { estabelecim
         setError('');
     };
 
-    const SalvarDados = async () => {
-        cupom.Salvar({
+    const EditarDados = async () => {
+        cupomEditado.Editar({
+            _id: params._id,
             restaurante: restaurante,
             nome: nome,
             sobre: sobre,
             uploadedImage: uploadedImage,
             categoria: categoria,
             dias: dias,
-        })
+        });
+        //window.location.href = 'http://localhost:3000/restaurantes';
     }
+
     const categorias = [
         { value: 1, label: 'Presencial' },
         { value: 2, label: 'Delivery' },
@@ -66,7 +77,7 @@ export default function CadastroCupom({ estabelecimento: params }: { estabelecim
                         name="restaurante"
                         value={restaurante}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setRestaurante(e.target.value)}
-                        options={params.map((e) => e)}
+                        options={paramsEstab.map((e) => e)}
                     />
                     <InputFieldImage onImageUpload={handleImageUpload} label="Imagem Cupom" />
                 </div>
@@ -107,10 +118,11 @@ export default function CadastroCupom({ estabelecimento: params }: { estabelecim
 
                 <div className="container-botao">
                     <button
-                        type="button"
-                        onClick={SalvarDados}
-                        className="botao">
-                        Salvar
+                        type="submit"
+                        onClick={EditarDados}
+                        className="botao"
+                    >
+                        Salvar Edição
                     </button>
                 </div>
             </form>

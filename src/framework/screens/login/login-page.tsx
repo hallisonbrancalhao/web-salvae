@@ -51,7 +51,7 @@ export default function Login() {
     return (
         <div className='container'>
             <header className="header">
-                <Image src={Logo} alt='' width={452} height={192} className="" />
+                <Image src={Logo} alt='' width={452} height={192} className="logo" />
             </header>
             <main className='main'>
                 <div className="usuario">

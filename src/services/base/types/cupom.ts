@@ -1,5 +1,6 @@
 export interface Cupom {
-    restaurante: number,
+    _id: string,
+    restaurante: string,
     nome: string,
     sobre: string,
     uploadedImage: string|null,

@@ -32,6 +32,7 @@ export default function CadastroCupom({ estabelecimento: params }: { estabelecim
 
     const SalvarDados = async () => {
         cupom.Salvar({
+            _id:'',
             restaurante: restaurante,
             nome: nome,
             sobre: sobre,

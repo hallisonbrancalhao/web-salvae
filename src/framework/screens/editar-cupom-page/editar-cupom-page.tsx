@@ -20,7 +20,7 @@ export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: par
     const [error, setError] = useState('');
 
     useEffect(() => {
-        setRestaurante(params.restaurante);
+        setRestaurante(paramsEstab.nome);
         setNome(params.nome);
         setSobre(params.sobre);
         setUploadedImage(params.uploadedImage);
@@ -48,7 +48,7 @@ export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: par
             categoria: categoria,
             dias: dias,
         });
-        //window.location.href = 'http://localhost:3000/restaurantes';
+        window.location.href = 'http://localhost:3000/restaurantes';
     }
 
     const categorias = [
@@ -122,7 +122,7 @@ export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: par
                         onClick={EditarDados}
                         className="botao"
                     >
-                        Salvar Edição
+                        Salvar Alterações
                     </button>
                 </div>
             </form>

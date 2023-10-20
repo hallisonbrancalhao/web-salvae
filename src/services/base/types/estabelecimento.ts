@@ -1,6 +1,7 @@
 import { EnderecoEstabelecimento } from "./endenreco-estabelecimento";
 
 export interface Estabelecimento {
+    _id: string,
     cnpj:string,
     nome:string,
     senha:string,
@@ -10,4 +11,6 @@ export interface Estabelecimento {
     fotoCapa:string|null,
     categoria: string[],
     endereco: EnderecoEstabelecimento
+    avaliacao: number
+    status: boolean
 };

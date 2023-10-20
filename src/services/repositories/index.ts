@@ -1,2 +1,2 @@
-export * from './get-estabelecimentos'
+export * from './estabelecimentos.repository'
 export * from './cupom.repository'

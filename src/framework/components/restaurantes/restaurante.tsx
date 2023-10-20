@@ -1,22 +1,20 @@
 "use client"
-import { useState } from 'react'
+import { ReactComponentElement, useState } from 'react'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons'
 import Editar from '../../../../assets/images/editar.svg'
 import Excluir from '../../../../assets/images/excluir.svg'
 import '../../screens/restaurantes-page/styles.scss'
-
 interface RestaurantesProps {
-    foto: string
+    fotoPerfil: string
     nome: string
     avaliacao: number
     status: boolean
 }
 
-const Restaurante: React.FC<RestaurantesProps> = ({ foto, nome, avaliacao, status }) => {
+const Restaurante: React.FC<RestaurantesProps> = ({ fotoPerfil, nome, avaliacao, status }) => {
     const [toggleStatus, setToggleStatus] = useState(status);
-
     const toggleIcon = toggleStatus ? faToggleOn : faToggleOff;
 
     const handleToggleClick = () => {
@@ -25,9 +23,9 @@ const Restaurante: React.FC<RestaurantesProps> = ({ foto, nome, avaliacao, statu
 
     return (
         <div className="container-componente">
-            <><div className="item-cabecalho2">
-                <Image src={foto} alt='' />
-            </div>
+                <div className="item-cabecalho2">
+                    <Image src={fotoPerfil} alt='' width={100} height={100} />
+                </div>
                 <div className="item-cabecalho2">
                     {nome}
                 </div>
@@ -42,14 +40,13 @@ const Restaurante: React.FC<RestaurantesProps> = ({ foto, nome, avaliacao, statu
                     />
                 </div>
                 <div className="item-cabecalho2">
-                    <a href="#">
+                    <a href="/editar-restaurante">
                         <Image src={Editar} alt='' style={{ width: '32x', height: '32px' }} />
                     </a>
-                    <a href="#">
+                    <a href="/editarcupom">
                         <Image src={Excluir} alt='' style={{ width: '32px', height: '32px' }} />
                     </a>
                 </div>
-            </>
         </div>
     )
 }

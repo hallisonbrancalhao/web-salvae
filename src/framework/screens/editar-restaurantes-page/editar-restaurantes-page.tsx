@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputField from '../../components/cadastro/form-text';
 import InputFone from '../../components/cadastro/form-fone';
 import InputFieldImage from '../../components/cadastro/form-image';
@@ -10,9 +10,10 @@ import SelectField from '../../components/cadastro/form-categoria';
 import axios from 'axios';
 import "./styles.scss";
 import { EstabelecimentoRepository } from '@/services/repositories';
+import { Estabelecimento } from '@/services/base/types/estabelecimento';
 
-export default function CadastroRestaurante() {
-    const restaurante = new EstabelecimentoRepository()
+export default function EditarRestaurante({ estabelecimento: paramsEstab }: { estabelecimento: Estabelecimento }) {
+    const restauranteEditado = new EstabelecimentoRepository()
     const [cnpj, setCnpj] = useState('');
     const [nome, setNome] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
@@ -21,9 +22,9 @@ export default function CadastroRestaurante() {
     const handleFotoPerfil = (imageFile: React.SetStateAction<null>) => {
         setFotoPerfil(imageFile);
     };
-    const [fotoCapa, setUFotoCapa] = useState(null);
+    const [fotoCapa, setFotoCapa] = useState(null);
     const handleFotoCapa = (imageFile: React.SetStateAction<null>) => {
-        setUFotoCapa(imageFile);
+        setFotoCapa(imageFile);
     };
     const [password, setPassword] = useState('');
     const [passwordConfirma, setPasswordConfirma] = useState('');
@@ -35,6 +36,24 @@ export default function CadastroRestaurante() {
     const [bairro, setBairro] = useState('');
     const [cidade, setCidade] = useState('');
     const [estado, setEstado] = useState('');
+
+    useEffect(() => {
+        setCnpj(paramsEstab.cnpj);
+        setNome(paramsEstab.nome);
+        setWhatsapp(paramsEstab.whatsapp);
+        setInstagram(paramsEstab.instagram);
+        setFotoPerfil(paramsEstab.fotoPerfil);
+        setFotoCapa(paramsEstab.fotoCapa);
+        setPassword(paramsEstab.senha);
+        setCategoria(paramsEstab.categoria);
+        setCep(paramsEstab.endereco.cep);
+        setRua(paramsEstab.endereco.rua);
+        setComplemento(paramsEstab.endereco.complemento);
+        setNumero(paramsEstab.endereco.numero);
+        setBairro(paramsEstab.endereco.bairro);
+        setCidade(paramsEstab.endereco.cidade);
+        setEstado(paramsEstab.endereco.estado);
+    }, []);
 
     const [error, setError] = useState('');
 
@@ -87,8 +106,8 @@ export default function CadastroRestaurante() {
     };
 
     const SalvarDados = async () => {
-        restaurante.Salvar({
-            _id: '',
+        restauranteEditado.Editar({
+            _id: paramsEstab._id,
             cnpj: cnpj,
             nome: nome,
             whatsapp: whatsapp,
@@ -198,7 +217,7 @@ export default function CadastroRestaurante() {
                         type="button"
                         onClick={SalvarDados}
                         className="botao">
-                        Salvar
+                        Salvar Alterações
                     </button>
                 </div>
             </form>

@@ -3,7 +3,7 @@ import { EstabelecimentoRepository } from "@/services/repositories/estabelecimen
 
 export default async function EditarRestaurantes() {
   const estabelecimentoRepository = new EstabelecimentoRepository()
-  const estabelecimento = await estabelecimentoRepository.ListarPorId('6531e2972e0fb203e85400da')
+  const estabelecimento = await estabelecimentoRepository.ListarPorId("6531f8ce2e0fb203e85400f5")
   
   return (
     <>

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Restaurante from '../../components/restaurantes/restaurante';
 import './styles.scss';
 import { Estabelecimento } from '@/services/base/types/estabelecimento';
+import { EstabelecimentoRepository } from '@/services/repositories';
 
 export default function Restaurantes({ estabelecimento: paramsEstab }: { estabelecimento: Estabelecimento[] }) {
     const [searchText, setSearchText] = useState('');
@@ -44,6 +45,7 @@ export default function Restaurantes({ estabelecimento: paramsEstab }: { estabel
             {filteredRestaurantes.map(restaurante => (
                 <div key={restaurante.nome} className="item-cabecalho">
                     <Restaurante
+                        _id={restaurante._id}
                         nome={restaurante.nome}
                         fotoPerfil={restaurante.fotoPerfil ?? 'assets/images/logo.svg'}
                         avaliacao={restaurante.avaliacao}

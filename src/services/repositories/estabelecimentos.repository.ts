@@ -69,4 +69,8 @@ export class EstabelecimentoRepository {
     const res = await axios.get(URL_RESTAURANTE);
     return res.data;
   }
+
+  async Deletar(id: string) {
+    await axios.delete(`${URL_RESTAURANTE}/${id}`);
+  }
 }

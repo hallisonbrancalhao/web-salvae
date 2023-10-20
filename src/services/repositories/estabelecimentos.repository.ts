@@ -36,7 +36,6 @@ export class EstabelecimentoRepository {
 
   async Editar(data: Estabelecimento) {
     const id = data._id;
-    console.log(data)
     await axios.put(`${URL_RESTAURANTE}/${id}`, {
       cnpj: data.cnpj,
       nome: data.nome,

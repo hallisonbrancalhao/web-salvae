@@ -37,22 +37,7 @@ export default function CadastroRestaurante() {
     const [estado, setEstado] = useState('');
 
     const [error, setError] = useState('');
-
-    const handleSubmit = (event: { preventDefault: () => void; }) => {
-        event.preventDefault();
-
-        if (password != passwordConfirma) {
-            setError('A senha digitada não confere com a validação.');
-            return;
-        }
-
-        if (password.length < 8) {
-            setError('A senha deve ter no mínimo 8 caracteres.');
-            return;
-        }
-
-        setError('');
-    };
+    const [success, setSuccess] = useState('');
 
     async function fetchAddressByCep(cep: any) {
         try {
@@ -86,30 +71,48 @@ export default function CadastroRestaurante() {
         }
     };
 
-    const SalvarDados = async () => {
-        restaurante.Salvar({
-            _id: '',
-            cnpj: cnpj,
-            nome: nome,
-            whatsapp: whatsapp,
-            instagram: instagram,
-            fotoPerfil: fotoPerfil,
-            senha: password,
-            categoria: categoria,
-            fotoCapa: null,
-            endereco: {
-                cep: cep,
-                rua: rua,
-                complemento: complemento,
-                numero: numero,
-                bairro: bairro,
-                cidade: cidade,
-                estado: estado,
-            },
-            status: true,
-            avaliacao: 0
-        })
+    const redirecionarPagina = () => {
         window.location.href = 'http://localhost:3000/restaurantes';
+    }
+
+    const SalvarDados = async () => {
+        if (password != passwordConfirma) {
+            setError('A senha digitada não confere com a validação.');
+            return;
+        }
+
+        if (password.length < 8) {
+            setError('A senha deve ter no mínimo 8 caracteres.');
+            return;
+        }
+        
+        try {
+            await restaurante.Salvar({
+                _id: '',
+                cnpj: cnpj,
+                nome: nome,
+                whatsapp: whatsapp,
+                instagram: instagram,
+                fotoPerfil: fotoPerfil,
+                senha: password,
+                categoria: categoria,
+                fotoCapa: null,
+                endereco: {
+                    cep: cep,
+                    rua: rua,
+                    complemento: complemento,
+                    numero: numero,
+                    bairro: bairro,
+                    cidade: cidade,
+                    estado: estado,
+                },
+                status: true,
+                avaliacao: 0
+            });
+            setSuccess('Restaurante cadastrado com sucesso!');
+        } catch (error) {
+            setError('Ocorreu um erro. Por favor, tente novamente.');
+        }
     }
     const categorias = [
         { value: 'pizza', label: 'Pizza' },
@@ -120,7 +123,7 @@ export default function CadastroRestaurante() {
     return (
         <div className='container-restaurente'>
             <h1 className='h1'>Cadastro do Restaurante</h1>
-            <form onSubmit={handleSubmit} className="container-forms">
+            <form className="container-forms">
                 <div className="bloco-2-3">
                     <InputField label="Nome do Restaurante" value={nome}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNome(e.target.value)}
@@ -202,12 +205,27 @@ export default function CadastroRestaurante() {
                     </button>
                 </div>
             </form>
+            {success && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p className="erro2">{success}</p>
+                        <button
+                            onClick={() => {
+                                setSuccess('');
+                                redirecionarPagina();
+                            }}
+                            className="erro-botao">
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            )}
             {error && (
                 <div className="container-erro">
                     <div className="erro">
                         <p className="erro2">{error}</p>
                         <button
-
+                            onClick={() => setError('')}
                             className="erro-botao">
                             Fechar
                         </button>

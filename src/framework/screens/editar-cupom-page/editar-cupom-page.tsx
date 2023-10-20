@@ -18,6 +18,10 @@ export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: par
     const [categoria, setCategoria] = useState([]);
     const [dias, setDias] = useState([]);
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const redirecionarPagina = () => {
+        window.location.href = 'http://localhost:3000/restaurantes';
+    }
 
     useEffect(() => {
         setRestaurante(paramsEstab.nome);
@@ -32,23 +36,21 @@ export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: par
         setUploadedImage(imageFile);
     };
 
-    const handleSubmit = (event: { preventDefault: () => void; }) => {
-        event.preventDefault();
-
-        setError('');
-    };
-
     const EditarDados = async () => {
-        cupomEditado.Editar({
-            _id: params._id,
-            restaurante: restaurante,
-            nome: nome,
-            sobre: sobre,
-            uploadedImage: uploadedImage,
-            categoria: categoria,
-            dias: dias,
-        });
-        window.location.href = 'http://localhost:3000/restaurantes';
+        try {
+            await cupomEditado.Editar({
+                _id: params._id,
+                restaurante: restaurante,
+                nome: nome,
+                sobre: sobre,
+                uploadedImage: uploadedImage,
+                categoria: categoria,
+                dias: dias,
+            });
+            setSuccess('Cupom atualizado com sucesso!');
+        } catch (error) {
+            setError('Ocorreu um erro. Por favor, tente novamente.');
+        }
     }
 
     const categorias = [
@@ -70,7 +72,7 @@ export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: par
     return (
         <div className='container-restaurente'>
             <h1 className='h1'>Cadastro do Cupom</h1>
-            <form onSubmit={handleSubmit} className="container-forms">
+            <form className="container-forms">
                 <div className="bloco-2-1">
                     <SelectEstabelecimento
                         label="Restaurante"
@@ -118,20 +120,34 @@ export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: par
 
                 <div className="container-botao">
                     <button
-                        type="submit"
+                        type="button"
                         onClick={EditarDados}
-                        className="botao"
-                    >
+                        className="botao">
                         Salvar Alterações
                     </button>
                 </div>
             </form>
+            {success && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p className="erro2">{success}</p>
+                        <button
+                            onClick={() => {
+                                setSuccess('');
+                                redirecionarPagina();
+                            }}
+                            className="erro-botao">
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            )}
             {error && (
                 <div className="container-erro">
                     <div className="erro">
                         <p className="erro2">{error}</p>
                         <button
-
+                            onClick={() => setError('')}
                             className="erro-botao">
                             Fechar
                         </button>

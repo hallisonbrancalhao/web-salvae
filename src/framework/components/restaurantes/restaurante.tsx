@@ -23,38 +23,59 @@ const Restaurante: React.FC<RestaurantesProps> = ({ _id, fotoPerfil, nome, avali
     const handleToggleClick = () => {
         setToggleStatus(!toggleStatus);
     };
-    
+
     const restauranteExcluir = new EstabelecimentoRepository()
-    const DeletarDados = async () => {
-        restauranteExcluir.Deletar(_id)
-    }
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+    const handleDeleteClick = () => {
+        setShowConfirmModal(true);
+    };
+
+    const handleConfirmDelete = () => {
+        restauranteExcluir.Deletar(_id);
+        setShowConfirmModal(false);
+        window.location.reload();
+    };
+
+    const handleCancelDelete = () => {
+        setShowConfirmModal(false);
+    };
 
     return (
         <div className="container-componente">
-                <div className="item-cabecalho2">
-                    <Image src={fotoPerfil} alt='' width={100} height={100} />
+            <div className="item-cabecalho2">
+                <Image src={fotoPerfil} alt='' width={100} height={100} />
+            </div>
+            <div className="item-cabecalho2">
+                {nome}
+            </div>
+            <div className="item-cabecalho2">
+                {avaliacao}
+            </div>
+            <div className="item-cabecalho2">
+                <FontAwesomeIcon
+                    icon={toggleIcon}
+                    className={toggleStatus ? 'ativado' : 'desativado'}
+                    onClick={handleToggleClick}
+                />
+            </div>
+            <div className="item-cabecalho2">
+                <Link href="/editar-restaurante">
+                    <Image src={Editar} alt='' style={{ width: '32x', height: '32px' }} />
+                </Link>
+                <button onClick={handleDeleteClick}>
+                    <Image src={Excluir} alt="" style={{ width: '32px', height: '32px' }} />
+                </button>
+            </div>
+            {showConfirmModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p>Deseja realmente excluir este restaurante?</p>
+                        <button onClick={handleCancelDelete}>Cancelar</button>
+                        <button onClick={handleConfirmDelete}>Confirmar</button>
+                    </div>
                 </div>
-                <div className="item-cabecalho2">
-                    {nome}
-                </div>
-                <div className="item-cabecalho2">
-                    {avaliacao}
-                </div>
-                <div className="item-cabecalho2">
-                    <FontAwesomeIcon
-                        icon={toggleIcon}
-                        className={toggleStatus ? 'ativado' : 'desativado'}
-                        onClick={handleToggleClick}
-                    />
-                </div>
-                <div className="item-cabecalho2">
-                    <Link href="/editar-restaurante">
-                        <Image src={Editar} alt='' style={{ width: '32x', height: '32px' }} />
-                    </Link>
-                    <a href="/restaurantes">
-                        <Image src={Excluir} alt='' style={{ width: '32px', height: '32px' }} onClick={DeletarDados}/>
-                    </a>
-                </div>
+            )}
         </div>
     )
 }

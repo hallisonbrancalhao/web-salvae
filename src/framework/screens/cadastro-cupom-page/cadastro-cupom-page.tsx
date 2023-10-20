@@ -23,23 +23,26 @@ export default function CadastroCupom({ estabelecimento: params }: { estabelecim
     const [dias, setDias] = useState([]);
 
     const [error, setError] = useState('');
-
-    const handleSubmit = (event: { preventDefault: () => void; }) => {
-        event.preventDefault();
-
-        setError('');
-    };
+    const [success, setSuccess] = useState('');
+    const redirecionarPagina = () => {
+        window.location.href = 'http://localhost:3000/restaurantes';
+    }
 
     const SalvarDados = async () => {
-        cupom.Salvar({
-            _id:'',
-            restaurante: restaurante,
-            nome: nome,
-            sobre: sobre,
-            uploadedImage: uploadedImage,
-            categoria: categoria,
-            dias: dias,
-        })
+        try {
+            cupom.Salvar({
+                _id: '',
+                restaurante: restaurante,
+                nome: nome,
+                sobre: sobre,
+                uploadedImage: uploadedImage,
+                categoria: categoria,
+                dias: dias,
+            })
+            setSuccess('Cupom cadastrado com sucesso!');
+        } catch (error) {
+            setError('Ocorreu um erro. Por favor, tente novamente.');
+        }
     }
     const categorias = [
         { value: 1, label: 'Presencial' },
@@ -60,7 +63,7 @@ export default function CadastroCupom({ estabelecimento: params }: { estabelecim
     return (
         <div className='container-restaurente'>
             <h1 className='h1'>Cadastro do Cupom</h1>
-            <form onSubmit={handleSubmit} className="container-forms">
+            <form className="container-forms">
                 <div className="bloco-2-1">
                     <SelectEstabelecimento
                         label="Restaurante"
@@ -115,6 +118,21 @@ export default function CadastroCupom({ estabelecimento: params }: { estabelecim
                     </button>
                 </div>
             </form>
+            {success && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p className="erro2">{success}</p>
+                        <button
+                            onClick={() => {
+                                setSuccess('');
+                                redirecionarPagina();
+                            }}
+                            className="erro-botao">
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            )}
             {error && (
                 <div className="container-erro">
                     <div className="erro">

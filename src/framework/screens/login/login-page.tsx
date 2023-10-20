@@ -23,22 +23,20 @@ export default function Login() {
 
     const handleSubmit = async () => {
 
-        // if (!username.includes('@')) {
-        //     setError('O usuário deve ser um e-mail.');
-        //     return;
-        // }
+        if (!username.includes('@')) {
+            setError('O usuário deve ser um e-mail.');
+            return;
+        }
 
-        // if (password.length < 8) {
-        //     setError('A senha deve ter no mínimo 8 caracteres.');
-        //     return;
-        // }
+        if (password.length < 8) {
+            setError('A senha deve ter no mínimo 8 caracteres.');
+            return;
+        }
 
         setError('');
 
         const { data } = await axios.get('https://64ed24e4f9b2b70f2bfb4f04.mockapi.io/login-restaurante')
         if (data[0].cnpj === username && data[0].senha === password) {
-            console.log("credenciais validadas");
-
             localStorage.setItem("token", username);
             return window.location.href = '/dashboard'
         }

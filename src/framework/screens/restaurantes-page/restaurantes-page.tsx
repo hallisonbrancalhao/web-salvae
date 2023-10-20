@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Restaurante from '../../components/restaurantes/restaurante';
 import './styles.scss';
 import { Estabelecimento } from '@/services/base/types/estabelecimento';
+import Link from 'next/link';
 
 export default function Restaurantes({ estabelecimento: paramsEstab }: { estabelecimento: Estabelecimento[] }) {
     const [searchText, setSearchText] = useState('');
@@ -52,6 +53,11 @@ export default function Restaurantes({ estabelecimento: paramsEstab }: { estabel
                     />
                 </div>
             ))}
+            <div className="container-botao">
+                <Link href="/cadastrar-restaurante">
+                    <button className="botao">+ Adicionar Restaurante</button>
+                </Link>
+            </div>
         </div>
     );
 }

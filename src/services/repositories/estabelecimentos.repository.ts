@@ -4,7 +4,7 @@ import { Estabelecimento } from "../base/types/estabelecimento";
 
 export class EstabelecimentoRepository {
   constructor() {}
-
+  
   async Salvar(data: Estabelecimento) {
     try {
       await axios.post(URL_RESTAURANTE, {

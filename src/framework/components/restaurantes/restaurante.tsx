@@ -31,8 +31,8 @@ const Restaurante: React.FC<RestaurantesProps> = ({ _id, fotoPerfil, nome, avali
         setShowConfirmModal(true);
     };
 
-    const handleConfirmDelete = () => {
-        restauranteExcluir.Deletar(_id);
+    const handleConfirmDelete = async () => {
+        await restauranteExcluir.Deletar(_id);
         setShowConfirmModal(false);
         window.location.reload();
     };

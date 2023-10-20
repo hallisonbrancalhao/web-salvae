@@ -54,10 +54,18 @@
     }
 }
 
+.container-botao {
+    @apply flex justify-center mb-5;
+
+    .botao {
+        @apply ml-5 mt-5 text-[20px] bg-[#FFB133] hover:bg-[#FFB000] text-white px-16 rounded transition duration-300 ease-in-out transform hover:scale-105;
+    }
+}
+
 .modal {
     position: fixed;
     top: 0;
-    left: 0;    
+    left: 0;
     width: 100%;
     height: 100%;
     background: rgba(132, 130, 130, 0.8);

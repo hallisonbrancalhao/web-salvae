@@ -3,22 +3,22 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Logo from '../../../../assets/images/logo.svg';
 import './styles.scss';
-import axios from 'axios';
-import '../../../services/users'
+import { useAuth } from '@/services/api/auth/contexts/Auth';
 
 export default function Login() {
-    useEffect(() => {
-        const validacao = () => {
-            const token = localStorage.getItem("token")
-            if (token && token.length > 0) {
-                window.location.href = '/dashboard'
-            }
-        }
-        validacao()
-    }, [])
+    // useEffect(() => {
+    //     const validacao = () => {
+    //         const token = localStorage.getItem("token")
+    //         if (token && token.length > 0) {
+    //             window.location.href = '/restaurantes'
+    //         }
+    //     }
+    //     validacao()
+    // }, [])
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const {signIn} = useAuth();
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
     const [error, setError] = useState('');
 
     const handleSubmit = async () => {
@@ -28,30 +28,22 @@ export default function Login() {
         //     return;
         // }
 
-        // if (password.length < 8) {
+        // if (senha.length < 8) {
         //     setError('A senha deve ter no mínimo 8 caracteres.');
         //     return;
         // }
 
         setError('');
-
-        const { data } = await axios.get('https://64ed24e4f9b2b70f2bfb4f04.mockapi.io/login-restaurante')
-        if (data[0].cnpj === username && data[0].senha === password) {
-            console.log("credenciais validadas");
-
-            localStorage.setItem("token", username);
-            return window.location.href = '/dashboard'
-        }
-        else {
-            setError('Dados Incorretos');
-            return;
-        }
+        console.log(email, senha)
+        const response = await signIn(email, senha);
+        console.log(response)
+        if (response) return window.location.href = '/restaurantes';
     };
 
     return (
         <div className='container'>
             <header className="header">
-                <Image src={Logo} alt='' width={452} height={192} className="" />
+                <Image src={Logo} alt='' width={452} height={192} className="logo" />
             </header>
             <main className='main'>
                 <div className="usuario">
@@ -62,8 +54,8 @@ export default function Login() {
                         type="email"
                         name="usuario"
                         id="usuario"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                         className="input"
                     />
                 </div>
@@ -75,8 +67,8 @@ export default function Login() {
                         type="password"
                         name="senha"
                         id="senha"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={senha}
+                        onChange={(e) => setSenha(e.target.value)}
                         className="input"
                     />
                 </div>

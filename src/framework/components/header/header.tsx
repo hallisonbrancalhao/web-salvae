@@ -14,7 +14,9 @@ export const NavBar = () => {
           <li>Sobre nos</li>
           <li>Duvidas Frequentes</li>
         </div>
-        <button className="botao">Entrar</button>
+        <a href="/login">
+          <a className="botao">Entrar</a>
+        </a>
       </div>
     </header>
   );

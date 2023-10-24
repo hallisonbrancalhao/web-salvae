@@ -1,4 +1,3 @@
-import { Footer } from "@/framework/components/foolter/footer";
 import { NavBar } from "@/framework/components/header/header";
 import type { Metadata } from "next";
 import "@/app/globals.css";
@@ -17,7 +16,6 @@ export default function RootLayout({
       <body>
         <NavBar />
         {children}
-        <Footer />
       </body>
     </html>
   );

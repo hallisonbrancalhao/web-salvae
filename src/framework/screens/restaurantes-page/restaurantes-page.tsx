@@ -1,33 +1,13 @@
 "use client"
 import React, { useState } from 'react';
-import Foto from '../../../../assets/images/tantazione.svg'
 import Restaurante from '../../components/restaurantes/restaurante';
 import './styles.scss';
+import { Estabelecimento } from '@/services/base/types/estabelecimento';
+import Link from 'next/link';
 
-export default function Restaurantes() {
+export default function Restaurantes({ estabelecimento: paramsEstab }: { estabelecimento: Estabelecimento[] }) {
     const [searchText, setSearchText] = useState('');
-
-    const restaurantes = [
-        {
-            nome: "TentaZione Pizzaria",
-            foto: Foto,
-            avaliacao: 4.5,
-            status: false
-        },
-        {
-            nome: "Outro Restaurante",
-            foto: Foto,
-            avaliacao: 2.3,
-            status: false
-        },
-        {
-            nome: "Restaurante Legal",
-            foto: Foto,
-            avaliacao: 2.3,
-            status: false
-        },
-        // ... outros restaurantes
-    ];
+    const restaurantes = paramsEstab
 
     const filteredRestaurantes = restaurantes.filter(restaurante => {
         if (searchText.trim() === '') {
@@ -61,17 +41,23 @@ export default function Restaurantes() {
                 <div className="item-cabecalho">STATUS</div>
                 <div className="item-cabecalho">AÇÕES</div>
             </div>
-            {/* Renderiza os restaurantes filtrados */}
+
             {filteredRestaurantes.map(restaurante => (
                 <div key={restaurante.nome} className="item-cabecalho">
                     <Restaurante
+                        _id={restaurante._id}
                         nome={restaurante.nome}
-                        foto={restaurante.foto}
+                        fotoPerfil={restaurante.fotoPerfil ?? 'assets/images/logo.svg'}
                         avaliacao={restaurante.avaliacao}
                         status={restaurante.status}
                     />
                 </div>
             ))}
+            <div className="container-botao">
+                <Link href="/cadastrar-restaurante">
+                    <button className="botao">+ Adicionar Restaurante</button>
+                </Link>
+            </div>
         </div>
     );
 }

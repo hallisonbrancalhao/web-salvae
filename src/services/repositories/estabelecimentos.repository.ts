@@ -10,21 +10,21 @@ export class EstabelecimentoRepository {
       await axios.post(URL_RESTAURANTE, {
         cnpj: data.cnpj,
         nome: data.nome,
-        whatsapp: data.whatsapp,
-        instagram: data.instagram,
-        fotoPerfil: data.fotoPerfil,
-        fotoCapa: data.fotoCapa,
         senha: data.senha,
-        categoria: data.categoria,
         endereco: {
           cep: data.endereco.cep,
-          rua: data.endereco.rua,
+          logradouro: data.endereco.logradouro,
           complemento: data.endereco.complemento,
           numero: data.endereco.numero,
           bairro: data.endereco.bairro,
           cidade: data.endereco.cidade,
           estado: data.endereco.estado,
         },
+        whatsapp: data.whatsapp,
+        instagram: data.instagram,
+        fotoPerfil: data.fotoPerfil,
+        fotoCapa: data.fotoCapa,
+        categoria: data.categoria,
         avaliacao: data.avaliacao,
         status: data.status,
       });
@@ -36,14 +36,14 @@ export class EstabelecimentoRepository {
 
   async EditarStatus(data: Estabelecimento) {
     const id = data._id;
-    await axios.put(`${URL_RESTAURANTE}/${id}`, {
+    await axios.patch(`${URL_RESTAURANTE}/${id}`, {
       status: data.status,
     });
   }
 
   async Editar(data: Estabelecimento) {
     const id = data._id;
-    await axios.put(`${URL_RESTAURANTE}/${id}`, {
+    await axios.patch(`${URL_RESTAURANTE}/${id}`, {
       cnpj: data.cnpj,
       nome: data.nome,
       whatsapp: data.whatsapp,
@@ -54,7 +54,7 @@ export class EstabelecimentoRepository {
       categoria: data.categoria,
       endereco: {
         cep: data.endereco.cep,
-        rua: data.endereco.rua,
+        rua: data.endereco.logradouro,
         complemento: data.endereco.complemento,
         numero: data.endereco.numero,
         bairro: data.endereco.bairro,

@@ -1,4 +1,4 @@
-import { EnderecoEstabelecimento } from "./endenreco-estabelecimento";
+import { EnderecoEstabelecimento } from "./endereco-estabelecimento";
 
 export interface Estabelecimento {
     _id: string,

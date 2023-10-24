@@ -1,6 +1,6 @@
 export interface EnderecoEstabelecimento {
     cep: string,
-    rua: string,
+    logradouro: string,
     complemento: string|null,
     numero: string,
     bairro: string,

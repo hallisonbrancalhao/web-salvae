@@ -1,7 +1,7 @@
 "use client"
 import * as React from 'react'
 import Image from 'next/image'
-import '../../screens/sobre-page/styles.scss'
+import '../../screens/sobre/styles.scss'
 
 interface TimeLineTextProps {
     ano: string

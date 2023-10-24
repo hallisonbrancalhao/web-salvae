@@ -1,4 +1,4 @@
-import EditarRestaurantesPage from "@/framework/screens/editar-restaurantes-page/editar-restaurantes-page";
+import EditarRestaurantesPage from "@/framework/screens/editar-restaurantes/editar-restaurantes-page";
 import { EstabelecimentoRepository } from "@/services/repositories/estabelecimentos.repository";
 
 export default async function EditarRestaurantes({ params }: { params: {id: string}}) {

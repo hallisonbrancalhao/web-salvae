@@ -1,4 +1,4 @@
-import Restaurantes from "@/framework/screens/restaurantes-page/restaurantes-page";
+import Restaurantes from "@/framework/screens/dash-restaurantes/restaurantes-page";
 import { EstabelecimentoRepository } from "@/services/repositories";
 
 export default async function Restaurante() {

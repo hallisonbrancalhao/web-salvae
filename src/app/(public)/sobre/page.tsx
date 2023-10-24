@@ -1,4 +1,4 @@
-import SobrePage from "@/framework/screens/sobre-page/sobre-page";
+import SobrePage from "@/framework/screens/sobre/sobre-page";
 
 export default function Sobre() {
   return (

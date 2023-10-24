@@ -1,4 +1,4 @@
-import Patrocinadores from "@/framework/screens/patrocinador-page/patrocinador-page";
+import Patrocinadores from "@/framework/screens/dash-patrocinador/patrocinador-page";
 import { PatrocinadorRepository } from "@/services/repositories/patrocinador.repository";
 
 export default async function Restaurante() {

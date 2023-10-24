@@ -1,4 +1,4 @@
-import CadastroPatrocinadorPage from "@/framework/screens/cadastro-patrocinador-page/cadastro-patrocinador-page";
+import CadastroPatrocinadorPage from "@/framework/screens/cadastrar-patrocinador/cadastro-patrocinador-page";
 
 export default async function CadastroCupom() {
   return (

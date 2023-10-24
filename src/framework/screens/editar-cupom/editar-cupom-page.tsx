@@ -4,12 +4,12 @@ import InputField from '../../components/cadastro/form-text';
 import SelectEstabelecimento from '@/framework/components/cadastro/form-estabelecimento';
 import InputFieldImage from '../../components/cadastro/form-image';
 import Checkbox from '@/framework/components/cadastro/form-checkbox';
-import "./styles.scss";
+import './styles.scss';
 import { Estabelecimento } from '@/services/base/types/estabelecimento';
 import { Cupons } from '@/services/base/types/cupons';
 import { CupomRepository } from '@/services/repositories';
 
-export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: params }: { estabelecimento: Estabelecimento, cupom: Cupons }) {
+export default function EditarCupom({ estabelecimento: paramsEstab, cupom: params }: { estabelecimento: Estabelecimento, cupom: Cupons }) {
     const cupomEditado = new CupomRepository()
     const [restaurante, setRestaurante] = useState('');
     const [nome, setNome] = useState('');
@@ -46,7 +46,7 @@ export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: par
                 foto: foto,
                 categoria: categoria,
                 dias: dias,
-                status: false,
+                status: true,
             });
             setSuccess('Cupom atualizado com sucesso!');
         } catch (error) {
@@ -72,7 +72,7 @@ export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: par
 
     return (
         <div className='container-restaurente'>
-            <h1 className='h1'>Cadastro do Cupom</h1>
+            <h1 className='h1'>Editar Cupom</h1>
             <form className="container-forms">
                 <div className="bloco-2-1">
                     <SelectEstabelecimento

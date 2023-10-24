@@ -138,7 +138,7 @@ export default function EditarRestaurante({ estabelecimento: paramsEstab }: { es
 
     return (
         <div className='container-restaurente'>
-            <h1 className='h1'>Cadastro do Restaurante</h1>
+            <h1 className='h1'>Editar Restaurante</h1>
             <form className="container-forms">
                 <div className="bloco-2-3">
                     <InputField label="Nome do Restaurante" value={nome}

@@ -1,8 +1,8 @@
-import EditarCupomPage from "@/framework/screens/editar-cupom-page/editar-cupom-page";
+import EditarCupomPage from "@/framework/screens/editar-cupom/editar-cupom-page";
 import { CupomRepository } from '@/services/repositories/cupom.repository';
 import { EstabelecimentoRepository } from "@/services/repositories/estabelecimentos.repository";
 
-export default async function CadastroCupom({ params }: { params: {id: string}}) {
+export default async function EditarCupom({ params }: { params: {id: string}}) {
   const estabelecimentoRepository = new EstabelecimentoRepository()
   const estabelecimento = await estabelecimentoRepository.Listar()
   const cupomID = new CupomRepository()
@@ -13,7 +13,7 @@ export default async function CadastroCupom({ params }: { params: {id: string}})
       <EditarCupomPage
         estabelecimento={estabelecimento}
         cupom={{ _id:dadosExistente._id, restaurante: dadosExistente.restaurante, nome: dadosExistente.nome, 
-          sobre: dadosExistente.sobre, foto: dadosExistente.foto, status: dadosExistente.status,
+          sobre: dadosExistente.sobre, foto: dadosExistente.foto, status: dadosExistente.status,  
           categoria: dadosExistente.categoria, dias: dadosExistente.dias}}
       />
     </>

@@ -1,4 +1,4 @@
-import Cupons from "@/framework/screens/cupom-page/cupom-page";
+import Cupons from "@/framework/screens/dash-cupom/cupom-page";
 import { CupomRepository } from "@/services/repositories";
 
 export default async function Cupom() {

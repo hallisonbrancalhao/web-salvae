@@ -6,7 +6,7 @@ import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons'
 import Editar from '../../../../assets/images/editar.svg'
 import Excluir from '../../../../assets/images/excluir.svg'
 import Link from 'next/link';
-import '../../screens/restaurantes-page/styles.scss'
+import '../../screens/dash-restaurantes/styles.scss'
 import { PatrocinadorRepository } from '@/services/repositories'
 interface PatrocinadoresProps {
     _id: string

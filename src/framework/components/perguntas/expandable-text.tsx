@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import ArrowImage from '../../../../assets/images/arrow.svg'; // Importe a imagem da seta para baixo
-import '../../screens/perguntas-page/styles.scss'
+import '../../screens/perguntas/styles.scss'
 
 interface ExpandableTextProps {
   initialText: string;

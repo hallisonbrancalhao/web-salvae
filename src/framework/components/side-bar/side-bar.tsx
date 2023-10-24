@@ -59,7 +59,7 @@ export default function Sidebar() {
             <li>Sair</li>
           </ul>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 }

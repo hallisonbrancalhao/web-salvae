@@ -1,22 +1,13 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Image from 'next/image';
 import Logo from '../../../../assets/images/logo.svg';
 import './styles.scss';
-import { useAuth } from '@/services/api/auth/contexts/Auth';
+import { AuthContext, useAuth } from '@/services/api/auth/contexts/Auth';
 
 export default function Login() {
-    // useEffect(() => {
-    //     const validacao = () => {
-    //         const token = localStorage.getItem("token")
-    //         if (token && token.length > 0) {
-    //             window.location.href = '/restaurantes'
-    //         }
-    //     }
-    //     validacao()
-    // }, [])
 
-    const {signIn} = useAuth();
+    const auth = useContext(AuthContext)
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [error, setError] = useState('');
@@ -35,8 +26,7 @@ export default function Login() {
 
         setError('');
         console.log(email, senha)
-        const response = await signIn(email, senha);
-        console.log(response)
+        const response = await auth.signIn(email, senha);
         if (response) return window.location.href = '/restaurantes';
     };
 

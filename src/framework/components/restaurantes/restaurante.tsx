@@ -60,7 +60,7 @@ const Restaurante: React.FC<RestaurantesProps> = ({ _id, fotoPerfil, nome, avali
                 />
             </div>
             <div className="item-cabecalho2">
-                <Link href="/editar-restaurante">
+                <Link href={`/editar-restaurante/${_id}`}>
                     <Image src={Editar} alt='' style={{ width: '32x', height: '32px' }} />
                 </Link>
                 <button onClick={handleDeleteClick}>

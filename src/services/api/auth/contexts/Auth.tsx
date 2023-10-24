@@ -14,7 +14,7 @@ export const AuthContext = createContext<AuthContextData>(
   {} as AuthContextData,
 );
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [authData, setAuth] = useState<AuthData | undefined>();
   const [loading, setLoading] = useState(true);
 

@@ -2,11 +2,11 @@ import EditarCupomPage from "@/framework/screens/editar-cupom-page/editar-cupom-
 import { CupomRepository } from '@/services/repositories/cupom.repository';
 import { EstabelecimentoRepository } from "@/services/repositories/estabelecimentos.repository";
 
-export default async function CadastroCupom() {
+export default async function CadastroCupom({ params }: { params: {id: string}}) {
   const estabelecimentoRepository = new EstabelecimentoRepository()
   const estabelecimento = await estabelecimentoRepository.Listar()
   const cupomID = new CupomRepository()
-  const dadosExistente = await cupomID.Listar('6536848e2e0fb203e8540d94')
+  const dadosExistente = await cupomID.Listar(params.id)
   
   return (
     <>

@@ -4,7 +4,7 @@ import { Estabelecimento } from "../base/types/estabelecimento";
 
 export class EstabelecimentoRepository {
   constructor() {}
-  
+
   async Salvar(data: Estabelecimento) {
     try {
       await axios.post(URL_RESTAURANTE, {
@@ -34,9 +34,16 @@ export class EstabelecimentoRepository {
     }
   }
 
+  async EditarStatus(data: Estabelecimento) {
+    const id = data._id;
+    await axios.patch(`${URL_RESTAURANTE}/${id}`, {
+      status: data.status,
+    });
+  }
+
   async Editar(data: Estabelecimento) {
     const id = data._id;
-    await axios.put(`${URL_RESTAURANTE}/${id}`, {
+    await axios.patch(`${URL_RESTAURANTE}/${id}`, {
       cnpj: data.cnpj,
       nome: data.nome,
       whatsapp: data.whatsapp,

@@ -20,7 +20,12 @@ const Restaurante: React.FC<RestaurantesProps> = ({ _id, fotoPerfil, nome, avali
     const [toggleStatus, setToggleStatus] = useState(status);
     const toggleIcon = toggleStatus ? faToggleOn : faToggleOff;
 
-    const handleToggleClick = () => {
+    const statusEditado = new EstabelecimentoRepository()
+    const handleToggleClick = async () => {
+        // await statusEditado.EditarStatus({
+        //     _id: _id,
+        //     status: !toggleStatus,
+        // })
         setToggleStatus(!toggleStatus);
     };
 

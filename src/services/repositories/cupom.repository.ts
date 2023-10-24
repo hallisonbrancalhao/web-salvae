@@ -23,7 +23,7 @@ export class CupomRepository {
 
   async Editar(data: Cupom) {
     const id = data._id;
-    await axios.put(`${URL_CUPOM}/${id}`, {
+    await axios.patch(`${URL_CUPOM}/${id}`, {
       restaurante: data.restaurante,
       nome: data.nome,
       sobre: data.sobre,

@@ -1,4 +1,4 @@
-export const URL_BASE = 'https://crudcrud.com/api/8d80b54c216748118b4dd75b26a72ee2';
+export const URL_BASE = 'https://crudcrud.com/api/e94b0ce4fd324aa080c96038873ef6a8';
 export const URL_RESTAURANTE = `${URL_BASE}/restaurante`
 export const URL_CUPOM = `${URL_BASE}/cupom`
 

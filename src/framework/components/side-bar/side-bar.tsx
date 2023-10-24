@@ -1,5 +1,4 @@
 import "./styles.scss";
-import Link from "next/link";
 import Logo from "/assets/images/logo.svg";
 import Image from "next/image";
 

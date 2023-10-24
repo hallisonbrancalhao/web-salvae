@@ -6,14 +6,14 @@ export default async function CadastroCupom({ params }: { params: {id: string}})
   const estabelecimentoRepository = new EstabelecimentoRepository()
   const estabelecimento = await estabelecimentoRepository.Listar()
   const cupomID = new CupomRepository()
-  const dadosExistente = await cupomID.Listar(params.id)
+  const dadosExistente = await cupomID.ListarPorId(params.id)
   
   return (
     <>
       <EditarCupomPage
         estabelecimento={estabelecimento}
         cupom={{ _id:dadosExistente._id, restaurante: dadosExistente.restaurante, nome: dadosExistente.nome, 
-          sobre: dadosExistente.sobre, uploadedImage: dadosExistente.uploadedImage,
+          sobre: dadosExistente.sobre, foto: dadosExistente.foto, status: dadosExistente.status,
           categoria: dadosExistente.categoria, dias: dadosExistente.dias}}
       />
     </>

@@ -1,17 +1,17 @@
 import axios from "axios";
-import { Cupom } from "../base/types/cupom";
+import { Cupons } from "../base/types/cupons";
 import { URL_CUPOM } from "@/framework/constantes/URL.API";
 
 export class CupomRepository {
   constructor() {}
 
-  async Salvar(data: Cupom) {
+  async Salvar(data: Cupons) {
     try {
       await axios.post(URL_CUPOM, {
         restaurante: data.restaurante,
         nome: data.nome,
         sobre: data.sobre,
-        uploadedImage: data.uploadedImage,
+        foto: data.foto,
         categoria: data.categoria,
         dias: data.dias,
       });
@@ -21,24 +21,37 @@ export class CupomRepository {
     }
   }
 
-  async Editar(data: Cupom) {
+  async EditarStatus(data: Cupons) {
     const id = data._id;
-    await axios.patch(`${URL_CUPOM}/${id}`, {
+    await axios.put(`${URL_CUPOM}/${id}`, {
+      status: data.status,
+    });
+  }
+
+  async Editar(data: Cupons) {
+    console.log(data)
+    const id = data._id;
+    await axios.put(`${URL_CUPOM}/${id}`, {
       restaurante: data.restaurante,
       nome: data.nome,
       sobre: data.sobre,
-      uploadedImage: data.uploadedImage,
+      foto: data.foto,
       categoria: data.categoria,
       dias: data.dias,
     });
   }
 
-  async Listar(id: string) {
+  async ListarPorId(id: string) {
     const cupom = await axios.get(`${URL_CUPOM}/${id}`);
     return cupom.data;
   }
 
-  Deletar(id: string) {
+  async Listar() {
+    const res = await axios.get(URL_CUPOM);
+    return res.data;
+  }
+
+  async Deletar(id: string) {
     axios.delete(`${URL_CUPOM}/${id}`);
   }
 }

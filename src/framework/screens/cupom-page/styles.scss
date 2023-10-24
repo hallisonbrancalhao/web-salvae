@@ -1,0 +1,94 @@
+.container-restaurente {
+    @apply flex h-screen flex-col items-start bg-gradient-to-t from-[#081918] to-[#052C2C] sm:ml-64;
+
+    .h1 {
+        @apply font-bold text-[70px] text-[#FFB133] mt-5 px-[20px];
+    }
+
+    .container-pesquisa {
+        @apply flex items-center justify-between w-full pr-10;
+
+        .h2 {
+            @apply font-bold text-[50px] text-[#FFFFFF] px-[20px];
+        }
+
+        .input {
+            @apply relative;
+
+            .barra-pesquisa {
+                @apply rounded-lg px-10 py-2;
+            }
+
+            .pesquisa {
+                @apply absolute inset-y-0 left-3 pr-3 flex items-center pointer-events-none;
+
+                .icone-pesquisa {
+                    @apply text-gray-400;
+                }
+            }
+        }
+    }
+
+    .cabecalho {
+        @apply flex justify-center bg-white text-[#052C2C] w-full h-[50px] rounded-lg ml-5 mr-5 mb-5 items-center font-bold;
+
+        .item-cabecalho {
+            @apply flex justify-center w-full;
+        }
+    }
+}
+
+.container-componente {
+    @apply flex justify-center bg-white text-[#052C2C] w-full rounded-lg m-[20px] items-center;
+
+    .item-cabecalho2 {
+        @apply flex justify-center w-full;
+    }
+
+    .ativado {
+        @apply text-green-500 cursor-pointer;
+    }
+
+    .desativado {
+        @apply text-gray-500 cursor-pointer;
+    }
+}
+
+.container-botao {
+    @apply flex justify-center mb-5;
+
+    .botao {
+        @apply ml-5 mt-5 text-[20px] bg-[#FFB133] hover:bg-[#FFB000] text-white px-16 rounded transition duration-300 ease-in-out transform hover:scale-105;
+    }
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(132, 130, 130, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: #ffffff;
+    padding: 30px;
+    text-align: center;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.modal-content button {
+    margin: 5px;
+    padding: 10px 20px;
+    background: #ffcc00;
+    color: #006600;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}

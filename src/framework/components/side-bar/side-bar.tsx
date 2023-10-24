@@ -42,10 +42,9 @@ export default function Sidebar() {
           </div>
           <div className="container-sidebar__links">
             <ul>
-              <li><a href="restaurantes">Dashbord</a></li>
-              <li><a href="cadastrorestaurante">Cadastro Restuarante</a></li>
-              <li>Cadastro Cupom</li>
-              <li><a href="tela-patrocinadores">Vizualizar patrocinador</a></li>
+              <li><a href="restaurantes">Restaurantes</a></li>
+              <li><a href="cupom">Cupons</a></li>
+              <li><a href="tela-patrocinadores">Patrocinadores</a></li>
               <li>Sair</li>
             </ul>
           </div>

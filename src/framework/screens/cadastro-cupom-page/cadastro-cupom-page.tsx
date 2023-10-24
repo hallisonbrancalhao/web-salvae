@@ -14,9 +14,9 @@ export default function CadastroCupom({ estabelecimento: params }: { estabelecim
     const [restaurante, setRestaurante] = useState('');
     const [nome, setNome] = useState('');
     const [sobre, setSobre] = useState('');
-    const [uploadedImage, setUploadedImage] = useState(null);
+    const [foto, setFoto] = useState(null);
     const handleImageUpload = (imageFile: React.SetStateAction<null>) => {
-        setUploadedImage(imageFile);
+        setFoto(imageFile);
     };
 
     const [categoria, setCategoria] = useState([]);
@@ -25,7 +25,7 @@ export default function CadastroCupom({ estabelecimento: params }: { estabelecim
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/restaurantes';
+        window.location.href = 'http://localhost:3000/cupom';
     }
 
     const SalvarDados = async () => {
@@ -35,9 +35,10 @@ export default function CadastroCupom({ estabelecimento: params }: { estabelecim
                 restaurante: restaurante,
                 nome: nome,
                 sobre: sobre,
-                uploadedImage: uploadedImage,
+                foto: foto,
                 categoria: categoria,
                 dias: dias,
+                status: true
             })
             setSuccess('Cupom cadastrado com sucesso!');
         } catch (error) {

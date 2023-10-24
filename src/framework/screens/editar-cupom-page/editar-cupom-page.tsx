@@ -6,34 +6,34 @@ import InputFieldImage from '../../components/cadastro/form-image';
 import Checkbox from '@/framework/components/cadastro/form-checkbox';
 import "./styles.scss";
 import { Estabelecimento } from '@/services/base/types/estabelecimento';
-import { Cupom } from '@/services/base/types/cupom';
+import { Cupons } from '@/services/base/types/cupons';
 import { CupomRepository } from '@/services/repositories';
 
-export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: params }: { estabelecimento: Estabelecimento[], cupom: Cupom }) {
+export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: params }: { estabelecimento: Estabelecimento, cupom: Cupons }) {
     const cupomEditado = new CupomRepository()
     const [restaurante, setRestaurante] = useState('');
     const [nome, setNome] = useState('');
     const [sobre, setSobre] = useState('');
-    const [uploadedImage, setUploadedImage] = useState(null);
+    const [foto, setFoto] = useState(null);
     const [categoria, setCategoria] = useState([]);
     const [dias, setDias] = useState([]);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/restaurantes';
+        window.location.href = 'http://localhost:3000/cupom';
     }
 
     useEffect(() => {
         setRestaurante(paramsEstab.nome);
         setNome(params.nome);
         setSobre(params.sobre);
-        setUploadedImage(params.uploadedImage);
+        setFoto(params.foto);
         setCategoria(params.categoria);
         setDias(params.dias);
     }, []);
 
     const handleImageUpload = (imageFile) => {
-        setUploadedImage(imageFile);
+        setFoto(imageFile);
     };
 
     const EditarDados = async () => {
@@ -43,9 +43,10 @@ export default function CadastroCupom({ estabelecimento: paramsEstab, cupom: par
                 restaurante: restaurante,
                 nome: nome,
                 sobre: sobre,
-                uploadedImage: uploadedImage,
+                foto: foto,
                 categoria: categoria,
                 dias: dias,
+                status: false,
             });
             setSuccess('Cupom atualizado com sucesso!');
         } catch (error) {

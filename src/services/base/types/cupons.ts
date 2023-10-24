@@ -1,9 +1,10 @@
-export interface Cupom {
+export interface Cupons {
     _id: string,
     restaurante: string,
     nome: string,
     sobre: string,
-    uploadedImage: string|null,
+    foto: string|null,
     categoria: string[],
     dias: string[],
+    status: boolean
 };

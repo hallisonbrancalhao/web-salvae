@@ -124,8 +124,6 @@ export default function EditarRestaurante({ estabelecimento: paramsEstab }: { es
                     cidade: cidade,
                     estado: estado,
                 },
-                status: true,
-                avaliacao: 0
             })
             setSuccess('Restaurante atualizado com sucesso!');
         } catch (error) {

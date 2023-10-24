@@ -1,12 +1,14 @@
+$gradient-color-1: #091A18;
+$gradient-color-2: rgba(9, 26, 24, 0.00);
 .fundo{ 
-  @apply   bg-[#091E1D]
+  @apply bg-gradient-to-t from-[#081918] to-[#052C2C];
 }
 
   .fundo-inicial{
     @apply  flex flex-col items-center justify-center text-center py-20 px-4;
 
     &__frase-impacto{
-      @apply text-4xl font-bold mb-4 text-[#FFB133] text-[120px];
+      @apply text-4xl font-bold mb-4 text-[#FFB133] text-[120px] mt-10;
     }
 
     &__sub-texto{
@@ -14,20 +16,20 @@
     }
 
     &__como-funciona {
-        @apply flex gap-6 text-center flex flex-col items-center justify-center text-center py-20 px-4;
+        @apply flex gap-6 items-center justify-center py-20 px-4 mt-10;
       
         h1 {
-          @apply  text-[#FFB133] text-[80px];
+          @apply  text-[#FFB133] text-[80px] mt-5;
         }
       
         &__imagem {
-          @apply py-4;
+          @apply  gap-0;
         }
       
       }
     
       &__aplicativos{
-        @apply flex gap-11;
+        @apply flex gap-11 mt-10;
       }
   }
 
@@ -44,23 +46,34 @@
   }
 
 
-.fundo-2 {
-  @apply -scroll-ml-96 font-bold  text-left  px-4 flex justify-between items-center;
+  .restaurantes {
+    @apply -scroll-ml-96 font-bold text-left px-4 mr-10;
+  }
   
-}
+  .fundo-2 {
+    @apply ml-10 flex justify-between items-center mr-10;
+  }
+  
+  .frase-3 {
+    @apply font-bold mb-28 mt-64 text-[#fff] text-[80px];
+  }
+  
+  .tabela-olho {
+    @apply text-[24px] text-[#B4B4B4] bg-[#081918] mt-40;
+  }
+  
+  .fundo-4 {
+    @apply font-bold mb-28 mt-64 text-[#FFB133] text-center py-20 px-4;
+  }
+  
+  .tabela-olho-container {
+    @apply flex justify-center;
+  }
+  
 
-.frase-3 {
-  @apply font-bold mb-28 mt-64 text-[#fff] text-[80px];
-}
-
-.tabela-olho{
-  @apply text-[24px] text-[#B4B4B4] bg-[#081918];
-}
-
-.fundo-4 {
-  @apply font-bold mb-28 mt-64 text-[#FFB133] text-center  py-20 px-4;
-
-}
+  .carrocel{
+    @apply flex gap-8 items-center justify-center ;
+  }
 
 
 

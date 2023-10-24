@@ -7,16 +7,14 @@ export const NavBar = () => {
     <header>
       <div className="nav">
         <div className="logo">
-          <Image src={logo} width={181} height={10} alt="" />
+         <a href="/"> <Image src={logo} width={181} height={10} alt="" /></a>
         </div>
         <div className="links">
-          <li>Pagina inicial</li>
-          <li>Sobre nos</li>
-          <li>Duvidas Frequentes</li>
+          <li><a href="/">Pagina inicial</a></li>
+          <li><a href="sobre">Sobre nos</a></li>
+          <li><a href="perguntas">Duvidas Frequentes</a></li>
         </div>
-        <a href="/login">
-          <a className="botao">Entrar</a>
-        </a>
+        <button className="botao"><a href="login">Entrar</a></button>
       </div>
     </header>
   );

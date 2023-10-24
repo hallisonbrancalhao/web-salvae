@@ -7,6 +7,13 @@ import Phone from "assets/images/img-phone.svg";
 import Parceiro1 from "assets/images/parceiro1.svg";
 import Parceiro2 from "assets/images/parceiro2.svg";
 import Olho from "assets/images/olho.svg";
+import Carrocel from "assets/images/carrocel.svg";
+import Pizzaa from "assets/images/pizzaa.svg";
+import Reipipe from "assets/images/reipide.svg";
+import Cookie from "assets/images/cookeis.svg";
+import Expreme from "assets/images/expreme.svg";
+
+
 
 export default function HomePage() {
 
@@ -39,41 +46,59 @@ export default function HomePage() {
 
               </div>
             </div>
+            <video controls>
+              <source src="https://www.youtube.com/watch?v=VPYXaZrbJww" type="video/mp4" />
+            </video>
           </div>
 
 
           {/* Seção 2 */}
-          <div className="fundo-2">
-            <div className="frase-3">
-              <h1>
-                Desconto para todos <p>os tipos de comida</p>
-              </h1>
-            </div>
-            <div className="tabela-olho">
-              <table>
-                <tbody>
-                  <tr>
-                    <td className="olho">
-                      <Image src={Olho} width={50} height={50} alt="" />
-                    </td>
-                    <td>
-                      veja as categorias dos restaurantes{" "}
-                      <p>que temos desconto</p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+
+          <div className="restaurantes">
+            <div className="fundo-2">
+              <div className="frase-3">
+                <h1>
+                  Desconto para todos <p>os tipos de comida</p>
+                </h1>
+              </div>
+              <div className="tabela-olho-container">
+                <div className="tabela-olho">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td className="olho">
+                          <Image src={Olho} width={50} height={50} alt="" />
+                        </td>
+                        <td>
+                          veja as categorias dos restaurantes{" "}
+                          <p>que temos desconto</p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
-
+          <div className="carrocel">
+            <Image src={Carrocel} width={223} height={334} alt="" />
+            <Image src={Carrocel} width={223} height={334} alt="" />
+            <Image src={Carrocel} width={223} height={334} alt="" />
+            <Image src={Carrocel} width={223} height={334} alt="" />
+            <Image src={Carrocel} width={223} height={334} alt="" />
+          </div>
           {/* Seção 3 */}
           <div className="parceiros">
             <div className="parceiros__frase">
               <h1>Conheça nossos parceiros</h1>
             </div>
             <div className="parceiros__imagens-parceiros">
-              <Image src={Parceiro1} width={157} height={130} alt="" />
-              <Image src={Parceiro2} width={157} height={130} alt="" />
+              <Image src={Parceiro1} width={148} height={135} alt="" />
+              <Image src={Parceiro2} width={126} height={126} alt="" />
+              <Image src={Pizzaa} width={126} height={126} alt="" />
+              <Image src={Reipipe} width={126} height={126} alt="" />
+              <Image src={Cookie} width={126} height={126} alt="" />
+              <Image src={Expreme} width={126} height={126} alt="" />
             </div>
           </div>
 
@@ -85,7 +110,7 @@ export default function HomePage() {
               </div>
               <div className="container-bg__teste">
                 <div className="container-bg__logo">
-                  <Image src={Logo} width={226} height={100} alt="" />
+                  <Image src={Logo} width={271} height={120} alt="" />
                 </div>
                 <div className="container-bg__aplicativos">
                   <h1>Baixe já o app e aproveite!</h1>

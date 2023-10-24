@@ -44,7 +44,7 @@ export default function Sidebar() {
             <ul>
               <li><a href="restaurantes">Restaurantes</a></li>
               <li><a href="cupom">Cupons</a></li>
-              <li><a href="tela-patrocinadores">Patrocinadores</a></li>
+              <li><a href="patrocinador">Patrocinadores</a></li>
               <li>Sair</li>
             </ul>
           </div>

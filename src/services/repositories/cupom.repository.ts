@@ -14,6 +14,7 @@ export class CupomRepository {
         foto: data.foto,
         categoria: data.categoria,
         dias: data.dias,
+        status: true
       });
       console.log("Funcionou");
     } catch (error) {

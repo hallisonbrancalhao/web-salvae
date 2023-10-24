@@ -1,12 +1,20 @@
 .container {
     @apply mb-5;
 
-    .input{
-        @apply text-[24px] rounded-lg w-[30rem] h-[45px] px-2 border border-[#052C2C];
+    .checkbox-item {
+        @apply grid grid-cols-3 gap-1 mb-[2vw] ml-[2vw];
     }
 
-    .input-rua{
-        @apply rounded-lg w-[40rem] h-[45px] px-2 border border-[#052C2C];
+    .input {
+        @apply text-[1vw] rounded-lg w-[24vw] h-[2.5vw] px-2 border border-[#052C2C];
+    }
+
+    .categoria{
+        @apply text-[1vw] mb-[2vw] ml-[2vw];
+    }
+
+    .input-rua {
+        @apply rounded-lg w-[24vw] h-[2.5vw] px-2 border border-[#052C2C];
     }
 
     .container-imagem {
@@ -17,15 +25,15 @@
         }
 
         .imagem-botao {
-            @apply bg-gray-300 hover:bg-gray-400 text-white rounded-lg w-[30rem] h-[45px];
+            @apply text-[1.5vw] bg-gray-300 hover:bg-gray-400 text-white rounded-lg w-[24vw] h-[2.5vw];
         }
     }
 
     .upload {
-        @apply mt-2;
+        @apply mt-[2vw] w-[24vw] h-[2.5vw];
 
-        .upload-imagem {
-            @apply max-h-40 mx-auto;
+        .botao-imagem {
+            @apply w-[24vw] h-[2.5vw];
         }
     }
 }

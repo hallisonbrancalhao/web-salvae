@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InputField from '../../components/cadastro/form-text';
 import InputFone from '../../components/cadastro/form-fone';
 import InputFieldImage from '../../components/cadastro/form-image';
@@ -7,12 +7,13 @@ import InputPassword from '../../components/cadastro/form-senha';
 import InputCep from '../../components/cadastro/form-cep';
 import InputCnpj from '../../components/cadastro/form-cnpj';
 import SelectField from '../../components/cadastro/form-categoria';
+import { EstabelecimentoRepository } from '@/services/repositories';
+import { Estabelecimento } from '@/services/base/types/estabelecimento';
 import axios from 'axios';
 import "./styles.scss";
-import { EstabelecimentoRepository } from '@/services/repositories';
 
-export default function CadastroRestaurante() {
-    const restaurante = new EstabelecimentoRepository()
+export default function EditarRestaurante({ estabelecimento: paramsEstab }: { estabelecimento: Estabelecimento }) {
+    const restauranteEditado = new EstabelecimentoRepository()
     const [cnpj, setCnpj] = useState('');
     const [nome, setNome] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
@@ -21,9 +22,9 @@ export default function CadastroRestaurante() {
     const handleFotoPerfil = (imageFile: React.SetStateAction<null>) => {
         setFotoPerfil(imageFile);
     };
-    const [fotoCapa, setUFotoCapa] = useState(null);
+    const [fotoCapa, setFotoCapa] = useState(null);
     const handleFotoCapa = (imageFile: React.SetStateAction<null>) => {
-        setUFotoCapa(imageFile);
+        setFotoCapa(imageFile);
     };
     const [password, setPassword] = useState('');
     const [passwordConfirma, setPasswordConfirma] = useState('');
@@ -36,8 +37,29 @@ export default function CadastroRestaurante() {
     const [cidade, setCidade] = useState('');
     const [estado, setEstado] = useState('');
 
+    useEffect(() => {
+        setCnpj(paramsEstab.cnpj);
+        setNome(paramsEstab.nome);
+        setWhatsapp(paramsEstab.whatsapp);
+        setInstagram(paramsEstab.instagram);
+        setFotoPerfil(paramsEstab.fotoPerfil);
+        setFotoCapa(paramsEstab.fotoCapa);
+        setPassword(paramsEstab.senha);
+        setCategoria(paramsEstab.categoria);
+        setCep(paramsEstab.endereco.cep);
+        setRua(paramsEstab.endereco.rua);
+        setComplemento(paramsEstab.endereco.complemento);
+        setNumero(paramsEstab.endereco.numero);
+        setBairro(paramsEstab.endereco.bairro);
+        setCidade(paramsEstab.endereco.cidade);
+        setEstado(paramsEstab.endereco.estado);
+    }, []);
+
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const redirecionarPagina = () => {
+        window.location.href = 'http://localhost:3000/restaurantes';
+    }
 
     async function fetchAddressByCep(cep: any) {
         try {
@@ -71,10 +93,6 @@ export default function CadastroRestaurante() {
         }
     };
 
-    const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/restaurantes';
-    }
-
     const SalvarDados = async () => {
         if (password != passwordConfirma) {
             setError('A senha digitada não confere com a validação.');
@@ -85,10 +103,10 @@ export default function CadastroRestaurante() {
             setError('A senha deve ter no mínimo 8 caracteres.');
             return;
         }
-        
+
         try {
-            await restaurante.Salvar({
-                _id: '',
+            await restauranteEditado.Editar({
+                _id: paramsEstab._id,
                 cnpj: cnpj,
                 nome: nome,
                 whatsapp: whatsapp,
@@ -108,8 +126,8 @@ export default function CadastroRestaurante() {
                 },
                 status: true,
                 avaliacao: 0
-            });
-            setSuccess('Restaurante cadastrado com sucesso!');
+            })
+            setSuccess('Restaurante atualizado com sucesso!');
         } catch (error) {
             setError('Ocorreu um erro. Por favor, tente novamente.');
         }
@@ -182,7 +200,6 @@ export default function CadastroRestaurante() {
                         name="cnpj" />
                 </div>
 
-
                 <hr className="divisor" />
 
                 <div className="bloco-2-3">
@@ -201,7 +218,7 @@ export default function CadastroRestaurante() {
                         type="button"
                         onClick={SalvarDados}
                         className="botao">
-                        Salvar
+                        Salvar Alterações
                     </button>
                 </div>
             </form>

@@ -1,6 +1,5 @@
 'use client'
 import "./styles.scss";
-import Link from "next/link";
 import Logo from "/assets/images/logo.svg";
 import Image from "next/image";
 import "src/app/globals.css";
@@ -51,10 +50,16 @@ export default function Sidebar() {
             </ul>
           </div>
         </div>
-        <button type="button" onClick={closeSidebar}>
-          Fechar
-        </button>
-      </aside>
-    </>
+        <div className="container-sidebar__links">
+          <ul>
+            <li><a href="/restaurantes">Dashbord Restaurantes</a></li>
+            <li><a href="/cadastrar-restaurante">Cadastro Restaurantes</a></li>
+            <li><a href="/cadastrar-cupom">Cadastro Cupom</a></li>
+            <li>Vizualizar patrocinador</li>
+            <li>Sair</li>
+          </ul>
+        </div>
+      </div>
+    </aside>
   );
 }

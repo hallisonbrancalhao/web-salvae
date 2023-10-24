@@ -1,8 +1,7 @@
 import React, { useState, useRef } from 'react';
-import Image from 'next/image';
-import './styles.scss'
+import './styles.scss';
 
-const InputFieldImage = ({ onImageUpload }) => {
+const InputFieldImage = ({ onImageUpload, label }) => {
     const [uploadedImage, setUploadedImage] = useState(null);
     const fileInputRef = useRef(null);
 
@@ -16,11 +15,28 @@ const InputFieldImage = ({ onImageUpload }) => {
         onImageUpload(imageFile);
     };
 
+    const convertImageToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    };
+
+    if (uploadedImage) {
+        convertImageToBase64(uploadedImage)
+            .then((base64Image) => {
+                onImageUpload(base64Image); // Envie a imagem base64 para o componente pai
+            })
+            .catch((error) => {
+                console.error('Erro ao converter imagem em base64:', error);
+            });
+    }
+
     return (
         <div className="container">
-            <label htmlFor="image">
-                Logo do Restaurante:
-            </label>
+            <label htmlFor="image">{label}:</label>
             <div className="container-imagem">
                 <input
                     type="file"
@@ -41,10 +57,10 @@ const InputFieldImage = ({ onImageUpload }) => {
             </div>
             {uploadedImage && (
                 <div className="upload">
-                    <Image
+                    <img
                         src={URL.createObjectURL(uploadedImage)}
                         alt="Selected"
-                        className="upload-imagem"
+                        className="botao-imagem"
                     />
                 </div>
             )}

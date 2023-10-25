@@ -2,7 +2,7 @@
 import { APP_ROUTES } from "@/core/constants";
 import { checkIsUserAuthenticated } from "@/services";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type PrivateRouteProps = {
   children: React.ReactNode;
@@ -10,19 +10,20 @@ type PrivateRouteProps = {
 
 const PrivateRoute = ({ children }: PrivateRouteProps) => {
   const { push } = useRouter();
-
-  const isUserAuthenticaded = checkIsUserAuthenticated();
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
 
   useEffect(() => {
-    if (!isUserAuthenticaded) {
+    const authStatus = checkIsUserAuthenticated();
+    setIsUserAuthenticated(authStatus);
+    if (!authStatus) {
       push(APP_ROUTES.public.login);
     }
-  }, [isUserAuthenticaded, push]);
+  }, [push]);
 
   return (
     <>
-      {!isUserAuthenticaded && null}
-      {isUserAuthenticaded && children}
+      {!isUserAuthenticated && null}
+      {isUserAuthenticated && children}
     </>
   );
 };

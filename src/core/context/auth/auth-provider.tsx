@@ -1,9 +1,14 @@
-"use client"
+"use client";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "./auth-context";
 import { AuthData } from "@/core/base/types/user";
 import { LoginDto } from "@/core/base/dtos/login.dto";
-import { singIn } from "@/services";
+import {
+  getStorageItem,
+  removeStorageItem,
+  setStorageItem,
+  singIn,
+} from "@/services";
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const auth = useContext(AuthContext);
@@ -12,31 +17,33 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [userData, setUserData] = useState<AuthData | undefined>(undefined);
 
   useEffect(() => {
-    const validateToken = () => {
-      const storageData = localStorage.getItem("@AuthData");
-      if (storageData) {
-        setUserData(JSON.parse(`${storageData}`) as AuthData);
-      }
-    };
-    validateToken();
+    const authData = getStorageItem(process.env.NEXT_PUBLIC_USER_TOKEN);
+    if (authData) {
+      setUserData(JSON.parse(authData));
+    }
     setLoading(false);
-  }, []);
+  }, [auth]);
 
   const signIn = async ({ cnpj, senha }: LoginDto) => {
     const response = await singIn(cnpj, senha);
-    if (response == undefined) return undefined;
+    if (!response) return undefined;
     setUserData(response);
-    localStorage.setItem("@AuthData", JSON.stringify(response));
+    setStorageItem(
+      process.env.NEXT_PUBLIC_USER_TOKEN,
+      JSON.stringify(response)
+    );
     return response;
   };
 
   const signOut = async () => {
     setUserData(undefined);
-    localStorage.removeItem("@AuthData");
+    removeStorageItem(process.env.NEXT_PUBLIC_USER_TOKEN);
   };
 
+  const authContextValue = { userData, signIn, signOut, loading };
+
   return (
-    <AuthContext.Provider value={{ userData, signIn, signOut, loading }}>
+    <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );

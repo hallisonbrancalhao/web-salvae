@@ -12,9 +12,6 @@ export default function useLogin() {
   const [error, setError] = useState("");
 
   const handleLogin = async () => {
-    console.log("cnpj:", cnpj);
-    console.log("senha:", senha);
-
     if (cnpj && senha) {
       try {
         const response = await auth.signIn({ cnpj, senha });

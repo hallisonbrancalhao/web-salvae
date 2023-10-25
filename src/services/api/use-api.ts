@@ -1,10 +1,10 @@
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
-async function api(
+export const apiRequest = async (
   endpoint: string,
   method: HttpMethod,
   body?: any
-): Promise<Response> {
+): Promise<Response> => {
   const headers = {
     "Content-Type": "application/json",
   };
@@ -18,9 +18,12 @@ async function api(
     config.body = JSON.stringify(body);
   }
   console.log(`${process.env.NEXT_PUBLIC_URL_API}/${endpoint}`);
-  
+
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_URL_API}/${endpoint}`, config);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_URL_API}/${endpoint}`,
+      config
+    );
     if (!response.ok) {
       throw new Error("Network response was not ok " + response.statusText);
     }
@@ -29,4 +32,4 @@ async function api(
     console.error("There has been a problem with your fetch operation:", error);
     throw error;
   }
-}
+};

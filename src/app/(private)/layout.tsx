@@ -2,9 +2,6 @@
 import Sidebar from "@/framework/components/side-bar/side-bar";
 import "./styles.scss";
 import "src/app/globals.css";
-import PrivateRoute from "@/framework/components/private-route";
-import { usePathname } from "next/navigation";
-import { checkIsPublic } from "@/services";
 
 export default function PrivateLayout({
   children,

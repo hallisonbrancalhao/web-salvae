@@ -12,11 +12,9 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
-      <body>
-        <NavBar />
-        {children}
-      </body>
-    </html>
+    <section>
+      <NavBar />
+      {children}
+    </section>
   );
 }

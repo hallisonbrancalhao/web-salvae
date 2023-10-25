@@ -3,5 +3,5 @@ export const getStorageItem = (key: string) => {
     return null;
   }
   const item = window.localStorage.getItem(key);
-  return !!item;
+  return item;
 };

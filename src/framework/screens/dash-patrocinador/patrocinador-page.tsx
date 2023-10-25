@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Patrocinador from '@/framework/components/patrocinador/patrocinador';
 import './styles.scss';
 import Link from 'next/link';
-import { Patrocinadores } from '@/services/base/types/patrocinadores';
+import { Patrocinadores } from '@/core/base/types/patrocinadores';
 
 export default function Patrocinadores({ patrocinador: params }: { patrocinador: Patrocinadores[] }) {
     const [searchText, setSearchText] = useState('');

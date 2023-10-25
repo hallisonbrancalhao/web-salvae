@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Patrocinadores } from "../base/types/patrocinadores";
+import { Patrocinadores } from "../../core/base/types/patrocinadores";
 import { URL_PATROCINADOR } from "@/framework/constantes/URL.API";
 
 export class PatrocinadorRepository {

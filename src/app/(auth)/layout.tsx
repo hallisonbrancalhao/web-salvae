@@ -10,9 +10,5 @@ export default function LoginLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="pt-BR">
-      <body>{children}</body>
-    </html>
-  );
+  return <section> {children} </section>
 }

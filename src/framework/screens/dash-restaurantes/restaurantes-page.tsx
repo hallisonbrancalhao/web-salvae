@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Restaurante from '../../components/restaurantes/restaurante';
 import './styles.scss';
-import { Estabelecimento } from '@/services/base/types/estabelecimento';
+import { Estabelecimento } from '@/core/base/types/estabelecimento';
 import Link from 'next/link';
 
 export default function Restaurantes({ estabelecimento: paramsEstab }: { estabelecimento: Estabelecimento[] }) {

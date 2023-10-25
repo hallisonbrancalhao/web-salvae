@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Cupons } from "../base/types/cupons";
+import { Cupons } from "../../core/base/types/cupons";
 import { URL_CUPOM } from "@/framework/constantes/URL.API";
 
 export class CupomRepository {

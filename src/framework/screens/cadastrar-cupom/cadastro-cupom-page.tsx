@@ -5,7 +5,7 @@ import SelectEstabelecimento from '@/framework/components/cadastro/form-estabele
 import InputFieldImage from '../../components/cadastro/form-image';
 import Checkbox from '@/framework/components/cadastro/form-checkbox';
 import "./styles.scss";
-import { Estabelecimento } from '@/services/base/types/estabelecimento';
+import { Estabelecimento } from '@/core/base/types/estabelecimento';
 import { CupomRepository } from '@/services/repositories/cupom.repository';
 
 export default function CadastroCupom({ estabelecimento: params }: { estabelecimento: Estabelecimento[] }) {

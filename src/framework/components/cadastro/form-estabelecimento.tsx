@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles.scss';
-import { Estabelecimento } from '@/services/base/types/estabelecimento';
+import { Estabelecimento } from '@/core/base/types/estabelecimento';
 
 const SelectEstabelecimento = ({ onChange, name, value, label, options }) => {
     return (

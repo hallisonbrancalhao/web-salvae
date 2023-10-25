@@ -1,75 +1,61 @@
-"use client";
-import { useState } from 'react';
-import pizza from 'assets/images/pizza.svg';
+"use client"
+import React, { useContext, useState } from 'react';
 import Image from 'next/image';
+import Logo from '../../../../assets/images/logo.svg';
 import './styles.scss';
+import { AuthContext, useAuth } from '@/services/api/auth/contexts/Auth';
 
-export default function TelaCupons() {
-    const [searchText, setSearchText] = useState('');
+export default function Login() {
 
-    const restaurantes = [
-        {
-            nome: "TentaZione Pizzaria",
+    const auth = useContext(AuthContext)
+    const [codigo, setCodigo] = useState('');
+    const [error, setError] = useState('');
 
-            avaliacao: 4,
-            status: true
-        },
-        {
-            nome: "Outro Restaurante",
-
-            avaliacao: 2.3,
-            status: false
-        },
-        {
-            nome: "Restaurante Legal",
-
-            avaliacao: 2.3,
-            status: false
-        },
-        // ... outros restaurantes
-    ];
+    const handleSubmit = async () => {
+        const response = await auth.signIn(codigo,error);
+        if (response) return window.location.href = '/restaurantes';
+    };
 
     return (
-        <>
-            <div className="tela-de-cupons">
-                <div className="tela-de-cupons__cabecalho">
-                    <Image src={pizza} width={90} height={90} alt="pizza" />
-                    <div className="tela-de-cupons__texto-cabecalho">
-                        <h1>Tentazione pizza</h1>
-                    </div>
+        <div className='container'>
+            <header className="header">
+                <Image src={Logo} alt='' width={452} height={192} className="logo" />
+            </header>
+            <main className='main'>
+                <div className="usuario">
+                    <label htmlFor="usuario">Insira o código:</label>
                 </div>
-
-                <div className="tela-de-cupons__botoes">
-                    <button className="tela-de-cupons__editar">
-                        Editar Restaurante</button>
-                    <button className="tela-de-cupons__editar">Adicionar Cupom</button>
+                <div className="form">
+                    <input
+                        type="email"
+                        name="usuario"
+                        id="usuario"
+                        value={codigo}
+                        onChange={(e) => setCodigo(e.target.value)}
+                        className="input"
+                    />
                 </div>
-
-                <div className="tela-de-cupons__inicio">
-                    <div className="container-pesquisa">
-                        <h2 className='h2'>Cupons cadastrados</h2>
-                        <div className="input">
-                            <input
-                                type="text"
-                                placeholder="Pesquisar"
-                                className="barra-pesquisa"
-                                value={searchText}
-                                onChange={(e) => setSearchText(e.target.value)}
-                            />
-                            <div className="pesquisa">
-                                <span className="icone-pesquisa">🔍</span>
-                            </div>
+                <div className="container-botao">
+                    <button
+                        onClick={handleSubmit}
+                        className="botao">
+                        Validar
+                    </button>
+                </div>
+                {error && (
+                    <div className="container-erro">
+                        <div className="erro">
+                            <p className="erro2">{error}</p>
+                            <button
+                                onClick={() => setError('')}
+                                className="erro-botao"
+                            >
+                                Fechar
+                            </button>
                         </div>
                     </div>
-                    <div className="cabecalho">
-                        <div className="item-cabecalho">FOTO</div>
-                        <div className="item-cabecalho">NOME DO CUPOM</div>
-                        <div className="item-cabecalho">CADEGORIA</div>
-                        <div className="item-cabecalho">STATUS</div>
-                        <div className="item-cabecalho">AÇÕES</div>
-                    </div>
-                </div>
-            </div>
-        </>
+                )}
+            </main>
+        </div>
     );
 }

@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { Cupons } from '@/services/base/types/cupons';
+import { Cupons } from '@/core/base/types/cupons';
 import Cupom from '@/framework/components/cupons/cupom';
 import './styles.scss';
 import Link from 'next/link';

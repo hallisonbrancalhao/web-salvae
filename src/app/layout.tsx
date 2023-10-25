@@ -1,4 +1,3 @@
-import { NavBar } from "@/framework/components/header/header";
 import type { Metadata } from "next";
 import "@/app/globals.css";
 
@@ -6,7 +5,7 @@ export const metadata: Metadata = {
   title: "SalvaÊ",
 };
 
-export default function PublicLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -14,7 +13,6 @@ export default function PublicLayout({
   return (
     <html lang="pt-BR">
       <body>
-        <NavBar />
         {children}
       </body>
     </html>

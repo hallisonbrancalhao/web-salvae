@@ -8,7 +8,7 @@ import InputCep from '../../components/cadastro/form-cep';
 import InputCnpj from '../../components/cadastro/form-cnpj';
 import SelectField from '../../components/cadastro/form-categoria';
 import { EstabelecimentoRepository } from '@/services/repositories';
-import { Estabelecimento } from '@/services/base/types/estabelecimento';
+import { Estabelecimento } from '@/core/base/types/estabelecimento';
 import axios from 'axios';
 import "./styles.scss";
 

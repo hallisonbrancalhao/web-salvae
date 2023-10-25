@@ -1,6 +1,7 @@
 import "./header.scss";
 import Image from "next/image";
 import logo from "/assets/images/logo.svg";
+import Link from "next/link";
 
 export const NavBar = () => {
   return (
@@ -10,11 +11,11 @@ export const NavBar = () => {
          <a href="/"> <Image src={logo} width={181} height={10} alt="" /></a>
         </div>
         <div className="links">
-          <li><a href="/">Pagina inicial</a></li>
-          <li><a href="sobre">Sobre nos</a></li>
-          <li><a href="perguntas">Duvidas Frequentes</a></li>
+          <li><Link href="/">Pagina inicial</Link></li>
+          <li><Link href="sobre">Sobre nos</Link></li>
+          <li><Link href="perguntas">Duvidas Frequentes</Link></li>
         </div>
-        <button className="botao"><a href="login">Entrar</a></button>
+        <button className="botao"><Link href='login'>Logar</Link></button>
       </div>
     </header>
   );

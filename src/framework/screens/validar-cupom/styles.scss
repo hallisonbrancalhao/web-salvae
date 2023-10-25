@@ -1,57 +1,47 @@
-.tela-de-cupons{
-    @apply bg-[#062C2D] h-screen sm:ml-64;
-
-    &__cabecalho{
-        @apply flex  items-center;
+.container {
+    @apply flex h-screen flex-col items-center bg-gradient-to-t from-[#081918] to-[#052C2C];
+  
+    .header {
+      @apply mt-28;
     }
-
-    &__texto-cabecalho{
-        @apply text-white text-[80px] ;
-    }
-
-    &__botoes{
-        @apply flex  items-center gap-14 ml-10;
-    }
-
-    &__editar{
-        @apply  bg-white text-[#052C2C] w-[185px] h-[40px] rounded-lg  items-center font-bold  text-[40] ;
-    }
-
-    &__add{
-        @apply text-white ;
-    }
-
-    &__inicio{
-        @apply  flex-auto items-center gap-2;
-    }
-}
-.container-pesquisa {
-    @apply flex items-center justify-between  ;
-
-    .h2 {
-        @apply font-bold text-[50px] text-[#FFFFFF] px-[20px];
-    }
-
-    .input {
-        @apply relative;
-
-        .barra-pesquisa {
-            @apply rounded-lg px-10 py-2;
+  
+    .main {
+      @apply w-1/4 mt-16 text-white;
+  
+      .usuario {
+        @apply text-[30px] mb-2;
+      }
+  
+      .form {
+        @apply mb-4 text-[#052C2C];
+  
+        .input {
+          @apply rounded-lg w-[500px] h-[45px];
         }
-
-        .pesquisa {
-            @apply absolute inset-y-0 left-3 pr-3 flex items-center pointer-events-none;
-
-            .icone-pesquisa {
-                @apply text-gray-400;
-            }
+      }
+  
+      .container-botao {
+        @apply flex justify-center;
+  
+        .botao {
+          @apply mt-5 text-[30px] bg-[#FFB133] hover:bg-[#FFB000] text-white px-16 rounded transition duration-300 ease-in-out transform hover:scale-105;
         }
+      }
     }
-}
-.cabecalho {
-    @apply flex justify-between bg-white text-[#052C2C]  h-[50px] rounded-lg ml-5 mr-5 mb-5 items-center font-bold;
-
-    .item-cabecalho {
-        @apply flex justify-between;
+  
+    .container-erro {
+      @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50;
+  
+      .erro {
+        @apply bg-white p-6 rounded-lg shadow-lg text-center;
+  
+        .erro2 {
+          @apply text-red-500 justify-center;
+        }
+  
+        .erro-botao {
+          @apply mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600;
+        }
+      }
     }
-}
+  }

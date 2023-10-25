@@ -1,6 +1,6 @@
 import axios from "axios";
 import { URL_RESTAURANTE } from "@/framework/constantes/URL.API";
-import { Estabelecimento } from "../base/types/estabelecimento";
+import { Estabelecimento } from "../../core/base/types/estabelecimento";
 
 export class EstabelecimentoRepository {
   constructor() {}

@@ -5,8 +5,8 @@ import SelectEstabelecimento from '@/framework/components/cadastro/form-estabele
 import InputFieldImage from '../../components/cadastro/form-image';
 import Checkbox from '@/framework/components/cadastro/form-checkbox';
 import './styles.scss';
-import { Estabelecimento } from '@/services/base/types/estabelecimento';
-import { Cupons } from '@/services/base/types/cupons';
+import { Estabelecimento } from '@/core/base/types/estabelecimento';
+import { Cupons } from '@/core/base/types/cupons';
 import { CupomRepository } from '@/services/repositories';
 
 export default function EditarCupom({ estabelecimento: paramsEstab, cupom: params }: { estabelecimento: Estabelecimento, cupom: Cupons }) {

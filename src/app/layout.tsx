@@ -1,19 +1,21 @@
-import type { Metadata } from "next";
+"use client";
 import "@/app/globals.css";
-
-export const metadata: Metadata = {
-  title: "SalvaÊ",
-};
+import PrivateRoute from "@/framework/components/private-route";
+import { checkIsPublic } from "@/services";
+import { usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  const isPublic = checkIsPublic(pathname);
   return (
     <html lang="pt-BR">
       <body>
-        {children}
+        {isPublic && children}
+        {!isPublic && <PrivateRoute>{children}</PrivateRoute>}
       </body>
     </html>
   );

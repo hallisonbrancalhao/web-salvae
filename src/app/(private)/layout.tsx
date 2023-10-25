@@ -1,12 +1,10 @@
+"use client";
 import Sidebar from "@/framework/components/side-bar/side-bar";
-import type { Metadata } from "next";
 import "./styles.scss";
 import "src/app/globals.css";
-import { RequireAuth } from "@/core/context";
-
-export const metadata: Metadata = {
-  title: "SalvaÊ",
-};
+import PrivateRoute from "@/framework/components/private-route";
+import { usePathname } from "next/navigation";
+import { checkIsPublic } from "@/services";
 
 export default function PrivateLayout({
   children,
@@ -14,13 +12,10 @@ export default function PrivateLayout({
   children: React.ReactNode;
 }) {
   return (
-//    <RequireAuth>
-      <section className="privates-container">
-        <Sidebar />
-        <div className="lateral">
-        </div>
-        <main>{children}</main>
-      </section>
-//    </RequireAuth>
+    <section className="privates-container">
+      <Sidebar />
+      <div className="lateral"></div>
+      <main>{children}</main>
+    </section>
   );
 }

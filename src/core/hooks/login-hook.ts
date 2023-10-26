@@ -15,9 +15,8 @@ export default function useLogin() {
     if (cnpj && senha) {
       try {
         const response = await auth.signIn({ cnpj, senha });
-        console.log("handleLogin : response:", response);
         if (response) {
-          push("/");
+          push("/restaurantes");
         }
       } catch (error) {
         setError("Usuário ou senha inválidos");

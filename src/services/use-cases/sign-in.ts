@@ -6,10 +6,19 @@ export async function singIn(
   senha: string
 ): Promise<AuthData | undefined> {
   try {
-    const data = await apiRequest("login/estabelecimento", "POST", {
-      cnpj,
-      senha,
-    }).then((res) => res.json());
+    const data = await fetch(
+      process.env.NEXT_PUBLIC_URL_API + "/login/estabelecimento",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cnpj,
+          senha,
+        }),
+      }
+    ).then((response) => response.json());
 
     if (data.access_token) {
       return {

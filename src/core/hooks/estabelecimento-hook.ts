@@ -9,7 +9,7 @@ export default function useEstabelecimento() {
     []
   );
 
-  const listEstabelecimento = useCallback(async () => {
+  const listarEstabelecimento = useCallback(async () => {
     if (!auth.token) return;
     try {
       console.log("auth.token", auth.token);
@@ -30,6 +30,49 @@ export default function useEstabelecimento() {
       console.log(error);
     }
   }, [auth.token]);
+
+  const criarEstabelecimento = useCallback(
+    async (data: Estabelecimento) => {
+      if (!auth.token) return;
+      const body = {
+        cnpj: data.cnpj,
+        nome: data.nome,
+        senha: data.senha,
+        endereco: {
+          cep: data.endereco.cep,
+          logradouro: data.endereco.logradouro,
+          complemento: data.endereco.complemento,
+          numero: data.endereco.numero,
+          bairro: data.endereco.bairro,
+          cidade: data.endereco.cidade,
+          estado: data.endereco.estado,
+        },
+        whatsapp: data.whatsapp,
+        instagram: data.instagram,
+        fotoPerfil: data.fotoPerfil,
+        fotoCapa: data.fotoCapa,
+        categoria: data.categoria,
+        avaliacao: data.avaliacao,
+        status: data.status,
+      };
+      try {
+        await fetch(
+          process.env.NEXT_PUBLIC_URL_API + "/estabelecimento/" + data.cnpj,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+          }
+        );
+        return true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [auth.token]
+  );
 
   const excluirEstabelecimento = useCallback(
     async (cnpj: string) => {
@@ -54,12 +97,13 @@ export default function useEstabelecimento() {
   );
 
   useEffect(() => {
-    listEstabelecimento();
-  }, [listEstabelecimento]);
+    listarEstabelecimento();
+  }, [listarEstabelecimento]);
 
   return {
     estabelecimento,
-    listEstabelecimento,
+    listarEstabelecimento,
     excluirEstabelecimento,
+    criarEstabelecimento,
   };
 }

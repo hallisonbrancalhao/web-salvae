@@ -7,12 +7,12 @@ import InputPassword from '../../components/cadastro/form-senha';
 import InputCep from '../../components/cadastro/form-cep';
 import InputCnpj from '../../components/cadastro/form-cnpj';
 import SelectField from '../../components/cadastro/form-categoria';
-import axios from 'axios';
 import "./styles.scss";
-import { EstabelecimentoRepository } from '@/services/repositories';
+import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 
 export default function CadastroRestaurante() {
-    const restaurante = new EstabelecimentoRepository()
+    const { criarEstabelecimento } = useEstabelecimento();
+
     const [cnpj, setCnpj] = useState('');
     const [nome, setNome] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
@@ -29,7 +29,7 @@ export default function CadastroRestaurante() {
     const [passwordConfirma, setPasswordConfirma] = useState('');
     const [categoria, setCategoria] = useState(['']);
     const [cep, setCep] = useState('');
-    const [rua, setRua] = useState('');
+    const [logradouro, setLogradouro] = useState('');
     const [complemento, setComplemento] = useState('');
     const [numero, setNumero] = useState('');
     const [bairro, setBairro] = useState('');
@@ -41,11 +41,15 @@ export default function CadastroRestaurante() {
 
     async function fetchAddressByCep(cep: any) {
         try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`,{
+                headers: {
+                    'Access-Control-Allow-Origin': '*/*',
+                }
+            }).then(res=>res.json());
             const data = response.data;
 
             return {
-                rua: data.logradouro,
+                logradouro: data.logradouro,
                 bairro: data.bairro,
                 cidade: data.localidade,
                 estado: data.uf,
@@ -63,7 +67,7 @@ export default function CadastroRestaurante() {
             const addressData = await fetchAddressByCep(newCep);
 
             if (addressData) {
-                setRua(addressData.rua);
+                setLogradouro(addressData.logradouro);
                 setBairro(addressData.bairro);
                 setCidade(addressData.cidade);
                 setEstado(addressData.estado);
@@ -85,30 +89,31 @@ export default function CadastroRestaurante() {
             setError('A senha deve ter no mínimo 8 caracteres.');
             return;
         }
-        
+
         try {
-            await restaurante.Salvar({
-                _id: '',
-                cnpj: cnpj,
-                nome: nome,
-                whatsapp: whatsapp,
-                instagram: instagram,
-                fotoPerfil: fotoPerfil,
-                senha: password,
-                categoria: categoria,
-                fotoCapa: null,
-                endereco: {
-                    cep: cep,
-                    rua: rua,
-                    complemento: complemento,
-                    numero: numero,
-                    bairro: bairro,
-                    cidade: cidade,
-                    estado: estado,
-                },
-                status: true,
-                avaliacao: 0
-            });
+            await criarEstabelecimento(
+                {
+                    _id: '',
+                    cnpj: cnpj,
+                    nome: nome,
+                    whatsapp: whatsapp,
+                    instagram: instagram,
+                    fotoPerfil: fotoPerfil,
+                    senha: password,
+                    categoria: categoria,
+                    fotoCapa: null,
+                    endereco: {
+                        cep: cep,
+                        logradouro: logradouro,
+                        complemento: complemento,
+                        numero: numero,
+                        bairro: bairro,
+                        cidade: cidade,
+                        estado: estado,
+                    },
+                    status: true,
+                    avaliacao: 0
+                });
             setSuccess('Restaurante cadastrado com sucesso!');
         } catch (error) {
             setError('Ocorreu um erro. Por favor, tente novamente.');
@@ -147,8 +152,8 @@ export default function CadastroRestaurante() {
                 </div>
 
                 <div className="bloco-2-3">
-                    <InputField label="Rua" value={rua}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setRua(e.target.value)}
+                    <InputField label="Rua" value={logradouro}
+                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setLogradouro(e.target.value)}
                         name="rua" />
                     <InputField label="Número" value={numero}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNumero(e.target.value)}

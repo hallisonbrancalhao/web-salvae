@@ -1,4 +1,4 @@
-import { EnderecoEstabelecimento } from "./endereco-estabelecimento";
+import { Endereco } from "./endereço.dto";
 
 export interface Estabelecimento {
     _id: string,
@@ -10,7 +10,7 @@ export interface Estabelecimento {
     fotoPerfil:string|null,
     fotoCapa:string|null,
 //    categoria: string[],
-    endereco: EnderecoEstabelecimento
+    endereco: Endereco
 //    avaliacao: number
     status: boolean
 };

@@ -1,12 +1,12 @@
 .container-restaurente {
-    @apply flex h-full flex-col bg-gradient-to-t from-[#081918] to-[#052C2C] sm:ml-64;
+    @apply flex flex-col bg-gradient-to-t from-[#081918] to-[#052C2C] sm:ml-64;
 
     .h1 {
         @apply font-bold text-[70px] text-[#FFFFFF] mt-5 ml-[30px];
     }
 
     .container-forms {
-        @apply text-[#052C2C] bg-white ml-[30px] mr-[20px] rounded-lg;
+        @apply text-[#052C2C] bg-white ml-[30px] mr-[20px] mb-[20px] rounded-lg;
 
         .bloco-2-3 {
             @apply grid grid-cols-2 gap-3 text-[30px] mb-2 ml-[30px];

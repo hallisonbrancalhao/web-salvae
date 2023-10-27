@@ -53,7 +53,7 @@ const Restaurante: React.FC<RestaurantesProps> = ({
   const handleCancelDelete = () => {
     setShowConfirmModal(false);
   };
-
+  // console.log(fotoPerfil)
   return (
     <div className="container-componente">
       <div className="item-cabecalho2">

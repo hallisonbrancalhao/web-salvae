@@ -6,7 +6,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_URL_BASE_AUTH: string;
     NEXT_PUBLIC_URL_AUTENTICACAO: string;
     NEXT_PUBLIC_URL_PATROCINADOR: string;
-    NEXT_PUBLIC_URL_API: string;
     NEXT_PUBLIC_USER_TOKEN: string;
   }
 }

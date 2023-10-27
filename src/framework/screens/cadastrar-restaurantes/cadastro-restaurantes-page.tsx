@@ -7,12 +7,12 @@ import InputPassword from '../../components/cadastro/form-senha';
 import InputCep from '../../components/cadastro/form-cep';
 import InputCnpj from '../../components/cadastro/form-cnpj';
 import SelectField from '../../components/cadastro/form-categoria';
-import axios from 'axios';
 import "./styles.scss";
-import { EstabelecimentoRepository } from '@/services/repositories';
+import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 
 export default function CadastroRestaurante() {
-    const restaurante = new EstabelecimentoRepository()
+    const { criarEstabelecimento } = useEstabelecimento();
+
     const [cnpj, setCnpj] = useState('');
     const [nome, setNome] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
@@ -21,15 +21,15 @@ export default function CadastroRestaurante() {
     const handleFotoPerfil = (imageFile: React.SetStateAction<null>) => {
         setFotoPerfil(imageFile);
     };
-    const [fotoCapa, setUFotoCapa] = useState(null);
+    const [fotoCapa, setFotoCapa] = useState(null);
     const handleFotoCapa = (imageFile: React.SetStateAction<null>) => {
-        setUFotoCapa(imageFile);
+        setFotoCapa(imageFile);
     };
     const [password, setPassword] = useState('');
     const [passwordConfirma, setPasswordConfirma] = useState('');
     const [categoria, setCategoria] = useState(['']);
     const [cep, setCep] = useState('');
-    const [rua, setRua] = useState('');
+    const [logradouro, setLogradouro] = useState('');
     const [complemento, setComplemento] = useState('');
     const [numero, setNumero] = useState('');
     const [bairro, setBairro] = useState('');
@@ -41,11 +41,11 @@ export default function CadastroRestaurante() {
 
     async function fetchAddressByCep(cep: any) {
         try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-            const data = response.data;
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
 
             return {
-                rua: data.logradouro,
+                logradouro: data.logradouro,
                 bairro: data.bairro,
                 cidade: data.localidade,
                 estado: data.uf,
@@ -63,7 +63,7 @@ export default function CadastroRestaurante() {
             const addressData = await fetchAddressByCep(newCep);
 
             if (addressData) {
-                setRua(addressData.rua);
+                setLogradouro(addressData.logradouro);
                 setBairro(addressData.bairro);
                 setCidade(addressData.cidade);
                 setEstado(addressData.estado);
@@ -72,7 +72,7 @@ export default function CadastroRestaurante() {
     };
 
     const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/restaurantes';
+            //window.location.href = 'http://localhost:3000/restaurantes';
     }
 
     const SalvarDados = async () => {
@@ -81,34 +81,36 @@ export default function CadastroRestaurante() {
             return;
         }
 
-        if (password.length < 8) {
-            setError('A senha deve ter no mínimo 8 caracteres.');
+        if (password.length < 6) {
+            setError('A senha deve ter no mínimo 6 caracteres.');
             return;
         }
-        
+
         try {
-            await restaurante.Salvar({
-                _id: '',
-                cnpj: cnpj,
-                nome: nome,
-                whatsapp: whatsapp,
-                instagram: instagram,
-                fotoPerfil: fotoPerfil,
-                senha: password,
-                categoria: categoria,
-                fotoCapa: null,
-                endereco: {
-                    cep: cep,
-                    rua: rua,
-                    complemento: complemento,
-                    numero: numero,
-                    bairro: bairro,
-                    cidade: cidade,
-                    estado: estado,
-                },
-                status: true,
-                avaliacao: 0
-            });
+            await criarEstabelecimento(
+                {
+                    _id: '',
+                    cnpj: cnpj,
+                    nome: nome,
+                    whatsapp: whatsapp,
+                    instagram: instagram,
+                    fotoPerfil: 'fotoPerfil',
+                    fotoCapa: 'fotoCapa',
+                    senha: password,
+                    //                    Fcategoria: categoria,
+                    endereco: {
+                        cep: cep,
+                        logradouro: logradouro,
+                        complemento: complemento,
+                        numero: numero,
+                        bairro: bairro,
+                        cidade: cidade,
+                        estado: estado,
+                        pais: 'Brasil',
+                    },
+                    status: true,
+                    //                    avaliacao: 0
+                });
             setSuccess('Restaurante cadastrado com sucesso!');
         } catch (error) {
             setError('Ocorreu um erro. Por favor, tente novamente.');
@@ -124,11 +126,14 @@ export default function CadastroRestaurante() {
         <div className='container-restaurente'>
             <h1 className='h1'>Cadastro do Restaurante</h1>
             <form className="container-forms">
-                <div className="bloco-2-3">
+                <div className="bloco-1">
                     <InputField label="Nome do Restaurante" value={nome}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNome(e.target.value)}
                         name="nome" />
+                </div>
+                <div className="bloco-2-3">
                     <InputFieldImage onImageUpload={handleFotoPerfil} label="Logo Restaurante" />
+                    <InputFieldImage onImageUpload={handleFotoCapa} label="Capa" />
                     <InputFone label="WhatsApp" value={whatsapp}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setWhatsapp(e.target.value)}
                         name="whatsapp" />
@@ -147,8 +152,8 @@ export default function CadastroRestaurante() {
                 </div>
 
                 <div className="bloco-2-3">
-                    <InputField label="Rua" value={rua}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setRua(e.target.value)}
+                    <InputField label="Rua" value={logradouro}
+                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setLogradouro(e.target.value)}
                         name="rua" />
                     <InputField label="Número" value={numero}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNumero(e.target.value)}

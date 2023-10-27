@@ -1,46 +1,53 @@
-.container {
-  @apply flex h-screen flex-col items-center bg-gradient-to-t from-[#081918] to-[#052C2C];
-
-  .header {
-    @apply mt-28;
-  }
-
-  .main {
-    @apply w-1/4 mt-16 text-white;
-
-    .usuario {
-      @apply text-[30px] mb-2;
-    }
-
-    .form {
-      @apply mb-4 text-[#052C2C];
-
-      .input {
-        @apply rounded-lg w-[500px] h-[45px];
+.section-login{
+  @apply bg-gradient-to-t from-[#081918] to-[#052C2C];
+  
+  .container-login {
+    @apply flex flex-col h-screen items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0; 
+    
+    &__header {
+      @apply flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white;
+      &__logo{
+        @apply w-72 h-auto;
       }
     }
 
-    .container-botao {
-      @apply flex justify-center;
+    &__main {
+      @apply w-full rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0;
 
-      .botao {
-        @apply mt-5 text-[30px] bg-[#FFB133] hover:bg-[#FFB000] text-white px-16 rounded transition duration-300 ease-in-out transform hover:scale-105;
+      &__content {
+        @apply p-6 space-y-4 md:space-y-6 sm:p-8; 
+      
+        &__form {
+          @apply space-y-4 md:space-y-7;
+
+          label{
+            @apply block mb-2 text-xl sm:text-2xl font-normal text-gray-300;
+          }
+
+          input {
+            @apply bg-gray-200 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5;
+          }
+        }
+
+        button {
+          @apply w-full text-gray-900 bg-[#FFB133] hover:bg-[#fdd377] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center transition-colors duration-150;
+        }
       }
     }
-  }
 
-  .container-erro {
-    @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50;
+    .container-erro {
+      @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50;
 
-    .erro {
-      @apply bg-white p-6 rounded-lg shadow-lg text-center;
+      .erro {
+        @apply bg-white p-6 rounded-lg shadow-lg text-center;
 
-      .erro2 {
-        @apply text-red-500 justify-center;
-      }
+        .erro2 {
+          @apply text-red-500 justify-center;
+        }
 
-      .erro-botao {
-        @apply mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600;
+        .erro-botao {
+          @apply mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600;
+        }
       }
     }
   }

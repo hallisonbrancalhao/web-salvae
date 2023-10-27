@@ -12,15 +12,17 @@ export default function useLogin() {
   const [error, setError] = useState("");
 
   const handleLogin = async () => {
+    event?.preventDefault();
     if (cnpj && senha) {
       try {
         const response = await auth.signIn({ cnpj, senha });
-        if (response) {
-          push("/restaurantes");
-        }
+        if (response?.access_token) push("/restaurantes");
+        setError("Usuário ou senha inválidos");
       } catch (error) {
         setError("Usuário ou senha inválidos");
       }
+    } else {
+      setError("Preencha todos os campos");
     }
   };
 

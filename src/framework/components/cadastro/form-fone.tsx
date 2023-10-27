@@ -1,15 +1,15 @@
-import React from 'react';
-import './styles.scss';
+import React from "react";
+import "./styles.scss";
 
 const InputFone = ({ onChange, name, value, label }) => {
   // Função para formatar o número de telefone ao entrar
-  const handleMaskChange = (e: { target: { value: string; }; }) => {
-    const unmaskedValue = e.target.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+  const handleMaskChange = (e: { target: { value: string } }) => {
+    const unmaskedValue = e.target.value.replace(/\D/g, ""); // Remove caracteres não numéricos
     if (unmaskedValue.length <= 11) {
       // Aplica a máscara para (99) 99999-9999
       const maskedValue = unmaskedValue.replace(
         /(\d{2})(\d{0,5})(\d{0,4})/,
-        '($1) $2-$3'
+        "($1) $2-$3"
       );
       onChange({ target: { name, value: maskedValue } });
     }
@@ -18,7 +18,7 @@ const InputFone = ({ onChange, name, value, label }) => {
   return (
     <div>
       <label htmlFor={name}>{label}</label>
-      <div className="container">
+      <div className="container-field">
         <input
           type="text"
           name={name}

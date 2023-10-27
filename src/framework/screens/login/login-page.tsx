@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import "./styles.scss";
 
@@ -9,59 +9,58 @@ export default function Login() {
     useLogin();
 
   return (
-    <div className="container">
-      <header className="header">
-        <Image
-          src={"/assets/images/logo.svg"}
-          alt=""
-          width={452}
-          height={192}
-          className="logo"
-        />
-      </header>
-      <main className="main">
-        <div className="usuario">
-          <label htmlFor="usuario">Usuário:</label>
-        </div>
-        <div className="form">
-          <input
-            type="text"
-            name="usuario"
-            id="usuario"
-            value={cnpj}
-            onChange={(e) => setCnpj(e.target.value)}
-            className="input"
+    <section className="section-login">
+      <div className="container-login">
+        <header className="container-login__header">
+          <Image
+            src={"/assets/images/logo.svg"}
+            alt="Logo SalvAE"
+            width={452}
+            height={192}
+            className="container-login__header__logo"
           />
-        </div>
-        <div className="usuario">
-          <label htmlFor="senha">Senha:</label>
-        </div>
-        <div className="form">
-          <input
-            type="password"
-            name="senha"
-            id="senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            className="input"
-          />
-        </div>
-        <div className="container-botao">
-          <button onClick={handleLogin} className="botao">
-            Entrar
-          </button>
-        </div>
-        {error && (
-          <div className="container-erro">
-            <div className="erro">
-              <p className="erro2">{error}</p>
-              <button onClick={() => setError("")} className="erro-botao">
-                Fechar
-              </button>
-            </div>
+        </header>
+        <main className="container-login__main">
+          <div className="container-login__main__content">
+            <form className="container-login__main__content__form">
+              <div>
+                <label htmlFor="usuario">Usuário</label>
+                <input
+                  type="text"
+                  name="usuario"
+                  id="usuario"
+                  placeholder="Digite seu CNPJ"
+                  value={cnpj}
+                  onChange={(e) => setCnpj(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="senha">Senha</label>
+                <input
+                  type="password"
+                  name="senha"
+                  id="senha"
+                  placeholder="Digite sua senha"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
+                />
+              </div>
+
+              <button onClick={handleLogin}>Entrar</button>
+              {error && (
+                <div className="container-erro">
+                  <div className="erro">
+                    <p className="erro2">{error}</p>
+                    <button onClick={() => setError("")} className="erro-botao">
+                      Fechar
+                    </button>
+                  </div>
+                </div>
+              )}
+            </form>
           </div>
-        )}
-      </main>
-    </div>
+        </main>
+      </div>
+    </section>
   );
 }

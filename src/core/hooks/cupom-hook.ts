@@ -14,7 +14,7 @@ export default function useCupom() {
     try {
       console.log("auth.token", auth.token);
       const response = await fetch(
-        process.env.NEXT_PUBLIC_URL_API + "/cupom",
+        process.env.NEXT_PUBLIC_URL_CUPOM,
         {
           method: "GET",
           headers: {
@@ -32,11 +32,11 @@ export default function useCupom() {
   }, [auth.token]);
 
   const excluirCupom = useCallback(
-    async (cnpj: string) => {
+    async (id: string) => {
       if (!auth.token) return;
       try {
         await fetch(
-          process.env.NEXT_PUBLIC_URL_API + "/cupom/" + cnpj,
+          process.env.NEXT_PUBLIC_URL_CUPOM + id,
           {
             method: "DELETE",
             headers: {

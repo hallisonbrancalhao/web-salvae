@@ -11,10 +11,10 @@ export default function useEstabelecimento() {
 
   const listarEstabelecimento = useCallback(async () => {
     if (!auth.token) return;
+    console.log(auth.token)
     try {
-      console.log("auth.token", auth.token);
       const response = await fetch(
-        process.env.NEXT_PUBLIC_URL_API + "/estabelecimento",
+        process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento",
         {
           method: "GET",
           headers: {
@@ -33,6 +33,8 @@ export default function useEstabelecimento() {
 
   const criarEstabelecimento = useCallback(
     async (data: Estabelecimento) => {
+      console.log(auth.token)
+      console.log(data)
       if (!auth.token) return;
       const body = {
         cnpj: data.cnpj,
@@ -40,24 +42,25 @@ export default function useEstabelecimento() {
         senha: data.senha,
         endereco: {
           cep: data.endereco.cep,
-          logradouro: data.endereco.logradouro,
           complemento: data.endereco.complemento,
           numero: data.endereco.numero,
+          logradouro: data.endereco.logradouro,
           bairro: data.endereco.bairro,
           cidade: data.endereco.cidade,
           estado: data.endereco.estado,
+          pais: data.endereco.pais,
         },
         whatsapp: data.whatsapp,
         instagram: data.instagram,
         fotoPerfil: data.fotoPerfil,
         fotoCapa: data.fotoCapa,
-        categoria: data.categoria,
-        avaliacao: data.avaliacao,
-        status: data.status,
+//        categoria: data.categoria,
+//        avaliacao: data.avaliacao,
+        status: true,
       };
       try {
         await fetch(
-          process.env.NEXT_PUBLIC_URL_API + "/estabelecimento/" + data.cnpj,
+          process.env.NEXT_PUBLIC_URL_RESTAURANTE,
           {
             method: "POST",
             headers: {
@@ -66,27 +69,28 @@ export default function useEstabelecimento() {
             body: JSON.stringify(body),
           }
         );
+        console.log('deu bom')
         return true;
       } catch (error) {
-        console.log(error);
+        console.log("deu ruim");
       }
     },
     [auth.token]
   );
 
   const excluirEstabelecimento = useCallback(
-    async (cnpj: string) => {
+    async (id: string) => {
       if (!auth.token) return;
       try {
         await fetch(
-          process.env.NEXT_PUBLIC_URL_API + "/estabelecimento/" + cnpj,
+          process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + id,
           {
             method: "DELETE",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${auth.token}`,
             },
-          }
+          } 
         );
         return true;
       } catch (error) {

@@ -17,11 +17,11 @@ export const apiRequest = async (
   if (body && (method === "POST" || method === "PUT")) {
     config.body = JSON.stringify(body);
   }
-  console.log(`${process.env.NEXT_PUBLIC_URL_API}/${endpoint}`);
+  console.log(`${process.env.NEXT_PUBLIC_URL_BASE_AUTH}/${endpoint}`);
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_URL_API}/${endpoint}`,
+      `${process.env.NEXT_PUBLIC_URL_BASE_AUTH}/${endpoint}`,
       config
     );
     if (!response.ok) {

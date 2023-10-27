@@ -7,7 +7,7 @@ export async function singIn(
 ): Promise<AuthData | undefined> {
   try {
     const data = await fetch(
-      process.env.NEXT_PUBLIC_URL_API + "/login/estabelecimento",
+      process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/login/estabelecimento",
       {
         method: "POST",
         headers: {

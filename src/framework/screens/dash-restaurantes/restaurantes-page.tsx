@@ -51,7 +51,7 @@ export default function Restaurantes() {
                 _id={restaurante._id}
                 nome={restaurante.nome}
                 fotoPerfil={restaurante.fotoPerfil ?? "assets/images/logo.svg"}
-                avaliacao={restaurante.avaliacao}
+                avaliacao={4.5}
                 status={restaurante.status}
               />
             </div>

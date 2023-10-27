@@ -7,13 +7,12 @@ import InputPassword from '../../components/cadastro/form-senha';
 import InputCep from '../../components/cadastro/form-cep';
 import InputCnpj from '../../components/cadastro/form-cnpj';
 import SelectField from '../../components/cadastro/form-categoria';
-import { EstabelecimentoRepository } from '@/services/repositories';
 import { Estabelecimento } from '@/core/base/types/estabelecimento';
-import axios from 'axios';
 import "./styles.scss";
+import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 
 export default function EditarRestaurante({ estabelecimento: paramsEstab }: { estabelecimento: Estabelecimento }) {
-    const restauranteEditado = new EstabelecimentoRepository()
+    const { criarEstabelecimento } = useEstabelecimento();
     const [cnpj, setCnpj] = useState('');
     const [nome, setNome] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
@@ -45,9 +44,9 @@ export default function EditarRestaurante({ estabelecimento: paramsEstab }: { es
         setFotoPerfil(paramsEstab.fotoPerfil);
         setFotoCapa(paramsEstab.fotoCapa);
         setPassword(paramsEstab.senha);
-        setCategoria(paramsEstab.categoria);
+//        setCategoria(paramsEstab.categoria);
         setCep(paramsEstab.endereco.cep);
-        setRua(paramsEstab.endereco.rua);
+        setRua(paramsEstab.endereco.logradouro);
         setComplemento(paramsEstab.endereco.complemento);
         setNumero(paramsEstab.endereco.numero);
         setBairro(paramsEstab.endereco.bairro);
@@ -63,11 +62,11 @@ export default function EditarRestaurante({ estabelecimento: paramsEstab }: { es
 
     async function fetchAddressByCep(cep: any) {
         try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-            const data = response.data;
-
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
+    
             return {
-                rua: data.logradouro,
+                logradouro: data.logradouro,
                 bairro: data.bairro,
                 cidade: data.localidade,
                 estado: data.uf,
@@ -85,7 +84,7 @@ export default function EditarRestaurante({ estabelecimento: paramsEstab }: { es
             const addressData = await fetchAddressByCep(newCep);
 
             if (addressData) {
-                setRua(addressData.rua);
+                setRua(addressData.logradouro);
                 setBairro(addressData.bairro);
                 setCidade(addressData.cidade);
                 setEstado(addressData.estado);
@@ -117,12 +116,13 @@ export default function EditarRestaurante({ estabelecimento: paramsEstab }: { es
                 fotoCapa: null,
                 endereco: {
                     cep: cep,
-                    rua: rua,
+                    logradouro: rua,
                     complemento: complemento,
                     numero: numero,
                     bairro: bairro,
                     cidade: cidade,
                     estado: estado,
+                    pais: null
                 },
             })
             setSuccess('Restaurante atualizado com sucesso!');

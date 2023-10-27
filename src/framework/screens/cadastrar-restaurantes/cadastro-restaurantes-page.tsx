@@ -21,9 +21,9 @@ export default function CadastroRestaurante() {
     const handleFotoPerfil = (imageFile: React.SetStateAction<null>) => {
         setFotoPerfil(imageFile);
     };
-    const [fotoCapa, setUFotoCapa] = useState(null);
+    const [fotoCapa, setFotoCapa] = useState(null);
     const handleFotoCapa = (imageFile: React.SetStateAction<null>) => {
-        setUFotoCapa(imageFile);
+        setFotoCapa(imageFile);
     };
     const [password, setPassword] = useState('');
     const [passwordConfirma, setPasswordConfirma] = useState('');
@@ -41,12 +41,8 @@ export default function CadastroRestaurante() {
 
     async function fetchAddressByCep(cep: any) {
         try {
-            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`,{
-                headers: {
-                    'Access-Control-Allow-Origin': '*/*',
-                }
-            }).then(res=>res.json());
-            const data = response.data;
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await response.json();
 
             return {
                 logradouro: data.logradouro,
@@ -76,7 +72,7 @@ export default function CadastroRestaurante() {
     };
 
     const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/restaurantes';
+            //window.location.href = 'http://localhost:3000/restaurantes';
     }
 
     const SalvarDados = async () => {
@@ -85,8 +81,8 @@ export default function CadastroRestaurante() {
             return;
         }
 
-        if (password.length < 8) {
-            setError('A senha deve ter no mínimo 8 caracteres.');
+        if (password.length < 6) {
+            setError('A senha deve ter no mínimo 6 caracteres.');
             return;
         }
 
@@ -98,10 +94,10 @@ export default function CadastroRestaurante() {
                     nome: nome,
                     whatsapp: whatsapp,
                     instagram: instagram,
-                    fotoPerfil: fotoPerfil,
+                    fotoPerfil: 'fotoPerfil',
+                    fotoCapa: 'fotoCapa',
                     senha: password,
-                    categoria: categoria,
-                    fotoCapa: null,
+                    //                    Fcategoria: categoria,
                     endereco: {
                         cep: cep,
                         logradouro: logradouro,
@@ -110,9 +106,10 @@ export default function CadastroRestaurante() {
                         bairro: bairro,
                         cidade: cidade,
                         estado: estado,
+                        pais: 'Brasil',
                     },
                     status: true,
-                    avaliacao: 0
+                    //                    avaliacao: 0
                 });
             setSuccess('Restaurante cadastrado com sucesso!');
         } catch (error) {
@@ -129,11 +126,14 @@ export default function CadastroRestaurante() {
         <div className='container-restaurente'>
             <h1 className='h1'>Cadastro do Restaurante</h1>
             <form className="container-forms">
-                <div className="bloco-2-3">
+                <div className="bloco-1">
                     <InputField label="Nome do Restaurante" value={nome}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNome(e.target.value)}
                         name="nome" />
+                </div>
+                <div className="bloco-2-3">
                     <InputFieldImage onImageUpload={handleFotoPerfil} label="Logo Restaurante" />
+                    <InputFieldImage onImageUpload={handleFotoCapa} label="Capa" />
                     <InputFone label="WhatsApp" value={whatsapp}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setWhatsapp(e.target.value)}
                         name="whatsapp" />

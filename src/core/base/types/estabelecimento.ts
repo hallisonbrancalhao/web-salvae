@@ -1,7 +1,7 @@
 import { EnderecoEstabelecimento } from "./endereco-estabelecimento";
 
 export interface Estabelecimento {
-    _id: string,
+    id: string,
     cnpj:string,
     nome:string,
     senha:string,

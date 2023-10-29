@@ -7,13 +7,18 @@ import InputPassword from '../../components/cadastro/form-senha';
 import InputCep from '../../components/cadastro/form-cep';
 import InputCnpj from '../../components/cadastro/form-cnpj';
 import SelectField from '../../components/cadastro/form-categoria';
-import { Estabelecimento } from '@/core/base/types/estabelecimento';
 import "./styles.scss";
 import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 
-export default function EditarRestaurante({ estabelecimento: paramsEstab }: { estabelecimento: Estabelecimento }) {
-    const { criarEstabelecimento } = useEstabelecimento();
-    const [cnpj, setCnpj] = useState('');
+export default function EditarRestaurante({id: params} : {id: string}) {
+    const { estabelecimento, listarEstabelecimentoPorId, editarEstabelecimento } = useEstabelecimento()
+    
+    useEffect(() => {
+        listarEstabelecimentoPorId(params)
+    }, [listarEstabelecimentoPorId, params]);
+    const [cnpj, setCnpj] = useState(estabelecimento?.cnpj ?? '');
+    setCnpj(estabelecimento?.cnpj ?? '')
+    console.log(cnpj)
     const [nome, setNome] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
     const [instagram, setInstagram] = useState('');
@@ -36,24 +41,6 @@ export default function EditarRestaurante({ estabelecimento: paramsEstab }: { es
     const [cidade, setCidade] = useState('');
     const [estado, setEstado] = useState('');
 
-    useEffect(() => {
-        setCnpj(paramsEstab.cnpj);
-        setNome(paramsEstab.nome);
-        setWhatsapp(paramsEstab.whatsapp);
-        setInstagram(paramsEstab.instagram);
-        setFotoPerfil(paramsEstab.fotoPerfil);
-        setFotoCapa(paramsEstab.fotoCapa);
-        setPassword(paramsEstab.senha);
-//        setCategoria(paramsEstab.categoria);
-        setCep(paramsEstab.endereco.cep);
-        setRua(paramsEstab.endereco.logradouro);
-        setComplemento(paramsEstab.endereco.complemento);
-        setNumero(paramsEstab.endereco.numero);
-        setBairro(paramsEstab.endereco.bairro);
-        setCidade(paramsEstab.endereco.cidade);
-        setEstado(paramsEstab.endereco.estado);
-    }, []);
-
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const redirecionarPagina = () => {
@@ -64,7 +51,7 @@ export default function EditarRestaurante({ estabelecimento: paramsEstab }: { es
         try {
             const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
             const data = await response.json();
-    
+
             return {
                 logradouro: data.logradouro,
                 bairro: data.bairro,
@@ -104,27 +91,30 @@ export default function EditarRestaurante({ estabelecimento: paramsEstab }: { es
         }
 
         try {
-            await restauranteEditado.Editar({
-                _id: paramsEstab._id,
-                cnpj: cnpj,
-                nome: nome,
-                whatsapp: whatsapp,
-                instagram: instagram,
-                fotoPerfil: fotoPerfil,
-                senha: password,
-                categoria: categoria,
-                fotoCapa: null,
-                endereco: {
-                    cep: cep,
-                    logradouro: rua,
-                    complemento: complemento,
-                    numero: numero,
-                    bairro: bairro,
-                    cidade: cidade,
-                    estado: estado,
-                    pais: null
-                },
-            })
+            console.log(nome)
+            await editarEstabelecimento(
+                {
+                    id: '',
+                    cnpj: cnpj,
+                    nome: nome,
+                    whatsapp: whatsapp,
+                    instagram: instagram,
+                    fotoPerfil: fotoPerfil,
+                    senha: password,
+//                    categoria: categoria,
+                    fotoCapa: null,
+                    endereco: {
+                        cep: cep,
+                        logradouro: rua,
+                        complemento: complemento,
+                        numero: numero,
+                        bairro: bairro,
+                        cidade: cidade,
+                        estado: estado,
+                        pais: null
+                    },
+                    status: true,
+                })
             setSuccess('Restaurante atualizado com sucesso!');
         } catch (error) {
             setError('Ocorreu um erro. Por favor, tente novamente.');
@@ -141,14 +131,14 @@ export default function EditarRestaurante({ estabelecimento: paramsEstab }: { es
             <h1 className='h1'>Editar Restaurante</h1>
             <form className="container-forms">
                 <div className="bloco-2-3">
-                    <InputField label="Nome do Restaurante" value={nome}
+                    <InputField label="Nome do Restaurante" value={estabelecimento?.nome}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNome(e.target.value)}
                         name="nome" />
                     <InputFieldImage onImageUpload={handleFotoPerfil} label="Logo Restaurante" />
-                    <InputFone label="WhatsApp" value={whatsapp}
+                    <InputFone label="WhatsApp" value={estabelecimento?.whatsapp}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setWhatsapp(e.target.value)}
                         name="whatsapp" />
-                    <InputField label="Instagram" value={instagram}
+                    <InputField label="Instagram" value={estabelecimento?.instagram}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setInstagram(e.target.value)}
                         name="instagram" />
                 </div>
@@ -156,29 +146,29 @@ export default function EditarRestaurante({ estabelecimento: paramsEstab }: { es
                 <hr className="divisor" />
 
                 <div className="bloco-1">
-                    <InputCep label="CEP" value={cep}
+                    <InputCep label="CEP" value={estabelecimento?.endereco.cep}
                         onChange={handleCepChange}
                         name="cep"
                     />
                 </div>
 
                 <div className="bloco-2-3">
-                    <InputField label="Rua" value={rua}
+                    <InputField label="Rua" value={estabelecimento?.endereco.logradouro}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setRua(e.target.value)}
                         name="rua" />
-                    <InputField label="Número" value={numero}
+                    <InputField label="Número" value={estabelecimento?.endereco.numero}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNumero(e.target.value)}
                         name="numero" />
-                    <InputField label="Complemento" value={complemento}
+                    <InputField label="Complemento" value={estabelecimento?.endereco.complemento}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setComplemento(e.target.value)}
                         name="complemento" />
-                    <InputField label="Bairro" value={bairro}
+                    <InputField label="Bairro" value={estabelecimento?.endereco.bairro}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setBairro(e.target.value)}
                         name="bairro" />
-                    <InputField label="Cidade" value={cidade}
+                    <InputField label="Cidade" value={estabelecimento?.endereco.cidade}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setCidade(e.target.value)}
                         name="cidade" />
-                    <InputField label="Estado" value={estado}
+                    <InputField label="Estado" value={estabelecimento?.endereco.estado}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setEstado(e.target.value)}
                         name="estado" />
                 </div>

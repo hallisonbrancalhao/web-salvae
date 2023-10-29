@@ -7,8 +7,8 @@ import Link from "next/link";
 
 export default function Restaurantes() {
   const [searchText, setSearchText] = useState("");
-  const { estabelecimento } = useEstabelecimento();
-  const restaurantes = estabelecimento;
+  const { listaEstabelecimento } = useEstabelecimento();
+  const restaurantes = listaEstabelecimento;
 
   const filteredRestaurantes = restaurantes.filter((restaurante) => {
     if (searchText.trim() === "") {
@@ -48,12 +48,12 @@ export default function Restaurantes() {
           {filteredRestaurantes.map((restaurante) => (
             <div key={restaurante.nome} className="item-cabecalho">
               <Restaurante
-                _id={restaurante._id}
+                id={restaurante.id}
                 nome={restaurante.nome}
                 fotoPerfil={restaurante.fotoPerfil ?? "assets/images/logo.svg"}
                 avaliacao={4.5}
                 status={restaurante.status}
-              />
+              />  
             </div>
           ))}
           <div className="container-botao">

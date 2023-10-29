@@ -89,7 +89,7 @@ export default function CadastroRestaurante() {
         try {
             await criarEstabelecimento(
                 {
-                    _id: '',
+                    id: '',
                     cnpj: cnpj,
                     nome: nome,
                     whatsapp: whatsapp,

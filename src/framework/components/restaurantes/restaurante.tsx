@@ -10,7 +10,7 @@ import "../../screens/dash-restaurantes/styles.scss";
 import useEstabelecimento from "@/core/hooks/estabelecimento-hook";
 import { useRouter } from "next/navigation";
 interface RestaurantesProps {
-  _id: string;
+  id: string;
   fotoPerfil: string;
   nome: string;
   avaliacao: number;
@@ -18,7 +18,7 @@ interface RestaurantesProps {
 }
 
 const Restaurante: React.FC<RestaurantesProps> = ({
-  _id,
+  id,
   fotoPerfil,
   nome,
   avaliacao,
@@ -45,7 +45,7 @@ const Restaurante: React.FC<RestaurantesProps> = ({
   };
 
   const handleConfirmDelete = async () => {
-    await excluirEstabelecimento(_id);
+    await excluirEstabelecimento(id);
     setShowConfirmModal(false);
     refresh();
   };
@@ -69,7 +69,7 @@ const Restaurante: React.FC<RestaurantesProps> = ({
         />
       </div>
       <div className="item-cabecalho2">
-        <Link href={`/editar-restaurante/${_id}`}>
+        <Link href={`/editar-restaurante/${id}`}>
           <Image src={Editar} alt="" style={{ width: "32x", height: "32px" }} />
         </Link>
         <button onClick={handleDeleteClick}>

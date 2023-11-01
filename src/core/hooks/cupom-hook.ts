@@ -19,21 +19,37 @@ export default function useCupom() {
     resolver: zodResolver(schemaFormCupom),
     defaultValues: {
       cupom: {
-        restaurante: 1,
+        restaurante: "",
         nome: "",
         sobre: "",
         foto: "",
-        categoria:{"id":1},
-        // dias: [true],
+        categoria:[],
+        dias: [],
         status: true,
       },
     },
   });
 
+  const handleImage = (data) => {
+    const file = data.target.files[0];
+    if (file.size > 64 * 1024) {
+      alert('A imagem é muito grande. Selecione uma imagem menor.');
+      return;
+    }
+    else if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64Image = e.target.result;
+        setValue('cupom.foto', base64Image);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const categorias = [
-    { value: 1, label: "Presencial" },
-    { value: 2, label: "Delivery" },
-    { value: 3, label: "TakeAway" },
+    { value: "Presencial" },
+    { value: "Delivery" },
+    { value: "TakeAway" },
   ];
 
   const diasFuncionamento = [
@@ -48,6 +64,12 @@ export default function useCupom() {
 
   const auth = useContext(AuthContext);
   const [cupom, setCupom] = useState<ICupom[]>([]);
+
+  const handleRestauranteChange = (event: { target: { value: any; }; }) => {
+      console.log(event.target.value)
+      const restauranteId = event.target.value;
+      setValue('cupom.restaurante', restauranteId);
+  };
 
   const criarCupom = async (data: FormCupomProps) => {
     console.log(data.cupom);
@@ -78,7 +100,7 @@ export default function useCupom() {
         setCupom(response);
       }
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   }, [auth.token]);
 
@@ -108,6 +130,8 @@ export default function useCupom() {
   return {
     handleSubmit,
     register,
+    watch,
+    setValue,
     errors,
     cupom,
     criarCupom,
@@ -115,5 +139,7 @@ export default function useCupom() {
     excluirCupom,
     categorias,
     diasFuncionamento,
+    handleImage,
+    handleRestauranteChange,
   };
 }

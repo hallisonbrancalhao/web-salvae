@@ -20,6 +20,10 @@
             @apply grid grid-cols-1 gap-3 text-[30px] mb-2 ml-[30px] mr-[30px];
         }
 
+        .format-foto {
+            @apply text-[16px];
+        }
+
         .divisor {
             @apply my-4 border-t-2 border-[#081918];
         }

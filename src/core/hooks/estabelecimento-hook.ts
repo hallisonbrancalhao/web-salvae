@@ -42,6 +42,38 @@ export default function useEstabelecimento() {
     },
   });
 
+  const handleImagePerfil = (data) => {
+    const file = data.target.files[0];
+    if (file.size > 64 * 1024) {
+      alert('A imagem é muito grande. Selecione uma imagem menor.');
+      return;
+    }
+    else if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64Image = e.target.result;
+        setValue('estabelecimento.fotoPerfil', base64Image);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageCapa = (data) => {
+    const file = data.target.files[0];
+    if (file.size > 64 * 1024) {
+      alert('A imagem é muito grande. Selecione uma imagem menor.');
+      return;
+    }
+    else if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64Image = e.target.result;
+        setValue('estabelecimento.fotoCapa', base64Image);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const categorias = [
     { value: 1, label: "Pizza" },
     { value: 2, label: "Hamburger" },
@@ -257,5 +289,7 @@ export default function useEstabelecimento() {
     criarEstabelecimento,
     handleSubmit,
     categorias,
+    handleImagePerfil,
+    handleImageCapa,
   };
 }

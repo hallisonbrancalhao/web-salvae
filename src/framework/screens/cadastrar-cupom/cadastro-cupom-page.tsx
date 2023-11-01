@@ -7,25 +7,38 @@ import "./styles.scss";
 export default function CadastroCupom() {
     const { listaEstabelecimento } = useEstabelecimento();
     const restaurantes = listaEstabelecimento;
-    const { errors, register, criarCupom, handleSubmit, categorias, diasFuncionamento } = useCupom()
+    const { errors, register, criarCupom, handleSubmit, handleImage, handleRestauranteChange,
+        watch, setValue, categorias, diasFuncionamento } = useCupom()
 
-    // const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    // const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const handleCategoriaChange = (event, categoria) => {
+        const isChecked = event.target.checked;
+        const currentCategorias = watch('cupom.categoria');
+        console.log(currentCategorias);
+        if (isChecked) {
+            currentCategorias.push(categoria);
+        } else {
+            const index = currentCategorias.indexOf(categoria);
+            if (index !== -1) {
+                currentCategorias.splice(index, 1);
+            }
+        }
+        setValue('cupom.categoria', currentCategorias);
+    };
 
-    // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    //   const files = event.target.files;
-    //   if (files) {
-    //     const selected = files[0];
-    //     setSelectedFile(selected);
-
-    //     // Exibir uma prévia da imagem (neste exemplo, assumindo que é uma imagem)
-    //     const reader = new FileReader();
-    //     reader.onload = (e) => {
-    //       setImagePreview(e.target.result as string);
-    //     };
-    //     reader.readAsDataURL(selected);
-    //   }
-    // };
+    const handleDiasChange = (event, dia) => {
+        const isChecked = event.target.checked;
+        const currentDias = watch('cupom.dias');
+        console.log(currentDias);
+        if (isChecked) {
+            currentDias.push(dia);
+        } else {
+            const index = currentDias.indexOf(dia);
+            if (index !== -1) {
+                currentDias.splice(index, 1);
+            }
+        }
+        setValue('cupom.dias', currentDias);
+    };
 
     return (
         <div className='container-restaurente'>
@@ -34,19 +47,19 @@ export default function CadastroCupom() {
                 <div className="bloco-2-3">
                     <p>Restaurante</p>
                     <p>Imagem Cupom</p>
-                    <select>
+                    <select onChange={handleRestauranteChange}>
                         {restaurantes.map((restaurante) => (
-                            <option {...register('cupom.restaurante')} value={restaurante.id} key={restaurante.id}>
-                                {restaurante.nome}                                
+                            <option value={restaurante.id} key={restaurante.id}>
+                                {restaurante.nome}
                             </option>
                         ))}
                     </select>
-                    <input {...register('cupom.foto')} type="text" placeholder='Imagem Cupom' />
-                    {/* <input
+                    <input
                         type="file"
                         accept="image/*"
-                        onChange={handleFileChange}
-                    /> */}
+                        onChange={handleImage}
+                        className='format-foto'
+                    />
                     <p>Nome</p>
                     <p></p>
                     <input {...register('cupom.nome')} type="text" placeholder='Nome' />
@@ -66,28 +79,32 @@ export default function CadastroCupom() {
                             <div key={index}>
                                 <input
                                     type="checkbox"
-                                    {...register(`cupom.categoria[${index}]`)}
+                                    onChange={(e) => handleCategoriaChange(e, categoria.value)}
+                                    checked={watch('cupom.categoria')?.includes(categoria.value)}
                                     value={categoria.value}
                                 />
-                                {categoria.label}
+                                {categoria.value}
                             </div>
                         ))}
                     </div>
+                    {errors.cupom?.categoria?.message && (<p>{errors.cupom?.categoria?.message}</p>)}
                     <p></p>
                     <p>Dias de Funcionamento</p>
                     <p></p>
-                    {/* <div className="bloco-7">
-                        {diasFuncionamento.map((dias, index) => (
+                    <div className="bloco-7">
+                        {diasFuncionamento.map((dia, index) => (
                             <div key={index}>
                                 <input
                                     type="checkbox"
-                                    {...register(`cupom.dias[${index}]`)}
-                                    value={dias.value}
+                                    onChange={(e) => handleDiasChange(e, dia.value)}
+                                    checked={watch('cupom.dias')?.includes(dia.value)}
+                                    value={dia.value}
                                 />
-                                {dias.label}
+                                {dia.label}
                             </div>
                         ))}
-                    </div> */}
+                    </div>
+                    {errors.cupom?.dias?.message && (<p>{errors.cupom?.dias?.message}</p>)}
                     <p></p>
                 </div>
                 <div className="container-botao">

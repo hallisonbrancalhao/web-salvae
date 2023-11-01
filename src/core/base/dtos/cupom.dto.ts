@@ -2,10 +2,10 @@ import { CategoriaCupomDto } from ".";
 
 export interface CupomDto {
     id: string,
-    restaurante:number,
+    restaurante:string,
     nome:string,
     sobre:string,
-    foto: File,
+    foto: string,
     categoria: CategoriaCupomDto,
     // dias: [boolean],
     status: boolean,

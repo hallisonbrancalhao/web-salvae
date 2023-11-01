@@ -1,3 +1,3 @@
 export interface CategoriaCupomDto {
-    id: number,
+    categoria: Array<string>;
 };

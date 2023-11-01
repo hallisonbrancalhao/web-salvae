@@ -6,7 +6,7 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function CadastroEstabelecimento() {
-    const { errors, register, criarEstabelecimento, handleSubmit, categorias } = useEstabelecimento()
+    const { errors, register, criarEstabelecimento, handleSubmit, handleImagePerfil, handleImageCapa, categorias } = useEstabelecimento()
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -28,13 +28,20 @@ export default function CadastroEstabelecimento() {
                     <p></p>
                     <p>Foto Perfil</p>
                     <p>Foto Capa</p>
-                    <input {...register('estabelecimento.fotoPerfil')} type="text" placeholder='Foto Perfil' />
-                    {/* <input
+                    <input
                         type="file"
                         accept="image/*"
-                        onChange={handleFileChange}
-                    /> */}
-                    <input {...register('estabelecimento.fotoCapa')} type="text" placeholder='Foto Capa' />
+                        onChange={handleImagePerfil}
+                        className='format-foto'
+                    />
+                    {/* {errors.estabelecimento?.fotoPerfil?.message && (<p>{errors.estabelecimento?.fotoPerfil?.message}</p>)} */}
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageCapa}
+                        className='format-foto'
+                    />
+                    {/* {errors.estabelecimento?.fotoCapa?.message && (<p>{errors.estabelecimento?.fotoCapa?.message}</p>)} */}
                     <p>WhatsApp</p>
                     <p>Instagram</p>
                     <input {...register('estabelecimento.whatsapp')} type="text" placeholder='WhatsApp' />
@@ -75,7 +82,7 @@ export default function CadastroEstabelecimento() {
                     <select
                         {...register('estabelecimento.categoria')}
                         value={selectedCategoria}
-                        onChange={(e) => setSelectedCategoria(Number(e.target.value))}
+                        onChange={(e) => setSelectedCategoria(String(e.target.value))}
                     >
                         {categorias.map((categoria) => (
                             <option key={categoria.value} value={categoria.value}>

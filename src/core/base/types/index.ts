@@ -1,5 +1,7 @@
+export * from './categoria-cupom.interface';
 export * from './cupom.interface';
 export * from './cupom.zod';
+export * from './dias-cupom.interface';
 export * from './endereco.interface';
 export * from './estabelecimento.interface';
 export * from './estabelecimento.zod';

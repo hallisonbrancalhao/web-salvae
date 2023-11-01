@@ -3,14 +3,12 @@ import { z } from "zod";
 export const schemaFormCupom = z
   .object({
     cupom: z.object({
-      restaurante: z.number().min(1, "Informe um restaurante válido"),
+      restaurante: z.string(),
       nome: z.string().min(1, "Informe um nome válido"),
       sobre: z.string().min(1, "Informe uma descrição válida"),
       foto: z.string().min(1, "Informe uma foto válida"),
-      categoria: z.object({
-        id: z.number(),
-      }),
-      // dias: z.array(z.boolean()),
+      categoria: z.array(z.string()),
+      dias: z.array(z.number()),
       status: z.boolean(),
     }),
   })
@@ -21,7 +19,7 @@ export const schemaFormCupom = z
       sobre: field.cupom.sobre,
       foto: field.cupom.foto,
       categoria: field.cupom.categoria,
-      // dias: field.cupom.dias,
+      dias: field.cupom.dias,
       status: field.cupom.status,
     },
   }));

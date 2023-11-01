@@ -1,11 +1,11 @@
 "use client"
 import React, { useState } from 'react';
-import { Cupons } from '@/core/base/types/cupons';
+import { ICupom } from '@/core/base/types/cupom.interface';
 import Cupom from '@/framework/components/cupons/cupom';
 import './styles.scss';
 import Link from 'next/link';
 
-export default function Cupons({ cupom: params }: { cupom: Cupons[] }) {
+export default function Cupons({ cupom: params }: { cupom: ICupom[] }) {
     const [searchText, setSearchText] = useState('');
     const listaCupons = params
 

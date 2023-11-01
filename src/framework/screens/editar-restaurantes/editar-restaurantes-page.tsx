@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
+import {useForm} from "react-hook-form"
 import InputField from '../../components/cadastro/form-text';
 import InputFone from '../../components/cadastro/form-fone';
 import InputFieldImage from '../../components/cadastro/form-image';
@@ -9,6 +10,7 @@ import InputCnpj from '../../components/cadastro/form-cnpj';
 import SelectField from '../../components/cadastro/form-categoria';
 import "./styles.scss";
 import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
+import { ImportsNotUsedAsValues } from 'typescript';
 
 export default function EditarRestaurante({id: params} : {id: string}) {
     const { estabelecimento, listarEstabelecimentoPorId, editarEstabelecimento } = useEstabelecimento()
@@ -17,8 +19,6 @@ export default function EditarRestaurante({id: params} : {id: string}) {
         listarEstabelecimentoPorId(params)
     }, [listarEstabelecimentoPorId, params]);
     const [cnpj, setCnpj] = useState(estabelecimento?.cnpj ?? '');
-    setCnpj(estabelecimento?.cnpj ?? '')
-    console.log(cnpj)
     const [nome, setNome] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
     const [instagram, setInstagram] = useState('');

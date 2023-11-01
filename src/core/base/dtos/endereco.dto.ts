@@ -1,4 +1,4 @@
-export interface Endereco {
+export interface EnderecoDto {
     cep: string,
     logradouro: string,
     complemento: string|null,

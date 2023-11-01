@@ -1,6 +1,6 @@
 import React from "react";
 import "./styles.scss";
-import { Estabelecimento } from "@/core/base/types/estabelecimento";
+import { IEstabelecimento } from "@/core/base/types/estabelecimento.interface";
 
 const SelectEstabelecimento = ({ onChange, name, value, label, options }) => {
   return (
@@ -14,7 +14,7 @@ const SelectEstabelecimento = ({ onChange, name, value, label, options }) => {
           onChange={onChange}
           className="input"
         >
-          {options.map((option: Estabelecimento) => (
+          {options.map((option: IEstabelecimento) => (
             <option key={option.id} value={option.id}>
               {option.nome}
             </option>

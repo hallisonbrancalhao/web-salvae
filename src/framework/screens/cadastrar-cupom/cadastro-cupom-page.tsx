@@ -1,151 +1,99 @@
 "use client"
-import React, { useState } from 'react';
-import InputField from '../../components/cadastro/form-text';
-import SelectEstabelecimento from '@/framework/components/cadastro/form-estabelecimento';
-import InputFieldImage from '../../components/cadastro/form-image';
-import Checkbox from '@/framework/components/cadastro/form-checkbox';
+import React from 'react';
+import useCupom from '@/core/hooks/cupom-hook';
+import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 import "./styles.scss";
-import { Estabelecimento } from '@/core/base/types/estabelecimento';
-import { CupomRepository } from '@/services/repositories/cupom.repository';
 
-export default function CadastroCupom({ estabelecimento: params }: { estabelecimento: Estabelecimento[] }) {
-    const cupom = new CupomRepository()
+export default function CadastroCupom() {
+    const { listaEstabelecimento } = useEstabelecimento();
+    const restaurantes = listaEstabelecimento;
+    const { errors, register, criarCupom, handleSubmit, categorias, diasFuncionamento } = useCupom()
 
-    const [restaurante, setRestaurante] = useState('');
-    const [nome, setNome] = useState('');
-    const [sobre, setSobre] = useState('');
-    const [foto, setFoto] = useState(null);
-    const handleImageUpload = (imageFile: React.SetStateAction<null>) => {
-        setFoto(imageFile);
-    };
+    // const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    // const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-    const [categoria, setCategoria] = useState([]);
-    const [dias, setDias] = useState([]);
+    // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    //   const files = event.target.files;
+    //   if (files) {
+    //     const selected = files[0];
+    //     setSelectedFile(selected);
 
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-    const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/cupom';
-    }
-
-    const SalvarDados = async () => {
-        try {
-            cupom.Salvar({
-                _id: '',
-                restaurante: restaurante,
-                nome: nome,
-                sobre: sobre,
-                foto: foto,
-                categoria: categoria,
-                dias: dias,
-                status: true
-            })
-            setSuccess('Cupom cadastrado com sucesso!');
-        } catch (error) {
-            setError('Ocorreu um erro. Por favor, tente novamente.');
-        }
-    }
-    const categorias = [
-        { value: 1, label: 'Presencial' },
-        { value: 2, label: 'Delivery' },
-        { value: 3, label: 'TakeAway' },
-    ];
-
-    const diasFuncionamento = [
-        { value: 1, label: 'Segunda-feira' },
-        { value: 2, label: 'Terça-feira' },
-        { value: 3, label: 'Quarta-feira' },
-        { value: 4, label: 'Quinta-feira' },
-        { value: 5, label: 'Sexta-feira' },
-        { value: 6, label: 'Sábado' },
-        { value: 7, label: 'Domingo' },
-    ];
+    //     // Exibir uma prévia da imagem (neste exemplo, assumindo que é uma imagem)
+    //     const reader = new FileReader();
+    //     reader.onload = (e) => {
+    //       setImagePreview(e.target.result as string);
+    //     };
+    //     reader.readAsDataURL(selected);
+    //   }
+    // };
 
     return (
         <div className='container-restaurente'>
             <h1 className='h1'>Cadastro do Cupom</h1>
-            <form className="container-forms">
-                <div className="bloco-2-1">
-                    <SelectEstabelecimento
-                        label="Restaurante"
-                        name="restaurante"
-                        value={restaurante}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setRestaurante(e.target.value)}
-                        options={params.map((e) => e)}
-                    />
-                    <InputFieldImage onImageUpload={handleImageUpload} label="Imagem Cupom" />
-                </div>
-                <div className="bloco-1">
-                    <InputField label="Nome do Cupom" value={nome}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNome(e.target.value)}
-                        name="nome" />
-                    <InputField label="Sobre o Cupom" value={sobre}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSobre(e.target.value)}
-                        name="sobre" />
-                </div>
-
-                <hr className="divisor" />
-
-                <div className="bloco-1">
-                    <Checkbox
-                        label="Categoria do Restaurante"
-                        name="categoria"
-                        values={categoria}
-                        onChange={(e: React.SetStateAction<string>) => setCategoria(e)}
-                        options={categorias}
-                    />
+            <form className="container-forms" onSubmit={handleSubmit(criarCupom)}>
+                <div className="bloco-2-3">
+                    <p>Restaurante</p>
+                    <p>Imagem Cupom</p>
+                    <select>
+                        {restaurantes.map((restaurante) => (
+                            <option {...register('cupom.restaurante')} value={restaurante.id} key={restaurante.id}>
+                                {restaurante.nome}                                
+                            </option>
+                        ))}
+                    </select>
+                    <input {...register('cupom.foto')} type="text" placeholder='Imagem Cupom' />
+                    {/* <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                    /> */}
+                    <p>Nome</p>
+                    <p></p>
+                    <input {...register('cupom.nome')} type="text" placeholder='Nome' />
+                    <p></p>
+                    <p>Sobre o Cupom</p>
+                    <p></p>
+                    <input {...register('cupom.sobre')} type="text" placeholder='Sobre o Cupom' />
                 </div>
 
                 <hr className="divisor" />
 
                 <div className="bloco-1">
-                    <Checkbox
-                        label="Dias de Funcionamento"
-                        name="dias"
-                        values={dias}
-                        onChange={(e: React.SetStateAction<string>) => setDias(e)}
-                        options={diasFuncionamento}
-                    />
+                    <p>Categoria de Atendimento</p>
+                    <p></p>
+                    <div className="bloco-3">
+                        {categorias.map((categoria, index) => (
+                            <div key={index}>
+                                <input
+                                    type="checkbox"
+                                    {...register(`cupom.categoria[${index}]`)}
+                                    value={categoria.value}
+                                />
+                                {categoria.label}
+                            </div>
+                        ))}
+                    </div>
+                    <p></p>
+                    <p>Dias de Funcionamento</p>
+                    <p></p>
+                    {/* <div className="bloco-7">
+                        {diasFuncionamento.map((dias, index) => (
+                            <div key={index}>
+                                <input
+                                    type="checkbox"
+                                    {...register(`cupom.dias[${index}]`)}
+                                    value={dias.value}
+                                />
+                                {dias.label}
+                            </div>
+                        ))}
+                    </div> */}
+                    <p></p>
                 </div>
-
-                <hr className="divisor" />
-
                 <div className="container-botao">
-                    <button
-                        type="button"
-                        onClick={SalvarDados}
-                        className="botao">
-                        Salvar
-                    </button>
+                    <button className="botao" type='submit'>Enviar</button>
                 </div>
             </form>
-            {success && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <p className="erro2">{success}</p>
-                        <button
-                            onClick={() => {
-                                setSuccess('');
-                                redirecionarPagina();
-                            }}
-                            className="erro-botao">
-                            Fechar
-                        </button>
-                    </div>
-                </div>
-            )}
-            {error && (
-                <div className="container-erro">
-                    <div className="erro">
-                        <p className="erro2">{error}</p>
-                        <button
-
-                            className="erro-botao">
-                            Fechar
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
-    );
+    )
 }

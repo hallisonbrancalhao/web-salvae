@@ -1,59 +1,50 @@
-'use client'
-import React, { useState, useEffect } from 'react';
+"use client"
+import React, { useState } from 'react';
 import InputField from '../../components/cadastro/form-text';
 import SelectEstabelecimento from '@/framework/components/cadastro/form-estabelecimento';
 import InputFieldImage from '../../components/cadastro/form-image';
 import Checkbox from '@/framework/components/cadastro/form-checkbox';
-import './styles.scss';
+import "./styles.scss";
 import { IEstabelecimento } from '@/core/base/types/estabelecimento.interface';
-import { ICupom } from '@/core/base/types/cupom.interface';
-import { CupomRepository } from '@/services/repositories';
+import { CupomRepository } from '@/services/repositories/cupom.repository';
 
-export default function EditarCupom({ estabelecimento: paramsEstab, cupom: params }: { estabelecimento: IEstabelecimento, cupom: ICupom }) {
-    const cupomEditado = new CupomRepository()
+export default function CadastroCupom({ estabelecimento: params }: { estabelecimento: IEstabelecimento[] }) {
+    const cupom = new CupomRepository()
+
     const [restaurante, setRestaurante] = useState('');
     const [nome, setNome] = useState('');
     const [sobre, setSobre] = useState('');
     const [foto, setFoto] = useState(null);
+    const handleImageUpload = (imageFile: React.SetStateAction<null>) => {
+        setFoto(imageFile);
+    };
+
     const [categoria, setCategoria] = useState([]);
     const [dias, setDias] = useState([]);
+
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const redirecionarPagina = () => {
         window.location.href = 'http://localhost:3000/cupom';
     }
 
-    useEffect(() => {
-        setRestaurante(paramsEstab.nome);
-        setNome(params.nome);
-        setSobre(params.sobre);
-        setFoto(params.foto);
-        setCategoria(params.categoria);
-        setDias(params.dias);
-    }, []);
-
-    const handleImageUpload = (imageFile) => {
-        setFoto(imageFile);
-    };
-
-    const EditarDados = async () => {
+    const SalvarDados = async () => {
         try {
-            await cupomEditado.Editar({
-                _id: params._id,
+            cupom.Salvar({
+                _id: '',
                 restaurante: restaurante,
                 nome: nome,
                 sobre: sobre,
                 foto: foto,
                 categoria: categoria,
                 dias: dias,
-                status: true,
-            });
-            setSuccess('Cupom atualizado com sucesso!');
+                status: true
+            })
+            setSuccess('Cupom cadastrado com sucesso!');
         } catch (error) {
             setError('Ocorreu um erro. Por favor, tente novamente.');
         }
     }
-
     const categorias = [
         { value: 1, label: 'Presencial' },
         { value: 2, label: 'Delivery' },
@@ -72,7 +63,7 @@ export default function EditarCupom({ estabelecimento: paramsEstab, cupom: param
 
     return (
         <div className='container-restaurente'>
-            <h1 className='h1'>Editar Cupom</h1>
+            <h1 className='h1'>Cadastro do Cupom</h1>
             <form className="container-forms">
                 <div className="bloco-2-1">
                     <SelectEstabelecimento
@@ -80,7 +71,7 @@ export default function EditarCupom({ estabelecimento: paramsEstab, cupom: param
                         name="restaurante"
                         value={restaurante}
                         onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setRestaurante(e.target.value)}
-                        options={paramsEstab.map((e) => e)}
+                        options={params.map((e) => e)}
                     />
                     <InputFieldImage onImageUpload={handleImageUpload} label="Imagem Cupom" />
                 </div>
@@ -122,9 +113,9 @@ export default function EditarCupom({ estabelecimento: paramsEstab, cupom: param
                 <div className="container-botao">
                     <button
                         type="button"
-                        onClick={EditarDados}
+                        onClick={SalvarDados}
                         className="botao">
-                        Salvar Alterações
+                        Salvar
                     </button>
                 </div>
             </form>
@@ -148,7 +139,7 @@ export default function EditarCupom({ estabelecimento: paramsEstab, cupom: param
                     <div className="erro">
                         <p className="erro2">{error}</p>
                         <button
-                            onClick={() => setError('')}
+
                             className="erro-botao">
                             Fechar
                         </button>

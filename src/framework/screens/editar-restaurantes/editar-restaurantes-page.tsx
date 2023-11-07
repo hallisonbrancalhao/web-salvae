@@ -1,222 +1,217 @@
-"use client"
+'use client'
 import React, { useEffect, useState } from 'react';
-import {useForm} from "react-hook-form"
-import InputField from '../../components/cadastro/form-text';
-import InputFone from '../../components/cadastro/form-fone';
-import InputFieldImage from '../../components/cadastro/form-image';
-import InputPassword from '../../components/cadastro/form-senha';
-import InputCep from '../../components/cadastro/form-cep';
-import InputCnpj from '../../components/cadastro/form-cnpj';
-import SelectField from '../../components/cadastro/form-categoria';
 import "./styles.scss";
 import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
-import { ImportsNotUsedAsValues } from 'typescript';
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function EditarRestaurante({id: params} : {id: string}) {
-    const { estabelecimento, listarEstabelecimentoPorId, editarEstabelecimento } = useEstabelecimento()
-    
+export default function EditarRestaurante({ id: params }: { id: string }) {
+    const {
+        errors,
+        estabelecimento,
+        setValue,
+        register,
+        listarEstabelecimentoPorId,
+        editarEstabelecimento,
+        handleSubmit,
+        handleImagePerfil,
+        handleImageCapa,
+        categorias,
+        successMessage,
+    } = useEstabelecimento();
+
+    const [dadosCarregados, setDadosCarregados] = useState(false);
+
     useEffect(() => {
-        listarEstabelecimentoPorId(params)
+        const fetchData = async () => {
+            await listarEstabelecimentoPorId(params);
+            setDadosCarregados(true);
+        };
+
+        fetchData();
     }, [listarEstabelecimentoPorId, params]);
-    const [cnpj, setCnpj] = useState(estabelecimento?.cnpj ?? '');
-    const [nome, setNome] = useState('');
-    const [whatsapp, setWhatsapp] = useState('');
-    const [instagram, setInstagram] = useState('');
-    const [fotoPerfil, setFotoPerfil] = useState(null);
-    const handleFotoPerfil = (imageFile: React.SetStateAction<null>) => {
-        setFotoPerfil(imageFile);
-    };
-    const [fotoCapa, setFotoCapa] = useState(null);
-    const handleFotoCapa = (imageFile: React.SetStateAction<null>) => {
-        setFotoCapa(imageFile);
-    };
-    const [password, setPassword] = useState('');
-    const [passwordConfirma, setPasswordConfirma] = useState('');
-    const [categoria, setCategoria] = useState(['']);
-    const [cep, setCep] = useState('');
-    const [rua, setRua] = useState('');
-    const [complemento, setComplemento] = useState('');
-    const [numero, setNumero] = useState('');
-    const [bairro, setBairro] = useState('');
-    const [cidade, setCidade] = useState('');
-    const [estado, setEstado] = useState('');
 
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-    const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/restaurantes';
-    }
-
-    async function fetchAddressByCep(cep: any) {
-        try {
-            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-            const data = await response.json();
-
-            return {
-                logradouro: data.logradouro,
-                bairro: data.bairro,
-                cidade: data.localidade,
-                estado: data.uf,
-            };
-        } catch (error) {
-            console.error('Erro ao buscar o endereço pelo CEP:', error);
-            return null;
-        }
-    }
-
-    const handleCepChange = async (event: { target: { value: any; }; }) => {
-        const newCep = event.target.value;
-        if (newCep.length === 9) {
-            setCep(newCep)
-            const addressData = await fetchAddressByCep(newCep);
-
-            if (addressData) {
-                setRua(addressData.logradouro);
-                setBairro(addressData.bairro);
-                setCidade(addressData.cidade);
-                setEstado(addressData.estado);
+    useEffect(() => {
+        if (dadosCarregados) {
+            if (estabelecimento) {
+                setValue('estabelecimento.id', estabelecimento.id ?? '');
+                setValue('estabelecimento.nome', estabelecimento.nome ?? '');
+                setValue('estabelecimento.cnpj', estabelecimento.cnpj ?? '');
+                setValue('estabelecimento.fotoCapa', estabelecimento.fotoCapa ?? '');
+                setValue('estabelecimento.fotoPerfil', estabelecimento.fotoPerfil ?? '');
+                setValue('estabelecimento.instagram', estabelecimento.instagram ?? '');
+                setValue('estabelecimento.whatsapp', estabelecimento.whatsapp ?? '');
+                setValue('estabelecimento.estabelecimentoCategoria', estabelecimento.estabelecimentoCategoria ?? 1);
+                setValue('estabelecimento.endereco.cep', estabelecimento.endereco.cep ?? '');
+                setValue('estabelecimento.endereco.logradouro', estabelecimento.endereco.logradouro ?? '');
+                setValue('estabelecimento.endereco.numero', estabelecimento.endereco.numero ?? '');
+                setValue('estabelecimento.endereco.complemento', estabelecimento.endereco.complemento ?? '');
+                setValue('estabelecimento.endereco.bairro', estabelecimento.endereco.bairro ?? '');
+                setValue('estabelecimento.endereco.cidade', estabelecimento.endereco.cidade ?? '');
+                setValue('estabelecimento.endereco.estado', estabelecimento.endereco.estado ?? '');
             }
         }
+    }, [dadosCarregados, estabelecimento, register, setValue]);
+
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
-
-    const SalvarDados = async () => {
-        if (password != passwordConfirma) {
-            setError('A senha digitada não confere com a validação.');
-            return;
-        }
-
-        if (password.length < 8) {
-            setError('A senha deve ter no mínimo 8 caracteres.');
-            return;
-        }
-
-        try {
-            console.log(nome)
-            await editarEstabelecimento(
-                {
-                    id: '',
-                    cnpj: cnpj,
-                    nome: nome,
-                    whatsapp: whatsapp,
-                    instagram: instagram,
-                    fotoPerfil: fotoPerfil,
-                    senha: password,
-//                    categoria: categoria,
-                    fotoCapa: null,
-                    endereco: {
-                        cep: cep,
-                        logradouro: rua,
-                        complemento: complemento,
-                        numero: numero,
-                        bairro: bairro,
-                        cidade: cidade,
-                        estado: estado,
-                        pais: null
-                    },
-                    status: true,
-                })
-            setSuccess('Restaurante atualizado com sucesso!');
-        } catch (error) {
-            setError('Ocorreu um erro. Por favor, tente novamente.');
-        }
+    const passwordType = showPassword ? 'text' : 'password';
+    const [error, setError] = useState('');
+    const redirecionarPagina = () => {
+        //window.location.href = 'http://localhost:3000/restaurantes';
     }
-    const categorias = [
-        { value: 'pizza', label: 'Pizza' },
-        { value: 'hamburger', label: 'Hamburger' },
-        { value: 'sorvete', label: 'Sorvete' },
-    ];
-
     return (
         <div className='container-restaurente'>
             <h1 className='h1'>Editar Restaurante</h1>
-            <form className="container-forms">
+            <form className="container-forms" onSubmit={handleSubmit(editarEstabelecimento)}>
                 <div className="bloco-2-3">
-                    <InputField label="Nome do Restaurante" value={estabelecimento?.nome}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNome(e.target.value)}
-                        name="nome" />
-                    <InputFieldImage onImageUpload={handleFotoPerfil} label="Logo Restaurante" />
-                    <InputFone label="WhatsApp" value={estabelecimento?.whatsapp}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setWhatsapp(e.target.value)}
-                        name="whatsapp" />
-                    <InputField label="Instagram" value={estabelecimento?.instagram}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setInstagram(e.target.value)}
-                        name="instagram" />
+                    <p></p>
+                    <p></p>
+                    <p>Nome do Restaurante</p>
+                    <p></p>
+                    <input
+                        {...register('estabelecimento.nome')}
+                        type="text"
+                        placeholder='Nome do Restaurante'
+                    />
+                    <p></p>
+                    <p>Foto Perfil</p>
+                    <p>Foto Capa</p>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImagePerfil}
+                        className='format-foto'
+                    />
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageCapa}
+                        className='format-foto'
+                    />
+                    <p>WhatsApp</p>
+                    <p>Instagram</p>
+                    <input
+                        {...register('estabelecimento.whatsapp')}
+                        type="text"
+                        placeholder='WhatsApp'
+                    />
+                    <input
+                        {...register('estabelecimento.instagram')}
+                        type="text"
+                        placeholder='Instagram'
+                    />
                 </div>
 
                 <hr className="divisor" />
 
                 <div className="bloco-1">
-                    <InputCep label="CEP" value={estabelecimento?.endereco.cep}
-                        onChange={handleCepChange}
-                        name="cep"
+                    <p>CEP</p>
+                    <input
+                        {...register('estabelecimento.endereco.cep')}
+                        type="text"
+                        placeholder='CEP'
+                        maxLength={9}
+
+                    />
+                </div>
+                <div className="bloco-2-3">
+                    <p>Rua</p>
+                    <p>Número</p>
+                    <input
+                        {...register('estabelecimento.endereco.logradouro')}
+                        type="text"
+                        placeholder='Rua'
+                    />
+                    <input
+                        {...register('estabelecimento.endereco.numero')}
+                        type="text"
+                        placeholder='Número'
+                    />
+                    <p>Complemento</p>
+                    <p>Município</p>
+                    <input
+                        {...register('estabelecimento.endereco.complemento')}
+                        type="text"
+                        placeholder='Complemento'
+                    />
+                    <input
+                        {...register('estabelecimento.endereco.bairro')}
+                        type="text"
+                        placeholder='Município'
+                    />
+                    <p>Cidade</p>
+                    <p>Estado</p>
+                    <input
+                        {...register('estabelecimento.endereco.cidade')}
+                        type="text"
+                        placeholder='Cidade'
+                    />
+                    <input
+                        {...register('estabelecimento.endereco.estado')}
+                        type="text"
+                        placeholder='Estado'
                     />
                 </div>
 
-                <div className="bloco-2-3">
-                    <InputField label="Rua" value={estabelecimento?.endereco.logradouro}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setRua(e.target.value)}
-                        name="rua" />
-                    <InputField label="Número" value={estabelecimento?.endereco.numero}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNumero(e.target.value)}
-                        name="numero" />
-                    <InputField label="Complemento" value={estabelecimento?.endereco.complemento}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setComplemento(e.target.value)}
-                        name="complemento" />
-                    <InputField label="Bairro" value={estabelecimento?.endereco.bairro}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setBairro(e.target.value)}
-                        name="bairro" />
-                    <InputField label="Cidade" value={estabelecimento?.endereco.cidade}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setCidade(e.target.value)}
-                        name="cidade" />
-                    <InputField label="Estado" value={estabelecimento?.endereco.estado}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setEstado(e.target.value)}
-                        name="estado" />
-                </div>
-
                 <hr className="divisor" />
 
-                <div className="bloco-1-3">
-                    <SelectField
-                        label="Categoria do Restaurante"
-                        name="categoria"
-                        value={categoria}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setCategoria(e.target.value)}
-                        options={categorias}
+                <div className="bloco-2-3">
+                    <p>Categoria</p>
+                    <p>CNPJ</p>
+                    <select
+                        {...register('estabelecimento.estabelecimentoCategoria', {
+                            setValueAs: (value) => parseInt(value, 10),
+                        })}
+                    >
+                        {categorias.map((categoria) => (
+                            <option key={categoria.value} value={categoria.value}>
+                                {categoria.label}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.estabelecimento?.estabelecimentoCategoria?.message && (<p>{errors.estabelecimento?.estabelecimentoCategoria?.message}</p>)}
+                    <input
+                        {...register('estabelecimento.cnpj')}
+                        type="text"
+                        placeholder='CNPJ'
                     />
-                    <InputCnpj label="CNPJ" value={cnpj}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setCnpj(e.target.value)}
-                        name="cnpj" />
+                    <p>
+                        Senha
+                        <button onClick={togglePasswordVisibility} type="button">
+                            <FontAwesomeIcon
+                                className="password-toggle-icon"
+                                icon={showPassword ? faEyeSlash : faEye}
+                            />
+                        </button>
+                    </p>
+                    <p>Confirmar Senha</p>
+                    <input
+                        {...register('estabelecimento.senha')}
+                        type={passwordType}
+                        placeholder='Senha'
+                    />
+                    <input
+                        {...register('estabelecimento.validasenha')}
+                        type={passwordType}
+                        placeholder='Confirmar Senha'
+                    />
                 </div>
-
-                <hr className="divisor" />
-
-                <div className="bloco-2-3">
-                    <InputPassword label="Senha" value={password}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setPassword(e.target.value)}
-                        name="senha" />
-                    <InputPassword label="Confirmação de Senha" value={passwordConfirma}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setPasswordConfirma(e.target.value)}
-                        name="passwordConfirma" />
-                </div>
-
-                <hr className="divisor" />
 
                 <div className="container-botao">
-                    <button
-                        type="button"
-                        onClick={SalvarDados}
-                        className="botao">
+                    <button className="botao" type='submit'>
                         Salvar Alterações
                     </button>
                 </div>
             </form>
-            {success && (
+            {successMessage && (
                 <div className="modal">
                     <div className="modal-content">
-                        <p className="erro2">{success}</p>
+                        <p className="erro2">{successMessage}</p>
                         <button
                             onClick={() => {
-                                setSuccess('');
                                 redirecionarPagina();
                             }}
                             className="erro-botao">
@@ -230,7 +225,7 @@ export default function EditarRestaurante({id: params} : {id: string}) {
                     <div className="erro">
                         <p className="erro2">{error}</p>
                         <button
-                            onClick={() => setError('')}
+
                             className="erro-botao">
                             Fechar
                         </button>

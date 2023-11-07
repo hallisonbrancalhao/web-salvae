@@ -3,6 +3,7 @@ import { z } from "zod";
 export const schemaFormEstabelecimento = z
   .object({
     estabelecimento: z.object({
+      id: z.number(),
       cnpj: z.string().min(14, "Informe um CNPJ válido"),
       nome: z.string().min(1, "Informe um nome válido"),
       senha: z.string().min(1, "Informe uma senha válida"),
@@ -10,7 +11,7 @@ export const schemaFormEstabelecimento = z
       whatsapp: z.string().min(1, "Informe um whatsapp válido"),
       fotoPerfil: z.string().min(1, "Informe uma foto de perfil válida"),
       fotoCapa: z.string().min(1, "Informe uma foto de capa válida"),
-      categoria: z.string(),
+      estabelecimentoCategoria: z.number(),
       // avaliacao: z.number().min(1, "Informe uma avaliação válida"),
       // status: z.boolean(),
       endereco: z.object({
@@ -27,6 +28,7 @@ export const schemaFormEstabelecimento = z
   })
   .transform((field) => ({
     estabelecimento: {
+      id: field.estabelecimento.id,
       cnpj: field.estabelecimento.cnpj,
       nome: field.estabelecimento.nome,
       senha: field.estabelecimento.senha,
@@ -34,7 +36,7 @@ export const schemaFormEstabelecimento = z
       whatsapp: field.estabelecimento.whatsapp,
       fotoPerfil: field.estabelecimento.fotoPerfil,
       fotoCapa: field.estabelecimento.fotoCapa,
-      categoria: field.estabelecimento.categoria,
+      estabelecimentoCategoria: field.estabelecimento.estabelecimentoCategoria,
       // avaliacao: field.estabelecimento.avaliacao,
       // status: field.estabelecimento.status,
       endereco: {

@@ -6,9 +6,9 @@ export interface EstabelecimentoDto {
     senha:string,
     instagram:string,
     whatsapp:string,
-    fotoPerfil: File,
-    fotoCapa:string|null,
-    categoria: string,
+    fotoPerfil: string,
+    fotoCapa: string,
+    estabelecimentoCategoria: number,
     endereco: EnderecoDto
     status: boolean
 };

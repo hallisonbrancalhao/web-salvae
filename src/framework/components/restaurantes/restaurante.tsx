@@ -53,11 +53,16 @@ const Restaurante: React.FC<RestaurantesProps> = ({
   const handleCancelDelete = () => {
     setShowConfirmModal(false);
   };
- 
+
   return (
     <div className="container-componente">
       <div className="item-cabecalho2">
-        {/* <Image src={fotoPerfil} alt="" width={100} height={100} /> */}
+        {fotoPerfil ? (
+          <img src={fotoPerfil} alt={nome} width={100} height={100} />
+        ) : (
+          // Se não houver imagem, você pode mostrar um espaço reservado ou mensagem
+          <div>Imagem não disponível</div>
+        )}
       </div>
       <div className="item-cabecalho2">{nome}</div>
       <div className="item-cabecalho2">{avaliacao}</div>

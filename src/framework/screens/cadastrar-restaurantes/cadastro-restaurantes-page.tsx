@@ -1,18 +1,21 @@
 "use client"
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import "./styles.scss";
 import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function CadastroEstabelecimento() {
-    const { errors, register, criarEstabelecimento, handleSubmit, handleImagePerfil, handleImageCapa, categorias } = useEstabelecimento()
+    const { errors, register, criarEstabelecimento, handleSubmit, handleImagePerfil, handleImageCapa, categorias, successMessage } = useEstabelecimento()
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-    const passwordType = showPassword ? 'text' : 'password';
-    const [selectedCategoria, setSelectedCategoria] = useState('');
+    const passwordType = showPassword ? 'text' : 'password'
+    const [error, setError] = useState('');
+    const redirecionarPagina = () => {
+        window.location.href = 'http://localhost:3000/restaurantes';
+    }
 
     return (
         <div className='container-restaurente'>
@@ -80,9 +83,9 @@ export default function CadastroEstabelecimento() {
                     <p>Categoria</p>
                     <p>CNPJ</p>
                     <select
-                        {...register('estabelecimento.categoria')}
-                        value={selectedCategoria}
-                        onChange={(e) => setSelectedCategoria(String(e.target.value))}
+                        {...register('estabelecimento.estabelecimentoCategoria', {
+                            setValueAs: (value) => parseInt(value, 10),
+                        })}
                     >
                         {categorias.map((categoria) => (
                             <option key={categoria.value} value={categoria.value}>
@@ -90,7 +93,7 @@ export default function CadastroEstabelecimento() {
                             </option>
                         ))}
                     </select>
-                    {errors.estabelecimento?.categoria?.message && (<p>{errors.estabelecimento?.categoria?.message}</p>)}
+                    {errors.estabelecimento?.estabelecimentoCategoria?.message && (<p>{errors.estabelecimento?.estabelecimentoCategoria?.message}</p>)}
                     <input {...register('estabelecimento.cnpj')} type="text" placeholder='CNPJ' />
                     <p>
                         Senha
@@ -107,6 +110,32 @@ export default function CadastroEstabelecimento() {
                     <button className="botao" type='submit'>Enviar</button>
                 </div>
             </form>
+            {successMessage && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p className="erro2">{successMessage}</p>
+                        <button
+                            onClick={() => {
+                                redirecionarPagina();
+                            }}
+                            className="erro-botao">
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            )}
+            {error && (
+                <div className="container-erro">
+                    <div className="erro">
+                        <p className="erro2">{error}</p>
+                        <button
+
+                            className="erro-botao">
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

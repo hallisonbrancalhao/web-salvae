@@ -1,3 +1,3 @@
 export interface CategoriaCupomDto {
-    categoria: Array<string>;
+    categoria: Array<number>;
 };

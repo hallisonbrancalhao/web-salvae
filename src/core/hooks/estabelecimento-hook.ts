@@ -7,6 +7,9 @@ import { useForm } from "react-hook-form";
 import { FormEstabelecimentoProps } from "../base/types/estabelecimento.zod";
 
 export default function useEstabelecimento() {
+  const [estabelecimento, setEstabelecimento] =
+  useState<IEstabelecimento | null>(null);
+  
   const {
     handleSubmit,
     register,
@@ -19,6 +22,7 @@ export default function useEstabelecimento() {
     resolver: zodResolver(schemaFormEstabelecimento),
     defaultValues: {
       estabelecimento: {
+        id: 0,
         nome: "",
         cnpj: "",
         senha: "",
@@ -27,7 +31,7 @@ export default function useEstabelecimento() {
         whatsapp: "",
         fotoPerfil: "",
         fotoCapa: "",
-        categoria: "",
+        estabelecimentoCategoria: 1,
         endereco: {
           cep: "",
           logradouro: "",
@@ -45,14 +49,13 @@ export default function useEstabelecimento() {
   const handleImagePerfil = (data) => {
     const file = data.target.files[0];
     if (file.size > 64 * 1024) {
-      alert('A imagem é muito grande. Selecione uma imagem menor.');
+      alert("A imagem é muito grande. Selecione uma imagem menor.");
       return;
-    }
-    else if (file) {
+    } else if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const base64Image = e.target.result;
-        setValue('estabelecimento.fotoPerfil', base64Image);
+        setValue("estabelecimento.fotoPerfil", base64Image);
       };
       reader.readAsDataURL(file);
     }
@@ -61,38 +64,24 @@ export default function useEstabelecimento() {
   const handleImageCapa = (data) => {
     const file = data.target.files[0];
     if (file.size > 64 * 1024) {
-      alert('A imagem é muito grande. Selecione uma imagem menor.');
+      alert("A imagem é muito grande. Selecione uma imagem menor.");
       return;
-    }
-    else if (file) {
+    } else if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const base64Image = e.target.result;
-        setValue('estabelecimento.fotoCapa', base64Image);
+        setValue("estabelecimento.fotoCapa", base64Image);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const categorias = [
-    { value: 1, label: "Pizza" },
-    { value: 2, label: "Hamburger" },
-    { value: 3, label: "Sorvete" },
+    { label: "Pizza", value: 1 },
+    { label: "Hamburger", value: 2 },
+    { label: "Sorvete", value: 3 },
   ];
-
-  const criarEstabelecimento = async (data: FormEstabelecimentoProps) => {
-    console.log(data.estabelecimento);
-    if (!auth.token) return;
-    const res = await fetch(process.env.NEXT_PUBLIC_URL_RESTAURANTE, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data.estabelecimento),
-    });
-    console.log(res);
-    return true;
-  };
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleFetchEndereco = useCallback(
     async (cep: string) => {
@@ -103,7 +92,6 @@ export default function useEstabelecimento() {
         setValue("estabelecimento.endereco.logradouro", data.logradouro);
         setValue("estabelecimento.endereco.bairro", data.bairro);
         setValue("estabelecimento.endereco.estado", data.uf);
-        setValue("estabelecimento.endereco.complemento", data.complemento);
         setValue("estabelecimento.endereco.pais", "Brasil");
       }
     },
@@ -160,15 +148,12 @@ export default function useEstabelecimento() {
 
   const auth = useContext(AuthContext);
 
-  const [estabelecimento, setEstabelencimento] =
-    useState<IEstabelecimento | null>(null);
   const [listaEstabelecimento, setListaEstabelencimento] = useState<
-    IEstabelecimento[] | null
+    IEstabelecimento[]
   >([]);
 
   const listarEstabelecimento = useCallback(async () => {
     if (!auth.token) return;
-    console.log(auth.token);
     const response = await fetch(
       process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento",
       {
@@ -187,69 +172,50 @@ export default function useEstabelecimento() {
   const listarEstabelecimentoPorId = useCallback(
     async (id: string) => {
       if (!auth.token) return;
-      console.log(auth.token);
-      try {
-        const response: IEstabelecimento | null = await fetch(
-          process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + id,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${auth.token}`,
-            },
-          }
-        ).then((res) => res.json());
-        if (response) {
-          setEstabelencimento(response);
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + id,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+          },
         }
-      } catch (error) {
-        console.log(error);
+      ).then((res) => res.json());
+      if (response) {
+        setEstabelecimento(response);
       }
     },
     [auth.token]
   );
 
-  const editarEstabelecimento = useCallback(
-    async (data: IEstabelecimento) => {
-      if (!auth.token) return;
-      const body = {
-        cnpj: data.cnpj,
-        nome: data.nome,
-        senha: data.senha,
-        endereco: {
-          cep: data.endereco.cep,
-          complemento: data.endereco.complemento,
-          numero: data.endereco.numero,
-          logradouro: data.endereco.logradouro,
-          bairro: data.endereco.bairro,
-          cidade: data.endereco.cidade,
-          estado: data.endereco.estado,
-          pais: data.endereco.pais,
-        },
-        whatsapp: data.whatsapp,
-        instagram: data.instagram,
-        fotoPerfil: data.fotoPerfil,
-        fotoCapa: data.fotoCapa,
-        categoria: data.categoria,
-        //        avaliacao: data.avaliacao,
-        status: true,
-      };
-      try {
-        await fetch(process.env.NEXT_PUBLIC_URL_RESTAURANTE, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        });
-        console.log("deu bom");
-        return true;
-      } catch (error) {
-        console.log("deu ruim");
-      }
-    },
-    [auth.token]
-  );
+  const criarEstabelecimento = async (data: FormEstabelecimentoProps) => {
+    if (!auth.token) return;
+    const res = await fetch(process.env.NEXT_PUBLIC_URL_RESTAURANTE, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data.estabelecimento),
+    });
+    setSuccessMessage("Cadastro realizado com sucesso!");
+    return true;
+  };
+
+  const editarEstabelecimento = async (data: FormEstabelecimentoProps) => {
+    console.log(data.estabelecimento);
+    if (!auth.token) return;
+    const res = await fetch(process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + data.estabelecimento.id, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data.estabelecimento),
+    });
+    console.log(res);
+    setSuccessMessage("Edição realizada com sucesso!");
+    return true;
+  };
 
   const excluirEstabelecimento = useCallback(
     async (id: string) => {
@@ -279,6 +245,7 @@ export default function useEstabelecimento() {
 
   return {
     estabelecimento,
+    setValue,
     listaEstabelecimento,
     listarEstabelecimentoPorId,
     listarEstabelecimento,
@@ -291,5 +258,6 @@ export default function useEstabelecimento() {
     categorias,
     handleImagePerfil,
     handleImageCapa,
+    successMessage,
   };
 }

@@ -1,23 +1,27 @@
 .container-restaurente {
-    @apply flex h-full flex-col bg-gradient-to-t from-[#081918] to-[#052C2C];
+    @apply flex flex-col bg-gradient-to-t from-[#081918] to-[#052C2C] sm:ml-64 ml-3 h-full;
 
     .h1 {
         @apply font-bold text-[70px] text-[#FFFFFF] mt-5 ml-[30px];
     }
 
     .container-forms {
-        @apply text-[#052C2C] bg-white ml-[30px] mr-[20px] rounded-lg;
+        @apply text-[#052C2C] bg-white ml-[30px] mr-[30px] mb-[20px] rounded-lg;
 
         .bloco-2-3 {
-            @apply grid grid-cols-2 gap-3 text-[30px] mb-2 ml-[30px];
+            @apply grid grid-cols-2 gap-3 text-[30px] mb-2 ml-[30px] mr-[30px];
         }
 
         .bloco-1 {
-            @apply text-[30px] mb-2 ml-[30px];
+            @apply w-[24vw] gap-3 text-[30px] mb-2 ml-[30px] mr-[30px];
         }
 
         .bloco-1-3 {
-            @apply grid grid-cols-1 gap-3 text-[30px] mb-2 ml-[30px];
+            @apply grid grid-cols-1 gap-3 text-[30px] mb-2 ml-[30px] mr-[30px];
+        }
+
+        .format-foto {
+            @apply text-[16px];
         }
 
         .divisor {
@@ -33,6 +37,10 @@
         }
     }
 }
+
+.password-toggle-icon {
+    font-size: 16px /* Defina o tamanho desejado para o ícone aqui */
+  }
 
 .container-erro {
     @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50;

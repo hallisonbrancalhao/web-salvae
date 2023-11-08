@@ -7,19 +7,17 @@ import Editar from '../../../../assets/images/editar.svg'
 import Excluir from '../../../../assets/images/excluir.svg'
 import Link from 'next/link';
 import '../../screens/dash-restaurantes/styles.scss'
-import { CupomRepository } from '@/services/repositories'
+import useCupom from '@/core/hooks/cupom-hook'
 interface CuponsProps {
-    _id: string
-    foto: string
+    id: string
     nome: string
     status: boolean
 }
 
-const Cupom: React.FC<CuponsProps> = ({ _id, foto, nome, status }) => {
+const Cupom: React.FC<CuponsProps> = ({ id, nome, status }) => {
     const [toggleStatus, setToggleStatus] = useState(status);
     const toggleIcon = toggleStatus ? faToggleOn : faToggleOff;
 
-    const statusEditado = new CupomRepository()
     const handleToggleClick = async () => {
         // await statusEditado.EditarStatus({
         //     _id: _id,
@@ -28,7 +26,8 @@ const Cupom: React.FC<CuponsProps> = ({ _id, foto, nome, status }) => {
         setToggleStatus(!toggleStatus);
     };
 
-    const cupomExcluir = new CupomRepository()
+    const { excluirCupom } = useCupom();
+
     const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     const handleDeleteClick = () => {
@@ -36,7 +35,7 @@ const Cupom: React.FC<CuponsProps> = ({ _id, foto, nome, status }) => {
     };
 
     const handleConfirmDelete = async () => {
-        await cupomExcluir.Deletar(_id);
+        await excluirCupom(id);
         setShowConfirmModal(false);
         window.location.reload();
     };
@@ -48,9 +47,6 @@ const Cupom: React.FC<CuponsProps> = ({ _id, foto, nome, status }) => {
     return (
         <div className="container-componente">
             <div className="item-cabecalho2">
-                <Image src={foto} alt='' width={100} height={100} />
-            </div>
-            <div className="item-cabecalho2">
                 {nome}
             </div>
             <div className="item-cabecalho2">
@@ -61,7 +57,7 @@ const Cupom: React.FC<CuponsProps> = ({ _id, foto, nome, status }) => {
                 />
             </div>
             <div className="item-cabecalho2">
-                <Link href={`/editar-cupom/${_id}`}>
+                <Link href={`/editar-cupom/${id}`}>
                     <Image src={Editar} alt='' style={{ width: '32x', height: '32px' }} />
                 </Link>
                 <button onClick={handleDeleteClick}>

@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import useCupom from '@/core/hooks/cupom-hook';
 import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 import "./styles.scss";
@@ -7,38 +7,44 @@ import "./styles.scss";
 export default function CadastroCupom() {
     const { listaEstabelecimento } = useEstabelecimento();
     const restaurantes = listaEstabelecimento;
-    const { errors, register, criarCupom, handleSubmit, handleImage, handleRestauranteChange,
-        watch, setValue, categorias, diasFuncionamento } = useCupom()
+    const { errors, register, criarCupom, handleSubmit, watch, setValue, categorias, diasFuncionamento, successMessage } = useCupom()
 
-    const handleCategoriaChange = (event, categoria) => {
+    const handleCategoriaChange = (event: React.ChangeEvent<HTMLInputElement>, categoria: { idCategoriaPromocao: any; label?: string; }) => {
         const isChecked = event.target.checked;
-        const currentCategorias = watch('cupom.categoria');
-        console.log(currentCategorias);
+        const currentCategorias = watch('cupom.promocaoCategoria');
+        const categoriaId = categoria.idCategoriaPromocao;
+
         if (isChecked) {
-            currentCategorias.push(categoria);
+            currentCategorias.push({ idCategoriaPromocao: categoriaId });
         } else {
-            const index = currentCategorias.indexOf(categoria);
+            const index = currentCategorias.findIndex((cat) => cat.idCategoriaPromocao === categoriaId);
             if (index !== -1) {
                 currentCategorias.splice(index, 1);
             }
         }
-        setValue('cupom.categoria', currentCategorias);
+        setValue('cupom.promocaoCategoria', currentCategorias);
     };
 
-    const handleDiasChange = (event, dia) => {
+    const handleDiasChange = (event: React.ChangeEvent<HTMLInputElement>, dia: { idDiaFuncionamento: any; label?: string; }) => {
         const isChecked = event.target.checked;
-        const currentDias = watch('cupom.dias');
-        console.log(currentDias);
+        const currentDias = watch('cupom.promocaoDia');
+        const diaId = dia.idDiaFuncionamento;
+
         if (isChecked) {
-            currentDias.push(dia);
+            currentDias.push({ idDiaFuncionamento: diaId });
         } else {
-            const index = currentDias.indexOf(dia);
+            const index = currentDias.findIndex((d) => d.idDiaFuncionamento === diaId);
             if (index !== -1) {
                 currentDias.splice(index, 1);
             }
         }
-        setValue('cupom.dias', currentDias);
+        setValue('cupom.promocaoDia', currentDias);
     };
+
+    const [error, setError] = useState('');
+    const redirecionarPagina = () => {
+        window.location.href = 'http://localhost:3000/restaurantes';
+    }
 
     return (
         <div className='container-restaurente'>
@@ -46,27 +52,22 @@ export default function CadastroCupom() {
             <form className="container-forms" onSubmit={handleSubmit(criarCupom)}>
                 <div className="bloco-2-3">
                     <p>Restaurante</p>
-                    <p>Imagem Cupom</p>
-                    <select onChange={handleRestauranteChange}>
+                    <p></p>
+                    <select {...register('cupom.idEstabelecimento', {
+                        setValueAs: (value) => parseInt(value, 10),
+                    })}
+                    >
                         {restaurantes.map((restaurante) => (
                             <option value={restaurante.id} key={restaurante.id}>
                                 {restaurante.nome}
                             </option>
                         ))}
                     </select>
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImage}
-                        className='format-foto'
-                    />
-                    <p>Nome</p>
-                    <p></p>
-                    <input {...register('cupom.nome')} type="text" placeholder='Nome' />
+                    {errors.cupom?.idEstabelecimento?.message && (<p>{errors.cupom?.idEstabelecimento?.message}</p>)}
                     <p></p>
                     <p>Sobre o Cupom</p>
                     <p></p>
-                    <input {...register('cupom.sobre')} type="text" placeholder='Sobre o Cupom' />
+                    <input {...register('cupom.descricao')} type="text" placeholder='Sobre o Cupom' />
                 </div>
 
                 <hr className="divisor" />
@@ -79,15 +80,15 @@ export default function CadastroCupom() {
                             <div key={index}>
                                 <input
                                     type="checkbox"
-                                    onChange={(e) => handleCategoriaChange(e, categoria.value)}
-                                    checked={watch('cupom.categoria')?.includes(categoria.value)}
-                                    value={categoria.value}
+                                    onChange={(e) => handleCategoriaChange(e, categoria)}
+                                    checked={watch('cupom.promocaoCategoria')?.some((cat) => cat.idCategoriaPromocao === categoria.idCategoriaPromocao)}
+                                    value={categoria.idCategoriaPromocao}
                                 />
-                                {categoria.value}
+                                {categoria.label}
                             </div>
                         ))}
                     </div>
-                    {errors.cupom?.categoria?.message && (<p>{errors.cupom?.categoria?.message}</p>)}
+                    {errors.cupom?.promocaoCategoria?.message && (<p>{errors.cupom?.promocaoCategoria?.message}</p>)}
                     <p></p>
                     <p>Dias de Funcionamento</p>
                     <p></p>
@@ -96,21 +97,47 @@ export default function CadastroCupom() {
                             <div key={index}>
                                 <input
                                     type="checkbox"
-                                    onChange={(e) => handleDiasChange(e, dia.value)}
-                                    checked={watch('cupom.dias')?.includes(dia.value)}
-                                    value={dia.value}
+                                    onChange={(e) => handleDiasChange(e, dia)}
+                                    checked={watch('cupom.promocaoDia')?.some((d) => d.idDiaFuncionamento === dia.idDiaFuncionamento)}
+                                    value={dia.idDiaFuncionamento}
                                 />
                                 {dia.label}
                             </div>
                         ))}
                     </div>
-                    {errors.cupom?.dias?.message && (<p>{errors.cupom?.dias?.message}</p>)}
+                    {errors.cupom?.promocaoDia?.message && (<p>{errors.cupom?.promocaoDia?.message}</p>)}
                     <p></p>
                 </div>
                 <div className="container-botao">
                     <button className="botao" type='submit'>Enviar</button>
                 </div>
             </form>
+            {successMessage && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p className="erro2">{successMessage}</p>
+                        <button
+                            onClick={() => {
+                                redirecionarPagina();
+                            }}
+                            className="erro-botao">
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            )}
+            {error && (
+                <div className="container-erro">
+                    <div className="erro">
+                        <p className="erro2">{error}</p>
+                        <button
+
+                            className="erro-botao">
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

@@ -60,7 +60,7 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
     const passwordType = showPassword ? 'text' : 'password';
     const [error, setError] = useState('');
     const redirecionarPagina = () => {
-        //window.location.href = 'http://localhost:3000/restaurantes';
+        window.location.href = 'http://localhost:3000/restaurantes';
     }
     return (
         <div className='container-restaurente'>

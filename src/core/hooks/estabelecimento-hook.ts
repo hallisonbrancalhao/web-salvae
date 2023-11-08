@@ -8,8 +8,8 @@ import { FormEstabelecimentoProps } from "../base/types/estabelecimento.zod";
 
 export default function useEstabelecimento() {
   const [estabelecimento, setEstabelecimento] =
-  useState<IEstabelecimento | null>(null);
-  
+    useState<IEstabelecimento | null>(null);
+
   const {
     handleSubmit,
     register,
@@ -75,13 +75,19 @@ export default function useEstabelecimento() {
       reader.readAsDataURL(file);
     }
   };
-
-  const categorias = [
-    { label: "Pizza", value: 1 },
-    { label: "Hamburger", value: 2 },
-    { label: "Sorvete", value: 3 },
-  ];
-  const [successMessage, setSuccessMessage] = useState('');
+    const[categorias, setCategorias] = useState([]);
+    const listarCategorias = useCallback (async () => {
+      if(categorias.length) return
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/categorias",
+        {
+          method: "GET",
+        }
+      ).then((res) => res.json());
+      setCategorias(response);
+    },[categorias])
+  
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleFetchEndereco = useCallback(
     async (cep: string) => {
@@ -113,6 +119,8 @@ export default function useEstabelecimento() {
   };
 
   useEffect(() => {
+    listarCategorias()
+
     const formatFone = (fone: string) => {
       const numericFone = fone.replace(/[^\d]/g, "");
       if (numericFone.length >= 11) {
@@ -144,7 +152,7 @@ export default function useEstabelecimento() {
 
     if (cep.length != 9) return;
     handleFetchEndereco(cep);
-  }, [handleFetchEndereco, setValue, cep, cnpj, fone]);
+  }, [handleFetchEndereco, setValue, cep, cnpj, fone, listarCategorias, setCategorias]);
 
   const auth = useContext(AuthContext);
 
@@ -195,6 +203,7 @@ export default function useEstabelecimento() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.token}`,
       },
       body: JSON.stringify(data.estabelecimento),
     });
@@ -205,13 +214,19 @@ export default function useEstabelecimento() {
   const editarEstabelecimento = async (data: FormEstabelecimentoProps) => {
     console.log(data.estabelecimento);
     if (!auth.token) return;
-    const res = await fetch(process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + data.estabelecimento.id, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data.estabelecimento),
-    });
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_URL_BASE_AUTH +
+        "/estabelecimento/" +
+        data.estabelecimento.id,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.token}`,
+        },
+        body: JSON.stringify(data.estabelecimento),
+      }
+    );
     console.log(res);
     setSuccessMessage("Edição realizada com sucesso!");
     return true;
@@ -220,21 +235,17 @@ export default function useEstabelecimento() {
   const excluirEstabelecimento = useCallback(
     async (id: string) => {
       if (!auth.token) return;
-      try {
-        await fetch(
-          process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + id,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${auth.token}`,
-            },
-          }
-        );
-        return true;
-      } catch (error) {
-        console.log(error);
-      }
+      await fetch(
+        process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + id,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      );
+      return true;
     },
     [auth.token]
   );

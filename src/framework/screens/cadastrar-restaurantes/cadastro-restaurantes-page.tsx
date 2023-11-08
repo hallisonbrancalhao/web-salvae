@@ -6,7 +6,8 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function CadastroEstabelecimento() {
-    const { errors, register, criarEstabelecimento, handleSubmit, handleImagePerfil, handleImageCapa, categorias, successMessage } = useEstabelecimento()
+    const { errors, register, criarEstabelecimento, handleSubmit, handleImagePerfil, handleImageCapa,
+    categorias, successMessage } = useEstabelecimento()
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -14,7 +15,7 @@ export default function CadastroEstabelecimento() {
     const passwordType = showPassword ? 'text' : 'password'
     const [error, setError] = useState('');
     const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/restaurantes';
+        window.location.href = 'http://localhost:3000/cupom';
     }
 
     return (

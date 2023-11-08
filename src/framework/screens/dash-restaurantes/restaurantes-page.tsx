@@ -53,7 +53,7 @@ export default function Restaurantes() {
                 fotoPerfil={restaurante.fotoPerfil ?? "assets/images/logo.svg"}
                 avaliacao={4.5}
                 status={restaurante.status}
-              />  
+              />
             </div>
           ))}
           <div className="container-botao">

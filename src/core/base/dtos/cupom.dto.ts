@@ -1,12 +1,15 @@
-import { CategoriaCupomDto } from ".";
-
 export interface CupomDto {
-    id: string,
-    restaurante:string,
-    nome:string,
-    sobre:string,
-    foto: string,
-    categoria: CategoriaCupomDto,
-    // dias: [boolean],
-    status: boolean,
-};
+  idEstabelecimento: number;
+  descricao: string;
+  promocaoCategoria: [
+    {
+      idCategoriaPromocao: number;
+    },
+  ];
+  promocaoDia: [
+    {
+      idDiaFuncionamento: number;
+    },
+  ];
+  status: boolean;
+}

@@ -7,6 +7,9 @@ import { schemaFormCupom } from "../base/schemas/cupom-schema";
 import { FormCupomProps } from "../base/types/cupom.zod";
 
 export default function useCupom() {
+  const [promocao, setPromocao] =
+  useState<ICupom | null>(null);
+
   const {
     handleSubmit,
     register,
@@ -19,7 +22,7 @@ export default function useCupom() {
     resolver: zodResolver(schemaFormCupom),
     defaultValues: {
       cupom: {
-        id: "",
+        id: 0,
         idEstabelecimento: 1,
         descricao: "",
         promocaoCategoria: [{
@@ -76,20 +79,20 @@ export default function useCupom() {
     return true;
   };
 
-  const editarCupom = async (data: FormEstabelecimentoProps) => {
-    console.log(data.estabelecimento);
+  const editarCupom = async (data: FormCupomProps) => {
+    console.log(data.cupom);
     if (!auth.token) return;
     const res = await fetch(
       process.env.NEXT_PUBLIC_URL_BASE_AUTH +
-        "/estabelecimento/" +
-        data.estabelecimento.id,
+        "/promocao/" +
+        data.cupom.id,
       {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth.token}`,
         },
-        body: JSON.stringify(data.estabelecimento),
+        body: JSON.stringify(data.cupom),
       }
     );
     console.log(res);
@@ -111,6 +114,26 @@ export default function useCupom() {
     }
   }, [auth.token]);
 
+  const listarCupomPorId = useCallback(
+    async (id: string) => {
+      if (!auth.token) return;
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/promocao/" + id,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+          },
+        }
+      ).then((res) => res.json());
+      if (response) {
+        setPromocao(response);
+      }
+    },
+    [auth.token]
+  );
+
   const excluirCupom = useCallback(
     async (id: string) => {
       if (!auth.token) return;
@@ -131,6 +154,7 @@ export default function useCupom() {
   }, [listarCupom]);
 
   return {
+    promocao,
     handleSubmit,
     register,
     watch,
@@ -140,6 +164,7 @@ export default function useCupom() {
     criarCupom,
     editarCupom,
     listarCupom,
+    listarCupomPorId,
     excluirCupom,
     categorias,
     diasFuncionamento,

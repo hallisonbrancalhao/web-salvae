@@ -4,6 +4,7 @@ import Logo from "/assets/images/logo.svg";
 import Image from "next/image";
 import "src/app/globals.css";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -42,18 +43,18 @@ export default function Sidebar() {
           </div>
           <div className="container-sidebar__links">
             <ul>
-              <li><a href="restaurantes">Restaurantes</a></li>
-              <li><a href="cupom">Cupons</a></li>
-              <li><a href="patrocinador">Patrocinadores</a></li>
+              <li><Link href="/restaurantes">Restaurantes</Link></li>
+              <li><Link href="/cupom">Cupons</Link></li>
+              <li><Link href="/patrocinador">Patrocinadores</Link></li>
               <li>Sair</li>
             </ul>
           </div>
         </div>
         <div className="container-sidebar__links">
           <ul>
-            <li><a href="/restaurantes">Dashbord Restaurantes</a></li>
-            <li><a href="/cadastrar-restaurante">Cadastro Restaurantes</a></li>
-            <li><a href="/cadastrar-cupom">Cadastro Cupom</a></li>
+            <li><Link href="/restaurantes">Dashbord Restaurantes</Link></li>
+            <li><Link href="/cadastrar-restaurante">Cadastro Restaurantes</Link></li>
+            <li><Link href="/cadastrar-cupom">Cadastro Cupom</Link></li>
             <li>Vizualizar patrocinador</li>
             <li>Sair</li>
           </ul>

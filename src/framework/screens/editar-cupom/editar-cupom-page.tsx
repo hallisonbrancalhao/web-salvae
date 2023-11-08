@@ -1,140 +1,154 @@
 'use client'
-import React, { useState, useEffect } from 'react';
-import InputField from '../../components/cadastro/form-text';
-import SelectEstabelecimento from '@/framework/components/cadastro/form-estabelecimento';
-import InputFieldImage from '../../components/cadastro/form-image';
-import Checkbox from '@/framework/components/cadastro/form-checkbox';
-import './styles.scss';
-import { IEstabelecimento } from '@/core/base/types/estabelecimento.interface';
-import { ICupom } from '@/core/base/types/cupom.interface';
-import { CupomRepository } from '@/services/repositories';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import useCupom from '@/core/hooks/cupom-hook';
+import "./styles.scss";
+import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 
-export default function EditarCupom({ estabelecimento: paramsEstab, cupom: params }: { estabelecimento: IEstabelecimento, cupom: ICupom }) {
-    const cupomEditado = new CupomRepository()
-    const [restaurante, setRestaurante] = useState('');
-    const [nome, setNome] = useState('');
-    const [sobre, setSobre] = useState('');
-    const [foto, setFoto] = useState(null);
-    const [categoria, setCategoria] = useState([]);
-    const [dias, setDias] = useState([]);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
-    const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/cupom';
-    }
+export default function EditarCupom({ id: params }: { id: string }) {
+    const {
+        errors,
+        promocao,
+        register,
+        watch,
+        setValue,
+        listarCupomPorId,
+        handleSubmit,
+        editarCupom,
+        categorias,
+        diasFuncionamento,
+        successMessage,
+    } = useCupom();
 
-    useEffect(() => {
-        setRestaurante(paramsEstab.nome);
-        setNome(params.nome);
-        setSobre(params.sobre);
-        setFoto(params.foto);
-        setCategoria(params.categoria);
-        setDias(params.dias);
-    }, []);
+    const {
+        listaEstabelecimento,
+        listarEstabelecimento,
+    } = useEstabelecimento();
 
-    const handleImageUpload = (imageFile) => {
-        setFoto(imageFile);
+    const [dadosCarregados, setDadosCarregados] = useState(false);
+
+    const handleCategoriaChange = (event: React.ChangeEvent<HTMLInputElement>, categoria: { idCategoriaPromocao: any; label?: string; }) => {
+        const isChecked = event.target.checked;
+        const currentCategorias = watch('cupom.promocaoCategoria');
+        const categoriaId = categoria.idCategoriaPromocao;
+
+        if (isChecked) {
+            currentCategorias.push({ idCategoriaPromocao: categoriaId });
+        } else {
+            const index = currentCategorias.findIndex((cat) => cat.idCategoriaPromocao === categoriaId);
+            if (index !== -1) {
+                currentCategorias.splice(index, 1);
+            }
+        }
+        setValue('cupom.promocaoCategoria', currentCategorias);
     };
 
-    const EditarDados = async () => {
-        try {
-            await cupomEditado.Editar({
-                _id: params._id,
-                restaurante: restaurante,
-                nome: nome,
-                sobre: sobre,
-                foto: foto,
-                categoria: categoria,
-                dias: dias,
-                status: true,
-            });
-            setSuccess('Cupom atualizado com sucesso!');
-        } catch (error) {
-            setError('Ocorreu um erro. Por favor, tente novamente.');
+    const handleDiasChange = (event: React.ChangeEvent<HTMLInputElement>, dia: { idDiaFuncionamento: any; label?: string; }) => {
+        const isChecked = event.target.checked;
+        const currentDias = watch('cupom.promocaoDia');
+        const diaId = dia.idDiaFuncionamento;
+
+        if (isChecked) {
+            currentDias.push({ idDiaFuncionamento: diaId });
+        } else {
+            const index = currentDias.findIndex((d) => d.idDiaFuncionamento === diaId);
+            if (index !== -1) {
+                currentDias.splice(index, 1);
+            }
         }
+        setValue('cupom.promocaoDia', currentDias);
+    };
+
+    useEffect(() => {
+        setDadosCarregados(true);
+        if (dadosCarregados) {
+            if (promocao) {
+                listarCupomPorId(params);
+                listarEstabelecimento()
+                setValue('cupom.idEstabelecimento', promocao.idEstabelecimento ?? '');
+                setValue('cupom.promocaoCategoria', promocao.promocaoCategoria ?? '');
+                setValue('cupom.promocaoDia', promocao.promocaoDia ?? '');
+            }
+        }
+    }, [dadosCarregados, promocao, listarEstabelecimento, setValue, listarCupomPorId, params]);
+
+    const [error, setError] = useState('');
+    const {push} = useRouter()
+    const redirecionarPagina = () => {
+        push('cupom')
     }
-
-    const categorias = [
-        { value: 1, label: 'Presencial' },
-        { value: 2, label: 'Delivery' },
-        { value: 3, label: 'TakeAway' },
-    ];
-
-    const diasFuncionamento = [
-        { value: 1, label: 'Segunda-feira' },
-        { value: 2, label: 'Terça-feira' },
-        { value: 3, label: 'Quarta-feira' },
-        { value: 4, label: 'Quinta-feira' },
-        { value: 5, label: 'Sexta-feira' },
-        { value: 6, label: 'Sábado' },
-        { value: 7, label: 'Domingo' },
-    ];
-
     return (
         <div className='container-restaurente'>
-            <h1 className='h1'>Editar Cupom</h1>
-            <form className="container-forms">
-                <div className="bloco-2-1">
-                    <SelectEstabelecimento
-                        label="Restaurante"
-                        name="restaurante"
-                        value={restaurante}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setRestaurante(e.target.value)}
-                        options={paramsEstab.map((e) => e)}
-                    />
-                    <InputFieldImage onImageUpload={handleImageUpload} label="Imagem Cupom" />
-                </div>
-                <div className="bloco-1">
-                    <InputField label="Nome do Cupom" value={nome}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNome(e.target.value)}
-                        name="nome" />
-                    <InputField label="Sobre o Cupom" value={sobre}
-                        onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setSobre(e.target.value)}
-                        name="sobre" />
-                </div>
-
-                <hr className="divisor" />
-
-                <div className="bloco-1">
-                    <Checkbox
-                        label="Categoria do Restaurante"
-                        name="categoria"
-                        values={categoria}
-                        onChange={(e: React.SetStateAction<string>) => setCategoria(e)}
-                        options={categorias}
-                    />
+            <h1 className='h1'>Cadastro do Cupom</h1>
+            <form className="container-forms" onSubmit={handleSubmit(editarCupom)}>
+                <div className="bloco-2-3">
+                    <p>Restaurante</p>
+                    <p></p>
+                    <select {...register('cupom.idEstabelecimento', {
+                        setValueAs: (value) => parseInt(value, 10),
+                    })}
+                    >
+                        {listaEstabelecimento.map((restaurante) => (
+                            <option value={restaurante.id} key={restaurante.id}>
+                                {restaurante.nome}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.cupom?.idEstabelecimento?.message && (<p>{errors.cupom?.idEstabelecimento?.message}</p>)}
+                    <p></p>
+                    <p>Sobre o Cupom</p>
+                    <p></p>
+                    <input {...register('cupom.descricao')} type="text" placeholder='Sobre o Cupom' />
                 </div>
 
                 <hr className="divisor" />
 
                 <div className="bloco-1">
-                    <Checkbox
-                        label="Dias de Funcionamento"
-                        name="dias"
-                        values={dias}
-                        onChange={(e: React.SetStateAction<string>) => setDias(e)}
-                        options={diasFuncionamento}
-                    />
+                    <p>Categoria de Atendimento</p>
+                    <p></p>
+                    <div className="bloco-3">
+                        {categorias.map((categoria, index) => (
+                            <div key={index}>
+                                <input
+                                    type="checkbox"
+                                    onChange={(e) => handleCategoriaChange(e, categoria)}
+                                    checked={watch('cupom.promocaoCategoria')?.some((cat) => cat.idCategoriaPromocao === categoria.idCategoriaPromocao)}
+                                    value={categoria.idCategoriaPromocao}
+                                />
+                                {categoria.label}
+                            </div>
+                        ))}
+                    </div>
+                    {errors.cupom?.promocaoCategoria?.message && (<p>{errors.cupom?.promocaoCategoria?.message}</p>)}
+                    <p></p>
+                    <p>Dias de Funcionamento</p>
+                    <p></p>
+                    <div className="bloco-7">
+                        {diasFuncionamento.map((dia, index) => (
+                            <div key={index}>
+                                <input
+                                    type="checkbox"
+                                    onChange={(e) => handleDiasChange(e, dia)}
+                                    checked={watch('cupom.promocaoDia')?.some((d) => d.idDiaFuncionamento === dia.idDiaFuncionamento)}
+                                    value={dia.idDiaFuncionamento}
+                                />
+                                {dia.label}
+                            </div>
+                        ))}
+                    </div>
+                    {errors.cupom?.promocaoDia?.message && (<p>{errors.cupom?.promocaoDia?.message}</p>)}
+                    <p></p>
                 </div>
-
-                <hr className="divisor" />
-
                 <div className="container-botao">
-                    <button
-                        type="button"
-                        onClick={EditarDados}
-                        className="botao">
-                        Salvar Alterações
-                    </button>
+                    <button className="botao" type='submit'>Enviar</button>
                 </div>
             </form>
-            {success && (
+            {successMessage && (
                 <div className="modal">
                     <div className="modal-content">
-                        <p className="erro2">{success}</p>
+                        <p className="erro2">{successMessage}</p>
                         <button
                             onClick={() => {
-                                setSuccess('');
                                 redirecionarPagina();
                             }}
                             className="erro-botao">
@@ -148,7 +162,7 @@ export default function EditarCupom({ estabelecimento: paramsEstab, cupom: param
                     <div className="erro">
                         <p className="erro2">{error}</p>
                         <button
-                            onClick={() => setError('')}
+
                             className="erro-botao">
                             Fechar
                         </button>
@@ -156,5 +170,5 @@ export default function EditarCupom({ estabelecimento: paramsEstab, cupom: param
                 </div>
             )}
         </div>
-    );
+    )
 }

@@ -1,4 +1,3 @@
 import { CupomDto } from "../dtos/cupom.dto";
-export interface ICupom extends CupomDto {
-    id: string;
+export interface ICupom extends CupomDto {  
 };

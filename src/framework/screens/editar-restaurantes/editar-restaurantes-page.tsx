@@ -4,6 +4,7 @@ import "./styles.scss";
 import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useRouter } from 'next/navigation';
 
 export default function EditarRestaurante({ id: params }: { id: string }) {
     const {
@@ -59,8 +60,9 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
     };
     const passwordType = showPassword ? 'text' : 'password';
     const [error, setError] = useState('');
+    const {push} = useRouter()
     const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/restaurantes';
+        push('restaurantes')
     }
     return (
         <div className='container-restaurente'>

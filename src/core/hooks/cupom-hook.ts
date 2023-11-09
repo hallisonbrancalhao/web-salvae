@@ -7,7 +7,7 @@ import { schemaFormCupom } from "../base/schemas/cupom-schema";
 import { FormCupomProps } from "../base/types/cupom.zod";
 
 export default function useCupom() {
-  const [promocao, setPromocao] =
+  const [cupom, setCupom] =
   useState<ICupom | null>(null);
 
   const {
@@ -80,7 +80,7 @@ export default function useCupom() {
   };
 
   const editarCupom = async (data: FormCupomProps) => {
-    console.log(data.cupom);
+    console.log('entrou');
     if (!auth.token) return;
     const res = await fetch(
       process.env.NEXT_PUBLIC_URL_BASE_AUTH +
@@ -128,7 +128,7 @@ export default function useCupom() {
         }
       ).then((res) => res.json());
       if (response) {
-        setPromocao(response);
+        setCupom(response);
       }
     },
     [auth.token]
@@ -154,7 +154,7 @@ export default function useCupom() {
   }, [listarCupom]);
 
   return {
-    promocao,
+    cupom,
     handleSubmit,
     register,
     watch,

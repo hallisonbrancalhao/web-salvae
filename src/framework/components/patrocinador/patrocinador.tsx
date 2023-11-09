@@ -7,19 +7,17 @@ import Editar from '../../../../assets/images/editar.svg'
 import Excluir from '../../../../assets/images/excluir.svg'
 import Link from 'next/link';
 import '../../screens/dash-restaurantes/styles.scss'
-import { PatrocinadorRepository } from '@/services/repositories'
 interface PatrocinadoresProps {
-    _id: string
+    id: number
     foto: string
     nome: string
     status: boolean
 }
 
-const Patrocinador: React.FC<PatrocinadoresProps> = ({ _id, foto, nome, status }) => {
+const Patrocinador: React.FC<PatrocinadoresProps> = ({ id, foto, nome, status }) => {
     const [toggleStatus, setToggleStatus] = useState(status);
     const toggleIcon = toggleStatus ? faToggleOn : faToggleOff;
 
-    const statusEditado = new PatrocinadorRepository()
     const handleToggleClick = async () => {
         // await statusEditado.EditarStatus({
         //     _id: _id,
@@ -28,7 +26,6 @@ const Patrocinador: React.FC<PatrocinadoresProps> = ({ _id, foto, nome, status }
         setToggleStatus(!toggleStatus);
     };
 
-    const patrocinadorExcluir = new PatrocinadorRepository()
     const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     const handleDeleteClick = () => {
@@ -36,7 +33,6 @@ const Patrocinador: React.FC<PatrocinadoresProps> = ({ _id, foto, nome, status }
     };
 
     const handleConfirmDelete = async () => {
-        await patrocinadorExcluir.Deletar(_id);
         setShowConfirmModal(false);
         window.location.reload();
     };
@@ -61,7 +57,7 @@ const Patrocinador: React.FC<PatrocinadoresProps> = ({ _id, foto, nome, status }
                 />
             </div>
             <div className="item-cabecalho2">
-                <Link href={`/editar-patrocinador/${_id}`}>
+                <Link href={`/editar-patrocinador/${id}`}>
                     <Image src={Editar} alt='' style={{ width: '32x', height: '32px' }} />
                 </Link>
                 <button onClick={handleDeleteClick}>

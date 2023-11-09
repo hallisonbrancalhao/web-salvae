@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import useCupom from '@/core/hooks/cupom-hook';
 import "./styles.scss";
@@ -8,7 +8,7 @@ import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 export default function EditarCupom({ id: params }: { id: string }) {
     const {
         errors,
-        promocao,
+        cupom,
         register,
         watch,
         setValue,
@@ -26,7 +26,6 @@ export default function EditarCupom({ id: params }: { id: string }) {
     } = useEstabelecimento();
 
     const [dadosCarregados, setDadosCarregados] = useState(false);
-
     const handleCategoriaChange = (event: React.ChangeEvent<HTMLInputElement>, categoria: { idCategoriaPromocao: any; label?: string; }) => {
         const isChecked = event.target.checked;
         const currentCategorias = watch('cupom.promocaoCategoria');
@@ -59,21 +58,29 @@ export default function EditarCupom({ id: params }: { id: string }) {
         setValue('cupom.promocaoDia', currentDias);
     };
 
-    useEffect(() => {
+    const fetchData = useCallback(async () => {
+        await listarCupomPorId(params);
         setDadosCarregados(true);
+    },[listarCupomPorId, params])
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    useEffect(() => {
         if (dadosCarregados) {
-            if (promocao) {
-                listarCupomPorId(params);
-                listarEstabelecimento()
-                setValue('cupom.idEstabelecimento', promocao.idEstabelecimento ?? '');
-                setValue('cupom.promocaoCategoria', promocao.promocaoCategoria ?? '');
-                setValue('cupom.promocaoDia', promocao.promocaoDia ?? '');
+            if (cupom) {
+                console.log(cupom.promocaoCategoria)
+                setValue('cupom.idEstabelecimento', cupom.idEstabelecimento);
+                setValue('cupom.descricao', cupom.descricao)
+                setValue('cupom.promocaoCategoria', cupom.promocaoCategoria);
+                setValue('cupom.promocaoDia', cupom.promocaoDia);
             }
         }
-    }, [dadosCarregados, promocao, listarEstabelecimento, setValue, listarCupomPorId, params]);
+    }, [listarCupomPorId, params, cupom, setValue, dadosCarregados]);
 
     const [error, setError] = useState('');
-    const {push} = useRouter()
+    const { push } = useRouter()
     const redirecionarPagina = () => {
         push('cupom')
     }

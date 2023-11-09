@@ -3,13 +3,16 @@ import React, { useState } from 'react';
 import Patrocinador from '@/framework/components/patrocinador/patrocinador';
 import './styles.scss';
 import Link from 'next/link';
-import { Patrocinadores } from '@/core/base/types/patrocinadores';
+import usePatrocinio from '@/core/hooks/patrocinio-hook';
 
-export default function Patrocinadores({ patrocinador: params }: { patrocinador: Patrocinadores[] }) {
+export default function Patrocinadores() {
     const [searchText, setSearchText] = useState('');
-    const listaPatrocinadores = params
+    const { listaPatrocinadores } = usePatrocinio();
 
-    const filteredPatrocinadores = listaPatrocinadores.filter(patrocinador => {
+    // Certifique-se de que listaPatrocinadores seja uma matriz
+    const patrocinadores = Array.isArray(listaPatrocinadores) ? listaPatrocinadores : [];
+
+    const filteredPatrocinadores = patrocinadores.filter(patrocinador => {
         if (searchText.trim() === '') {
             return true;
         }
@@ -44,9 +47,9 @@ export default function Patrocinadores({ patrocinador: params }: { patrocinador:
             {filteredPatrocinadores.map(patrocinador => (
                 <div key={patrocinador.nome} className="item-cabecalho">
                     <Patrocinador
-                        _id={patrocinador._id}
+                        id={patrocinador.id}
                         nome={patrocinador.nome}
-                        foto={patrocinador.foto ?? 'assets/images/logo.svg'}
+                        foto={patrocinador.banner ?? 'assets/images/logo.svg'}
                         status={patrocinador.status}
                     />
                 </div>

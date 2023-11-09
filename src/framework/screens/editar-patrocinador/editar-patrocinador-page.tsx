@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import InputField from '../../components/cadastro/form-text';
 import InputFieldImage from '../../components/cadastro/form-image';
 import { PatrocinadorRepository } from '@/services/repositories';
-import { Patrocinadores } from '@/core/base/types/patrocinadores';
+import { Patrocinadores } from '@/core/base/types/patrocinio.interface';
 import './styles.scss';
 
 export default function EditarPatrocinador({ patrocinador: params }: { patrocinador: Patrocinadores }) {

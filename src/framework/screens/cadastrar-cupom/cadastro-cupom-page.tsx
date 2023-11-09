@@ -31,9 +31,9 @@ export default function CadastroCupom() {
         const diaId = dia.idDiaFuncionamento;
 
         if (isChecked) {
-            currentDias.push({ idDiaFuncionamento: diaId });
+            currentDias.push({ id: diaId });
         } else {
-            const index = currentDias.findIndex((d) => d.idDiaFuncionamento === diaId);
+            const index = currentDias.findIndex((d) => d.id === diaId);
             if (index !== -1) {
                 currentDias.splice(index, 1);
             }
@@ -98,7 +98,7 @@ export default function CadastroCupom() {
                                 <input
                                     type="checkbox"
                                     onChange={(e) => handleDiasChange(e, dia)}
-                                    checked={watch('cupom.promocaoDia')?.some((d) => d.idDiaFuncionamento === dia.idDiaFuncionamento)}
+                                    checked={watch('cupom.promocaoDia')?.some((d) => d.id === dia.idDiaFuncionamento)}
                                     value={dia.idDiaFuncionamento}
                                 />
                                 {dia.label}

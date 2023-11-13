@@ -5,8 +5,10 @@ import Image from "next/image";
 import "src/app/globals.css";
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Sidebar() {
+  const { push } = useRouter()
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -14,6 +16,13 @@ export default function Sidebar() {
   const closeSidebar = () => {
     setIsSidebarOpen(false);
   };
+
+  const handleLogout = () => {
+    console.log('entrou')
+    localStorage.removeItem(process.env.NEXT_PUBLIC_USER_TOKEN)
+    push('/')
+  }
+
   return (
     <>
       <button
@@ -46,7 +55,7 @@ export default function Sidebar() {
               <li><Link href="/restaurantes">Restaurantes</Link></li>
               <li><Link href="/cupom">Cupons</Link></li>
               <li><Link href="/patrocinador">Patrocinadores</Link></li>
-              <li>Sair</li>
+              <button onClick={handleLogout}>Sair</button>
             </ul>
           </div>
         </div>
@@ -56,7 +65,7 @@ export default function Sidebar() {
             <li><Link href="/cadastrar-restaurante">Cadastro Restaurantes</Link></li>
             <li><Link href="/cadastrar-cupom">Cadastro Cupom</Link></li>
             <li>Vizualizar patrocinador</li>
-            <li>Sair</li>
+            <li onClick={() => handleLogout}>Sair</li>
           </ul>
         </div>
       </aside>

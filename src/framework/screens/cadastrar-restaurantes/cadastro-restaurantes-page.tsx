@@ -88,7 +88,7 @@ export default function CadastroEstabelecimento() {
                             setValueAs: (value) => parseInt(value, 10),
                         })}
                     >
-                        {categorias.map((categoria) => (
+                        {categorias.map((categoria: any) => (
                             <option key={categoria.value} value={categoria.value}>
                                 {categoria.label}
                             </option>

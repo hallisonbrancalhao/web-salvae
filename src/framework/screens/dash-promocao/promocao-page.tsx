@@ -12,11 +12,11 @@ export default function Promocoes() {
     const { listarEstabelecimentoPorId, listaEstabelecimento } = useEstabelecimento()
     const cupons = listaCupom;
 
-    const filteredCupons = cupons.filter((cupom) => {
+    const filteredCupons = cupons.filter((promocao) => {
         if (searchText.trim() === "") {
             return true;
         }
-        return cupom.descricao.toLowerCase().includes(searchText.toLowerCase());
+        return promocao.descricao.toLowerCase().includes(searchText.toLowerCase());
     });
 
     return (

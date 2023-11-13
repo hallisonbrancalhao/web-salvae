@@ -1,6 +1,6 @@
 import { EnderecoDto } from "./endereco.dto";
 export interface EstabelecimentoDto {
-    id: string,
+    id: number,
     cnpj:string,
     nome:string,
     senha:string,

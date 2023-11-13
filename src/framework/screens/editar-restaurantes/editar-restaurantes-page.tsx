@@ -62,7 +62,7 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
     const [error, setError] = useState('');
     const {push} = useRouter()
     const redirecionarPagina = () => {
-        push('restaurantes')
+        push('/restaurantes')
     }
     return (
         <div className='container-restaurente'>
@@ -168,7 +168,7 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                             setValueAs: (value) => parseInt(value, 10),
                         })}
                     >
-                        {categorias.map((categoria) => (
+                        {categorias.map((categoria: any) => (
                             <option key={categoria.value} value={categoria.value}>
                                 {categoria.label}
                             </option>

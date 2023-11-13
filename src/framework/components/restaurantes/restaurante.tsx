@@ -10,7 +10,7 @@ import "../../screens/dash-restaurantes/styles.scss";
 import useEstabelecimento from "@/core/hooks/estabelecimento-hook";
 import { useRouter } from "next/navigation";
 interface RestaurantesProps {
-  id: string;
+  id: number;
   fotoPerfil: string;
   nome: string;
   avaliacao: number;

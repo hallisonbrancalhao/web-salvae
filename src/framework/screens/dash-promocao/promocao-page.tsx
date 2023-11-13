@@ -45,17 +45,17 @@ export default function Promocoes() {
                         <div className="item-cabecalho">AÇÕES</div>
                     </div>
 
-                    {filteredCupons.map((cupom) => (
-                        <div key={cupom.descricao} className="item-cabecalho">
+                    {filteredCupons.map((promocao) => (
+                        <div key={promocao.descricao} className="item-cabecalho">
                             <Cupom
-                                id={cupom.id}
-                                nome={cupom.descricao}
-                                status={cupom.status}
+                                id={promocao.id}
+                                nome={promocao.descricao}
+                                status={promocao.status}
                             />
                         </div>
                     ))}
                     <div className="container-botao">
-                        <Link href="/cadastrar-cupom">
+                        <Link href="/cadastrar-promocao">
                             <button className="botao">+ Adicionar Cupom</button>
                         </Link>
                     </div>

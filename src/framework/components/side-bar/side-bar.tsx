@@ -53,19 +53,18 @@ export default function Sidebar() {
           <div className="container-sidebar__links">
             <ul>
               <li><Link href="/restaurantes">Restaurantes</Link></li>
-              <li><Link href="/cupom">Cupons</Link></li>
-              <li><Link href="/patrocinador">Patrocinadores</Link></li>
+              <li><Link href="/promocao">Cupons</Link></li>
+              {/* <li><Link href="/patrocinador">Patrocinadores</Link></li> */}
               <button onClick={handleLogout}>Sair</button>
             </ul>
           </div>
         </div>
         <div className="container-sidebar__links">
           <ul>
-            <li><Link href="/restaurantes">Dashbord Restaurantes</Link></li>
-            <li><Link href="/cadastrar-restaurante">Cadastro Restaurantes</Link></li>
-            <li><Link href="/cadastrar-cupom">Cadastro Cupom</Link></li>
-            <li>Vizualizar patrocinador</li>
-            <li onClick={() => handleLogout}>Sair</li>
+            <li><Link href="/restaurantes">Restaurantes</Link></li>
+            <li><Link href="/promocao">Cupons</Link></li>
+            {/* <li><Link href="/patrocinador">Patrocinadores</Link></li> */}
+            <button onClick={handleLogout}>Sair</button>
           </ul>
         </div>
       </aside>

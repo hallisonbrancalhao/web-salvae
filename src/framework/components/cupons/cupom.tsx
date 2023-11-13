@@ -7,7 +7,7 @@ import Editar from '../../../../assets/images/editar.svg'
 import Excluir from '../../../../assets/images/excluir.svg'
 import Link from 'next/link';
 import '../../screens/dash-restaurantes/styles.scss'
-import useCupom from '@/core/hooks/cupom-hook'
+import usePromocao from '@/core/hooks/promocao-hook'
 interface CuponsProps {
     id: string
     nome: string
@@ -26,7 +26,7 @@ const Cupom: React.FC<CuponsProps> = ({ id, nome, status }) => {
         setToggleStatus(!toggleStatus);
     };
 
-    const { excluirCupom } = useCupom();
+    const { excluirCupom } = usePromocao();
 
     const [showConfirmModal, setShowConfirmModal] = useState(false);
 

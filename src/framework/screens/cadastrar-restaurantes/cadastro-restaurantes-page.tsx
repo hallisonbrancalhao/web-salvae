@@ -15,7 +15,7 @@ export default function CadastroEstabelecimento() {
     const passwordType = showPassword ? 'text' : 'password'
     const [error, setError] = useState('');
     const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/cupom';
+//        window.location.href = 'http://localhost:3000/restaurantes';
     }
 
     return (

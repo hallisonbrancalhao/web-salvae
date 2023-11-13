@@ -1,10 +1,10 @@
-import EditarCupomPage from "@/framework/screens/editar-cupom/editar-cupom-page";
+import EditarPromocaoPage from "@/framework/screens/editar-promocao/editar-promocao-page";
 
 export default async function EditarCupom({ params }: { params: { id: string } }) {
   const id = params.id
   return (
     <>
-      <EditarCupomPage id={id} />
+      <EditarPromocaoPage id={id} />
     </>
   )
 }

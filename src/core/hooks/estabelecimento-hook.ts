@@ -198,8 +198,9 @@ export default function useEstabelecimento() {
   );
 
   const criarEstabelecimento = async (data: FormEstabelecimentoProps) => {
+    console.log(data)
     if (!auth.token) return;
-    const res = await fetch(process.env.NEXT_PUBLIC_URL_RESTAURANTE, {
+    const res = await fetch(process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

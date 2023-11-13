@@ -1,14 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import "./styles.scss";
-import useCupom from "@/core/hooks/cupom-hook";
+import usePromocao from "@/core/hooks/promocao-hook";
 import Cupom from "@/framework/components/cupons/cupom";
 import Link from "next/link";
 import useEstabelecimento from "@/core/hooks/estabelecimento-hook";
 
-export default function Cupons() {
+export default function Promocoes() {
     const [searchText, setSearchText] = useState("");
-    const { listaCupom } = useCupom();
+    const { listaCupom } = usePromocao();
     const { listarEstabelecimentoPorId, listaEstabelecimento } = useEstabelecimento()
     const cupons = listaCupom;
 

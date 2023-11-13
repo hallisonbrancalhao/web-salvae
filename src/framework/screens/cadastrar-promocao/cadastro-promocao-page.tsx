@@ -1,17 +1,17 @@
 "use client"
 import React, { useState } from 'react';
-import useCupom from '@/core/hooks/cupom-hook';
+import usePromocao from '@/core/hooks/promocao-hook';
 import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 import "./styles.scss";
 
-export default function CadastroCupom() {
+export default function CadastroPromocao() {
     const { listaEstabelecimento } = useEstabelecimento();
     const restaurantes = listaEstabelecimento;
-    const { errors, register, criarCupom, handleSubmit, watch, setValue, categorias, diasFuncionamento, successMessage } = useCupom()
+    const { errors, register, criarCupom, handleSubmit, watch, setValue, categorias, diasFuncionamento, successMessage } = usePromocao()
 
     const handleCategoriaChange = (event: React.ChangeEvent<HTMLInputElement>, categoria: { idCategoriaPromocao: any; label?: string; }) => {
         const isChecked = event.target.checked;
-        const currentCategorias = watch('cupom.promocaoCategoria');
+        const currentCategorias = watch('promocao.promocaoCategoria');
         const categoriaId = categoria.idCategoriaPromocao;
 
         if (isChecked) {
@@ -22,28 +22,28 @@ export default function CadastroCupom() {
                 currentCategorias.splice(index, 1);
             }
         }
-        setValue('cupom.promocaoCategoria', currentCategorias);
+        setValue('promocao.promocaoCategoria', currentCategorias);
     };
 
     const handleDiasChange = (event: React.ChangeEvent<HTMLInputElement>, dia: { idDiaFuncionamento: any; label?: string; }) => {
         const isChecked = event.target.checked;
-        const currentDias = watch('cupom.promocaoDia');
+        const currentDias = watch('promocao.promocaoDia');
         const diaId = dia.idDiaFuncionamento;
 
         if (isChecked) {
-            currentDias.push({ id: diaId });
+            currentDias.push({ idDiaFuncionamento: diaId });
         } else {
-            const index = currentDias.findIndex((d) => d.id === diaId);
+            const index = currentDias.findIndex((d) => d.idDiaFuncionamento === diaId);
             if (index !== -1) {
                 currentDias.splice(index, 1);
             }
         }
-        setValue('cupom.promocaoDia', currentDias);
+        setValue('promocao.promocaoDia', currentDias);
     };
 
     const [error, setError] = useState('');
     const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/restaurantes';
+        window.location.href = 'http://localhost:3000/promocao';
     }
 
     return (
@@ -53,7 +53,7 @@ export default function CadastroCupom() {
                 <div className="bloco-2-3">
                     <p>Restaurante</p>
                     <p></p>
-                    <select {...register('cupom.idEstabelecimento', {
+                    <select {...register('promocao.idEstabelecimento', {
                         setValueAs: (value) => parseInt(value, 10),
                     })}
                     >
@@ -63,11 +63,11 @@ export default function CadastroCupom() {
                             </option>
                         ))}
                     </select>
-                    {errors.cupom?.idEstabelecimento?.message && (<p>{errors.cupom?.idEstabelecimento?.message}</p>)}
+                    {errors.promocao?.idEstabelecimento?.message && (<p>{errors.promocao?.idEstabelecimento?.message}</p>)}
                     <p></p>
                     <p>Sobre o Cupom</p>
                     <p></p>
-                    <input {...register('cupom.descricao')} type="text" placeholder='Sobre o Cupom' />
+                    <input {...register('promocao.descricao')} type="text" placeholder='Sobre o Cupom' />
                 </div>
 
                 <hr className="divisor" />
@@ -81,14 +81,14 @@ export default function CadastroCupom() {
                                 <input
                                     type="checkbox"
                                     onChange={(e) => handleCategoriaChange(e, categoria)}
-                                    checked={watch('cupom.promocaoCategoria')?.some((cat) => cat.idCategoriaPromocao === categoria.idCategoriaPromocao)}
+                                    checked={watch('promocao.promocaoCategoria')?.some((cat) => cat.idCategoriaPromocao === categoria.idCategoriaPromocao)}
                                     value={categoria.idCategoriaPromocao}
                                 />
                                 {categoria.label}
                             </div>
                         ))}
                     </div>
-                    {errors.cupom?.promocaoCategoria?.message && (<p>{errors.cupom?.promocaoCategoria?.message}</p>)}
+                    {errors.promocao?.promocaoCategoria?.message && (<p>{errors.promocao?.promocaoCategoria?.message}</p>)}
                     <p></p>
                     <p>Dias de Funcionamento</p>
                     <p></p>
@@ -98,14 +98,14 @@ export default function CadastroCupom() {
                                 <input
                                     type="checkbox"
                                     onChange={(e) => handleDiasChange(e, dia)}
-                                    checked={watch('cupom.promocaoDia')?.some((d) => d.id === dia.idDiaFuncionamento)}
+                                    checked={watch('promocao.promocaoDia')?.some((d) => d.idDiaFuncionamento === dia.idDiaFuncionamento)}
                                     value={dia.idDiaFuncionamento}
                                 />
                                 {dia.label}
                             </div>
                         ))}
                     </div>
-                    {errors.cupom?.promocaoDia?.message && (<p>{errors.cupom?.promocaoDia?.message}</p>)}
+                    {errors.promocao?.promocaoDia?.message && (<p>{errors.promocao?.promocaoDia?.message}</p>)}
                     <p></p>
                 </div>
                 <div className="container-botao">

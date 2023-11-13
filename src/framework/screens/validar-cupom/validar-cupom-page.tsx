@@ -1,61 +1,59 @@
 "use client"
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Logo from '../../../../assets/images/logo.svg';
+import useCupom from '@/core/hooks/cupom-hook';
 import './styles.scss';
-import { AuthContext, useAuth } from '@/services/api/auth/contexts/Auth';
 
 export default function Login() {
-
-    const auth = useContext(AuthContext)
     const [codigo, setCodigo] = useState('');
     const [error, setError] = useState('');
-
-    const handleSubmit = async () => {
-        const response = await auth.signIn(codigo,error);
-        if (response) return window.location.href = '/restaurantes';
-    };
+    const { errors, register, validarCupom, handleSubmit, successMessage } = useCupom()
+    const redirecionarPagina = () => {
+        window.location.href = 'http://localhost:3000/restaurantes';
+    }
 
     return (
-        <div className='container'>
+        <div className='container-cupom'>
             <header className="header">
                 <Image src={Logo} alt='' width={452} height={192} className="logo" />
             </header>
-            <main className='main'>
-                <div className="usuario">
-                    <label htmlFor="usuario">Insira o código:</label>
-                </div>
-                <div className="form">
-                    <input
-                        type="email"
-                        name="usuario"
-                        id="usuario"
-                        value={codigo}
-                        onChange={(e) => setCodigo(e.target.value)}
-                        className="input"
-                    />
+            <form className="main" onSubmit={handleSubmit(validarCupom)}>
+                <div className="bloco-2-3">
+                    <p>Código do Cupom</p>
+                    <p></p>
+                    <input {...register('cupom.codigo')} type="text" placeholder='Código' />
                 </div>
                 <div className="container-botao">
-                    <button
-                        onClick={handleSubmit}
-                        className="botao">
-                        Validar
-                    </button>
+                    <button className="botao" type='submit'>Validar</button>
                 </div>
-                {error && (
-                    <div className="container-erro">
-                        <div className="erro">
-                            <p className="erro2">{error}</p>
-                            <button
-                                onClick={() => setError('')}
-                                className="erro-botao"
-                            >
-                                Fechar
-                            </button>
-                        </div>
+            </form>
+            {successMessage && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <p className="erro2">{successMessage}</p>
+                        <button
+                            onClick={() => {
+                                redirecionarPagina();
+                            }}
+                            className="erro-botao">
+                            Fechar
+                        </button>
                     </div>
-                )}
-            </main>
+                </div>
+            )}
+            {error && (
+                <div className="container-erro">
+                    <div className="erro">
+                        <p className="erro2">{error}</p>
+                        <button
+
+                            className="erro-botao">
+                            Fechar
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
-    );
+    )
 }

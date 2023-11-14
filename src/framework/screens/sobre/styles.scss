@@ -9,7 +9,7 @@
         @apply flex justify-center w-full;
 
         .timeline {
-            @apply w-auto;
+            @apply text-justify w-auto;
         }
 
         .imagem-linha{
@@ -50,6 +50,6 @@
     }
     
     .componente-texto {
-        @apply text-[#A3B8B8] text-sm;
+        @apply text-justify text-[#A3B8B8] text-sm;
     }
 }

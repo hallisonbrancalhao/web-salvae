@@ -18,7 +18,7 @@ export default function Login() {
             <header className="header">
                 <Image src={Logo} alt='' width={452} height={192} className="logo" />
             </header>
-            <form className="main" onSubmit={handleSubmit(validarCupom)}>
+            <form className="main" onSubmit={handleSubmit(validarCupom())}>
                 <div className="bloco-2-3">
                     <p>Código do Cupom</p>
                     <p></p>

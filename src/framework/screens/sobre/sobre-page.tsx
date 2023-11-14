@@ -13,9 +13,10 @@ export default function Sobre() {
             <div className="container-timeline">
                 <div className="timeline">
                     <div className="linha1">
-                        <TimeLine
-                            timeLineText='Neste ano o guia maringa gastronomica doaijfjw foiew fowihoiwhn fwoihfwe 
-                            fwoihfw fwoihfw  fweoihfw ih.'
+                    <TimeLine
+                            timeLineText='Em 2021, o Maringá Gastronômica lança a primeira edição do Salvaê com o objetivo de 
+                            fomentar o setor de bares e restaurantes de Maringá, afetado pela pandemia. Pouco tempo depois, se 
+                            consolida o maior perfil de dicas da cidade com mais de 100 mil seguidores. '
                             ano='2021'
                             foto={Foto}
                         />
@@ -26,18 +27,19 @@ export default function Sobre() {
                 </div>
                 <div className="timeline">
                     <div className="linha2">
-                        <TimeLine
-                            timeLineText='Neste ano o guia maringa gastronomica doaijfjw foiew fowihoiwhn fwoihfwe 
-                            fwoihfw fwoihfw  fweoihfw ih.'
-                            ano='2020'
+                    <TimeLine
+                            timeLineText='Em maio de 2018, Felipe e Elvis criaram o Maringá Gastronômica para mostrar suas 
+                            aventuras gastronômicas por Maringá e em pouco tempo ganharam a confiança e o prestígio dos maringaenses.'
+                            ano='2018'
                             foto={Foto}
                         />
                     </div>
                     <div className="linha3">
                         <TimeLine
-                            timeLineText='Neste ano o guia maringa gastronomica doaijfjw foiew fowihoiwhn fwoihfwe 
-                            fwoihfw fwoihfw  fweoihfw ih.'
-                            ano='2022'
+                            timeLineText='Em 2023, o Maringá Gastronômica caminhou para um rebranding com o objetivo de expandir horizontes. 
+                            O perfil, que nasceu compartilhando dicas gastronômicas, se tranforma em um perfil de dicas gerais para os 
+                            maringaenses e visam explorar o mundo. Junto com a mudança, vem o lançamento do aplicativo do Salvaê'
+                            ano='2023'
                             foto={Foto}
                         />
                     </div>

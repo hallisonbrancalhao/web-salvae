@@ -1,3 +1,5 @@
+'use client'
+import React, { useState } from "react";
 import Image from "next/image";
 import "./styles.scss";
 import Logo from "assets/images/logo.svg";
@@ -13,26 +15,23 @@ import Reipipe from "assets/images/reipide.svg";
 import Cookie from "assets/images/cookeis.svg";
 import Expreme from "assets/images/expreme.svg";
 
-
-
 export default function HomePage() {
-
-
+  const [showVideo, setShowVideo] = useState(true);
   return (
     <>
       <div>
-        {/* Seção 1 */}
         <div className="fundo">
-
           <div className="fundo-inicial">
             <div className="fundo-inicial__frase-impacto">
-              <h1>Frase de impacto</h1>
+              <h1>O Maior Tour Gastronômico</h1>
+            </div>
+            <div className="fundo-inicial__frase-impacto">
+              <h1>de Maringá.</h1>
             </div>
             <div className="fundo-inicial__sub-texto">
               <h3>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris semper
-                <p>nisl nec neque egestas, nec pharetra massa accumsan.</p>
-
+                Um Tour Gastronômico pela nossa cidade que te dá 1 prato em dobro em mais de 100 estabelecimentos selecionados,
+                <p>o que te garante uma economia de aproximadamente R$ 7 mil.</p>
               </h3>
             </div>
             <div className="fundo-inicial__aplicativos ">
@@ -40,20 +39,24 @@ export default function HomePage() {
               <Image src={Ios} width={270} height={80} alt="" />
             </div>
             <div className="fundo-inicial__como-funciona">
-              <h1>Como funcioona o</h1>
+              <h1>Como funciona o</h1>
               <div className="imagem">
                 <Image src={Logo} width={226} height={100} alt="" />
-
               </div>
             </div>
-            <video controls>
-              <source src="https://www.youtube.com/watch?v=VPYXaZrbJww" type="video/mp4" />
-            </video>
+            {showVideo && (
+              <div className="video-container">
+                <iframe
+                  width="560"
+                  height="315"
+                  src="https://www.youtube.com/watch?v=k1JfQ-y9zcU"
+                  title="YouTube video"
+                  allowFullScreen
+                  allow="autoplay"
+                ></iframe>
+              </div>
+            )}
           </div>
-
-
-          {/* Seção 2 */}
-
           <div className="restaurantes">
             <div className="fundo-2">
               <div className="frase-3">

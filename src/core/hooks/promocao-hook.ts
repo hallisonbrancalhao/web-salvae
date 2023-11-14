@@ -64,7 +64,6 @@ export default function usePromocao() {
   };
 
   const criarCupom = async (data: FormPromocaoProps) => {
-    console.log('entrou!')
     console.log(data.promocao);
     if (!auth.token) return;
     const res = await fetch(process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/promocao", {

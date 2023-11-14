@@ -16,7 +16,7 @@ export default function Promocoes() {
         if (searchText.trim() === "") {
             return true;
         }
-        return promocao.descricao.toLowerCase().includes(searchText.toLowerCase());
+        return promocao.descricao!.toLowerCase().includes(searchText.toLowerCase());
     });
 
     return (
@@ -44,13 +44,13 @@ export default function Promocoes() {
                         <div className="item-cabecalho">STATUS</div>
                         <div className="item-cabecalho">AÇÕES</div>
                     </div>
-
-                    {filteredCupons.map((promocao) => (
+                    
+                    {filteredCupons.length && filteredCupons.map((promocao) => (
                         <div key={promocao.descricao} className="item-cabecalho">
                             <Cupom
-                                id={promocao.id}
-                                nome={promocao.descricao}
-                                status={promocao.status}
+                                id={promocao.id!}
+                                nome={promocao.descricao!}
+                                status={promocao.status!}
                             />
                         </div>
                     ))}

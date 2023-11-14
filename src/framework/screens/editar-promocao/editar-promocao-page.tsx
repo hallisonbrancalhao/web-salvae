@@ -61,7 +61,7 @@ export default function EditarPromocao({ id: params }: { id: string }) {
     const fetchData = useCallback(async () => {
         await listarCupomPorId(params);
         setDadosCarregados(true);
-    },[listarCupomPorId, params])
+    }, [listarCupomPorId, params])
 
     useEffect(() => {
         fetchData();
@@ -69,21 +69,27 @@ export default function EditarPromocao({ id: params }: { id: string }) {
 
     useEffect(() => {
         if (dadosCarregados) {
-            if (promocao) {
-                console.log(promocao.promocaoCategoria)
-                console.log(promocao.promocaoDia)
-                setValue('promocao.idEstabelecimento', promocao.idEstabelecimento);
+            if (promocao && promocao.estabelecimento && promocao.descricao && promocao.promocaoCategoria && promocao.promocaoDia) {
+                setValue('promocao.idEstabelecimento', promocao.estabelecimento.id);
                 setValue('promocao.descricao', promocao.descricao)
-                setValue('promocao.promocaoCategoria', promocao.promocaoCategoria);
-                setValue('promocao.promocaoDia', promocao.promocaoDia);
+                setValue('promocao.promocaoCategoria', promocao.promocaoCategoria.map((categoria) => {
+                    return {
+                        idCategoriaPromocao: categoria.id
+                    };
+                }));
+                setValue('promocao.promocaoDia', promocao.promocaoDia.map((dia) => {
+                    return {
+                        idDiaFuncionamento: dia
+                    };
+                }));
             }
         }
-    }, [listarCupomPorId, params, promocao, setValue, dadosCarregados]);
+    }, [promocao, setValue, dadosCarregados]);
 
     const [error, setError] = useState('');
     const { push } = useRouter()
     const redirecionarPagina = () => {
-        push('cupom')
+        push('promocao')
     }
     return (
         <div className='container-restaurente'>
@@ -107,12 +113,13 @@ export default function EditarPromocao({ id: params }: { id: string }) {
                     <p>Sobre o Cupom</p>
                     <p></p>
                     <input {...register('promocao.descricao')} type="text" placeholder='Sobre o Cupom' />
+                    {errors.promocao?.descricao?.message && (<p>{errors.promocao?.descricao?.message}</p>)}
                 </div>
 
                 <hr className="divisor" />
 
                 <div className="bloco-1">
-                <p>Categoria de Atendimento</p>
+                    <p>Categoria de Atendimento</p>
                     <p></p>
                     <div className="bloco-3">
                         {categorias.map((categoria, index) => (

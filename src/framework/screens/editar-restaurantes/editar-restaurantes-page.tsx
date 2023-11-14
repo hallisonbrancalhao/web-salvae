@@ -15,8 +15,6 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
         listarEstabelecimentoPorId,
         editarEstabelecimento,
         handleSubmit,
-        handleImagePerfil,
-        handleImageCapa,
         categorias,
         successMessage,
     } = useEstabelecimento();
@@ -43,13 +41,13 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                 setValue('estabelecimento.instagram', estabelecimento.instagram ?? '');
                 setValue('estabelecimento.whatsapp', estabelecimento.whatsapp ?? '');
                 setValue('estabelecimento.estabelecimentoCategoria', estabelecimento.estabelecimentoCategoria ?? 1);
-                setValue('estabelecimento.endereco.cep', estabelecimento.endereco.cep ?? '');
-                setValue('estabelecimento.endereco.logradouro', estabelecimento.endereco.logradouro ?? '');
-                setValue('estabelecimento.endereco.numero', estabelecimento.endereco.numero ?? '');
-                setValue('estabelecimento.endereco.complemento', estabelecimento.endereco.complemento ?? '');
-                setValue('estabelecimento.endereco.bairro', estabelecimento.endereco.bairro ?? '');
-                setValue('estabelecimento.endereco.cidade', estabelecimento.endereco.cidade ?? '');
-                setValue('estabelecimento.endereco.estado', estabelecimento.endereco.estado ?? '');
+                setValue('estabelecimento.cep', estabelecimento.cep ?? '');
+                setValue('estabelecimento.logradouro', estabelecimento.logradouro ?? '');
+                setValue('estabelecimento.numero', estabelecimento.numero ?? '');
+                setValue('estabelecimento.complemento', estabelecimento.complemento ?? '');
+                setValue('estabelecimento.bairro', estabelecimento.bairro ?? '');
+                setValue('estabelecimento.cidade', estabelecimento.cidade ?? '');
+                setValue('estabelecimento.estado', estabelecimento.estado ?? '');
             }
         }
     }, [dadosCarregados, estabelecimento, register, setValue]);
@@ -112,7 +110,7 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                 <div className="bloco-1">
                     <p>CEP</p>
                     <input
-                        {...register('estabelecimento.endereco.cep')}
+                        {...register('estabelecimento.cep')}
                         type="text"
                         placeholder='CEP'
                         maxLength={9}
@@ -123,36 +121,36 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                     <p>Rua</p>
                     <p>Número</p>
                     <input
-                        {...register('estabelecimento.endereco.logradouro')}
+                        {...register('estabelecimento.logradouro')}
                         type="text"
                         placeholder='Rua'
                     />
                     <input
-                        {...register('estabelecimento.endereco.numero')}
+                        {...register('estabelecimento.numero')}
                         type="text"
                         placeholder='Número'
                     />
                     <p>Complemento</p>
                     <p>Município</p>
                     <input
-                        {...register('estabelecimento.endereco.complemento')}
+                        {...register('estabelecimento.complemento')}
                         type="text"
                         placeholder='Complemento'
                     />
                     <input
-                        {...register('estabelecimento.endereco.bairro')}
+                        {...register('estabelecimento.bairro')}
                         type="text"
                         placeholder='Município'
                     />
                     <p>Cidade</p>
                     <p>Estado</p>
                     <input
-                        {...register('estabelecimento.endereco.cidade')}
+                        {...register('estabelecimento.cidade')}
                         type="text"
                         placeholder='Cidade'
                     />
                     <input
-                        {...register('estabelecimento.endereco.estado')}
+                        {...register('estabelecimento.estado')}
                         type="text"
                         placeholder='Estado'
                     />

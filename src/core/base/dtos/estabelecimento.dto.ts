@@ -1,4 +1,4 @@
-import { EnderecoDto } from "./endereco.dto";
+import { File } from "buffer";
 export interface EstabelecimentoDto {
     id: number,
     cnpj:string,
@@ -6,9 +6,16 @@ export interface EstabelecimentoDto {
     senha:string,
     instagram:string,
     whatsapp:string,
-    fotoPerfil: string,
-    fotoCapa: string,
-    estabelecimentoCategoria: number,
-    endereco: EnderecoDto
+    fotoPerfil: File,
+    fotoCapa: File,
+    estabelecimentoCategoria: string,
+    cep: string,
+    logradouro: string,
+    complemento: string|null,
+    numero: string,
+    bairro: string,
+    cidade: string,
+    estado: string,
+    pais: string|null
     status: boolean
 };

@@ -7,8 +7,7 @@ import { useRouter } from 'next/navigation';
 import "./styles.scss";
 
 export default function CadastroEstabelecimento() {
-    const { errors, register, criarEstabelecimento, handleSubmit, handleImagePerfil, handleImageCapa,
-    categorias, successMessage } = useEstabelecimento()
+    const { errors, register, criarEstabelecimento, handleSubmit, categorias, successMessage } = useEstabelecimento()
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -37,17 +36,17 @@ export default function CadastroEstabelecimento() {
                     <input
                         type="file"
                         accept="image/*"
-                        onChange={handleImagePerfil}
+                        {...register('estabelecimento.fotoPerfil')}
                         className='format-foto'
                     />
-                    {/* {errors.estabelecimento?.fotoPerfil?.message && (<p>{errors.estabelecimento?.fotoPerfil?.message}</p>)} */}
+                    {errors.estabelecimento?.fotoPerfil?.message && (<p>{errors.estabelecimento?.fotoPerfil?.message}</p>)}
                     <input
                         type="file"
                         accept="image/*"
-                        onChange={handleImageCapa}
+                        {...register('estabelecimento.fotoCapa')}
                         className='format-foto'
                     />
-                    {/* {errors.estabelecimento?.fotoCapa?.message && (<p>{errors.estabelecimento?.fotoCapa?.message}</p>)} */}
+                    {errors.estabelecimento?.fotoCapa?.message && (<p>{errors.estabelecimento?.fotoCapa?.message}</p>)}
                     <p>WhatsApp</p>
                     <p>Instagram</p>
                     <input {...register('estabelecimento.whatsapp')} type="text" placeholder='WhatsApp' />
@@ -58,21 +57,21 @@ export default function CadastroEstabelecimento() {
 
                 <div className="bloco-1">
                     <p>CEP</p>
-                    <input {...register('estabelecimento.endereco.cep')} type="text" placeholder='CEP' maxLength={9} />
+                    <input {...register('estabelecimento.cep')} type="text" placeholder='CEP' maxLength={9} />
                 </div>
                 <div className="bloco-2-3">
                     <p>Rua</p>
                     <p>Número</p>
-                    <input {...register('estabelecimento.endereco.logradouro')} type="text" placeholder='Rua' />
-                    <input {...register('estabelecimento.endereco.numero')} type="text" placeholder='Número' />
+                    <input {...register('estabelecimento.logradouro')} type="text" placeholder='Rua' />
+                    <input {...register('estabelecimento.numero')} type="text" placeholder='Número' />
                     <p>Complemento</p>
                     <p>Município</p>
-                    <input {...register('estabelecimento.endereco.complemento')} type="text" placeholder='Complemento' />
-                    <input {...register('estabelecimento.endereco.bairro')} type="text" placeholder='Município' />
+                    <input {...register('estabelecimento.complemento')} type="text" placeholder='Complemento' />
+                    <input {...register('estabelecimento.bairro')} type="text" placeholder='Município' />
                     <p>Cidade</p>
                     <p>Estado</p>
-                    <input {...register('estabelecimento.endereco.cidade')} type="text" placeholder='Cidade' />
-                    <input {...register('estabelecimento.endereco.estado')} type="text" placeholder='Estado' />
+                    <input {...register('estabelecimento.cidade')} type="text" placeholder='Cidade' />
+                    <input {...register('estabelecimento.estado')} type="text" placeholder='Estado' />
                     {/* <p></p>
                     <p></p>
                     <p>País</p>
@@ -87,7 +86,7 @@ export default function CadastroEstabelecimento() {
                     <p>CNPJ</p>
                     <select
                         {...register('estabelecimento.estabelecimentoCategoria', {
-                            setValueAs: (value) => parseInt(value, 10),
+                            setValueAs: (value) => value,
                         })}
                     >
                         {categorias.map((categoria: any) => (

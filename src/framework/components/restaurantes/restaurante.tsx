@@ -9,9 +9,11 @@ import Link from "next/link";
 import "../../screens/dash-restaurantes/styles.scss";
 import useEstabelecimento from "@/core/hooks/estabelecimento-hook";
 import { useRouter } from "next/navigation";
+import { File } from "buffer";
+import { number } from "zod";
 interface RestaurantesProps {
   id: number;
-  fotoPerfil: string;
+  fotoPerfil: File;
   nome: string;
   avaliacao: number;
   status: boolean;

@@ -29,64 +29,33 @@ export default function useEstabelecimento() {
         validasenha: "",
         instagram: "",
         whatsapp: "",
-        fotoPerfil: "",
-        fotoCapa: "",
-        estabelecimentoCategoria: 1,
-        endereco: {
-          cep: "",
-          logradouro: "",
-          numero: "",
-          bairro: "",
-          complemento: "",
-          cidade: "",
-          estado: "",
-          pais: "",
-        },
+        fotoPerfil: null,
+        fotoCapa: null,
+        estabelecimentoCategoria: "",
+        cep: "",
+        logradouro: "",
+        numero: "",
+        bairro: "",
+        complemento: "",
+        cidade: "",
+        estado: "",
+        pais: "",
       },
     },
   });
 
-  const handleImagePerfil = (data: any) => {
-    const file = data.target.files[0];
-    if (file.size > 64 * 1024) {
-      alert("A imagem é muito grande. Selecione uma imagem menor.");
-      return;
-    } else if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const base64Image = e.target.result;
-        setValue("estabelecimento.fotoPerfil", base64Image);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const [categorias, setCategorias] = useState([]);
+  const listarCategorias = useCallback(async () => {
+    if (categorias.length) return;
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/categorias",
+      {
+        method: "GET",
+      }
+    ).then((res) => res.json());
+    setCategorias(response);
+  }, [categorias]);
 
-  const handleImageCapa = (data: any) => {
-    const file = data.target.files[0];
-    if (file.size > 64 * 1024) {
-      alert("A imagem é muito grande. Selecione uma imagem menor.");
-      return;
-    } else if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const base64Image = e.target.result;
-        setValue("estabelecimento.fotoCapa", base64Image);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-    const[categorias, setCategorias] = useState([]);
-    const listarCategorias = useCallback (async () => {
-      if(categorias.length) return
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/categorias",
-        {
-          method: "GET",
-        }
-      ).then((res) => res.json());
-      setCategorias(response);
-    },[categorias])
-  
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleFetchEndereco = useCallback(
@@ -94,17 +63,17 @@ export default function useEstabelecimento() {
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
       const data = await response.json();
       if (data) {
-        setValue("estabelecimento.endereco.cidade", data.localidade);
-        setValue("estabelecimento.endereco.logradouro", data.logradouro);
-        setValue("estabelecimento.endereco.bairro", data.bairro);
-        setValue("estabelecimento.endereco.estado", data.uf);
-        setValue("estabelecimento.endereco.pais", "Brasil");
+        setValue("estabelecimento.cidade", data.localidade);
+        setValue("estabelecimento.logradouro", data.logradouro);
+        setValue("estabelecimento.bairro", data.bairro);
+        setValue("estabelecimento.estado", data.uf);
+        setValue("estabelecimento.pais", "Brasil");
       }
     },
     [setValue]
   );
 
-  const cep = watch("estabelecimento.endereco.cep");
+  const cep = watch("estabelecimento.cep");
   const cnpj = watch("estabelecimento.cnpj");
   const fone = watch("estabelecimento.whatsapp");
 
@@ -119,7 +88,7 @@ export default function useEstabelecimento() {
   };
 
   useEffect(() => {
-    listarCategorias()
+    listarCategorias();
 
     const formatFone = (fone: string) => {
       const numericFone = fone.replace(/[^\d]/g, "");
@@ -146,13 +115,21 @@ export default function useEstabelecimento() {
       return cnpj;
     };
 
-    setValue("estabelecimento.endereco.cep", formatCEP(cep));
+    setValue("estabelecimento.cep", formatCEP(cep));
     setValue("estabelecimento.cnpj", formatCNPJ(cnpj));
     setValue("estabelecimento.whatsapp", formatFone(fone));
 
     if (cep.length != 9) return;
     handleFetchEndereco(cep);
-  }, [handleFetchEndereco, setValue, cep, cnpj, fone, listarCategorias, setCategorias]);
+  }, [
+    handleFetchEndereco,
+    setValue,
+    cep,
+    cnpj,
+    fone,
+    listarCategorias,
+    setCategorias,
+  ]);
 
   const auth = useContext(AuthContext);
 
@@ -198,16 +175,19 @@ export default function useEstabelecimento() {
   );
 
   const criarEstabelecimento = async (data: FormEstabelecimentoProps) => {
-    console.log(data)
+    console.log(data);
     if (!auth.token) return;
-    const res = await fetch(process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.token}`,
-      },
-      body: JSON.stringify(data.estabelecimento),
-    });
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+          Authorization: `Bearer ${auth.token}`,
+        },
+        body: JSON.stringify(data.estabelecimento),
+      }
+    );
     setSuccessMessage("Cadastro realizado com sucesso!");
     return true;
   };
@@ -222,7 +202,7 @@ export default function useEstabelecimento() {
       {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${auth.token}`,
         },
         body: JSON.stringify(data.estabelecimento),
@@ -268,8 +248,6 @@ export default function useEstabelecimento() {
     criarEstabelecimento,
     handleSubmit,
     categorias,
-    handleImagePerfil,
-    handleImageCapa,
     successMessage,
   };
 }

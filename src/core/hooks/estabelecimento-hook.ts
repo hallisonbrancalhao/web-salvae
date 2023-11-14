@@ -46,7 +46,7 @@ export default function useEstabelecimento() {
     },
   });
 
-  const handleImagePerfil = (data) => {
+  const handleImagePerfil = (data: any) => {
     const file = data.target.files[0];
     if (file.size > 64 * 1024) {
       alert("A imagem é muito grande. Selecione uma imagem menor.");
@@ -61,7 +61,7 @@ export default function useEstabelecimento() {
     }
   };
 
-  const handleImageCapa = (data) => {
+  const handleImageCapa = (data: any) => {
     const file = data.target.files[0];
     if (file.size > 64 * 1024) {
       alert("A imagem é muito grande. Selecione uma imagem menor.");

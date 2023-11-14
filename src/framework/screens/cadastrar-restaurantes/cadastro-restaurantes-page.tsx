@@ -1,9 +1,10 @@
 "use client"
 import React, { useState } from 'react';
-import "./styles.scss";
 import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useRouter } from 'next/navigation';
+import "./styles.scss";
 
 export default function CadastroEstabelecimento() {
     const { errors, register, criarEstabelecimento, handleSubmit, handleImagePerfil, handleImageCapa,
@@ -14,8 +15,9 @@ export default function CadastroEstabelecimento() {
     };
     const passwordType = showPassword ? 'text' : 'password'
     const [error, setError] = useState('');
+    const { push } = useRouter()
     const redirecionarPagina = () => {
-//        window.location.href = 'http://localhost:3000/restaurantes';
+        push('/restaurantes')
     }
 
     return (

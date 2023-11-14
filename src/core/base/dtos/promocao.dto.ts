@@ -1,4 +1,5 @@
 export interface PromocaoDto {
+  id: number;
   idEstabelecimento: number;
   descricao: string;
   promocaoCategoria: [

@@ -11,9 +11,9 @@ export const NavBar = () => {
          <a href="/"> <Image src={logo} width={181} height={10} alt="" /></a>
         </div>
         <div className="links">
-          <li><Link href="/">Pagina inicial</Link></li>
-          <li><Link href="sobre">Sobre nos</Link></li>
-          <li><Link href="perguntas">Duvidas Frequentes</Link></li>
+          <li><Link href="/">Página Inicial</Link></li>
+          <li><Link href="sobre">Sobre Nós</Link></li>
+          <li><Link href="perguntas">Dúvidas Frequentes</Link></li>
         </div>
         <button className="botao"><Link href='login'>Logar</Link></button>
       </div>

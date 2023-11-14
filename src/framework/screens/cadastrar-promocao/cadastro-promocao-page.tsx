@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import usePromocao from '@/core/hooks/promocao-hook';
 import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 import "./styles.scss";
+import { useRouter } from 'next/navigation';
 
 export default function CadastroPromocao() {
+    const { push } = useRouter()
     const { listaEstabelecimento } = useEstabelecimento();
     const restaurantes = listaEstabelecimento;
     const { errors, register, criarCupom, handleSubmit, watch, setValue, categorias, diasFuncionamento, successMessage } = usePromocao()
@@ -43,7 +45,7 @@ export default function CadastroPromocao() {
 
     const [error, setError] = useState('');
     const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/promocao';
+        push('/promocao')
     }
 
     return (

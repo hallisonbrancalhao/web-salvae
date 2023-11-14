@@ -9,7 +9,7 @@ import Link from 'next/link';
 import '../../screens/dash-restaurantes/styles.scss'
 import usePromocao from '@/core/hooks/promocao-hook'
 interface CuponsProps {
-    id: string
+    id: number
     nome: string
     status: boolean
 }
@@ -57,7 +57,7 @@ const Cupom: React.FC<CuponsProps> = ({ id, nome, status }) => {
                 />
             </div>
             <div className="item-cabecalho2">
-                <Link href={`/editar-cupom/${id}`}>
+                <Link href={`/editar-promocao/${id}`}>
                     <Image src={Editar} alt='' style={{ width: '32x', height: '32px' }} />
                 </Link>
                 <button onClick={handleDeleteClick}>

@@ -8,7 +8,7 @@ import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 export default function EditarPromocao({ id: params }: { id: string }) {
     const {
         errors,
-        cupom,
+        cupom: promocao,
         register,
         watch,
         setValue,
@@ -69,15 +69,16 @@ export default function EditarPromocao({ id: params }: { id: string }) {
 
     useEffect(() => {
         if (dadosCarregados) {
-            if (cupom) {
-                console.log(cupom.promocaoCategoria)
-                setValue('promocao.idEstabelecimento', cupom.idEstabelecimento);
-                setValue('promocao.descricao', cupom.descricao)
-                setValue('promocao.promocaoCategoria', cupom.promocaoCategoria);
-                setValue('promocao.promocaoDia', cupom.promocaoDia);
+            if (promocao) {
+                console.log(promocao.promocaoCategoria)
+                console.log(promocao.promocaoDia)
+                setValue('promocao.idEstabelecimento', promocao.idEstabelecimento);
+                setValue('promocao.descricao', promocao.descricao)
+                setValue('promocao.promocaoCategoria', promocao.promocaoCategoria);
+                setValue('promocao.promocaoDia', promocao.promocaoDia);
             }
         }
-    }, [listarCupomPorId, params, cupom, setValue, dadosCarregados]);
+    }, [listarCupomPorId, params, promocao, setValue, dadosCarregados]);
 
     const [error, setError] = useState('');
     const { push } = useRouter()
@@ -86,7 +87,7 @@ export default function EditarPromocao({ id: params }: { id: string }) {
     }
     return (
         <div className='container-restaurente'>
-            <h1 className='h1'>Cadastro do Cupom</h1>
+            <h1 className='h1'>Editar Cupom</h1>
             <form className="container-forms" onSubmit={handleSubmit(editarCupom)}>
                 <div className="bloco-2-3">
                     <p>Restaurante</p>
@@ -111,7 +112,7 @@ export default function EditarPromocao({ id: params }: { id: string }) {
                 <hr className="divisor" />
 
                 <div className="bloco-1">
-                    <p>Categoria de Atendimento</p>
+                <p>Categoria de Atendimento</p>
                     <p></p>
                     <div className="bloco-3">
                         {categorias.map((categoria, index) => (
@@ -147,7 +148,7 @@ export default function EditarPromocao({ id: params }: { id: string }) {
                     <p></p>
                 </div>
                 <div className="container-botao">
-                    <button className="botao" type='submit'>Enviar</button>
+                    <button className="botao" type='submit'>Salvar Alterações</button>
                 </div>
             </form>
             {successMessage && (

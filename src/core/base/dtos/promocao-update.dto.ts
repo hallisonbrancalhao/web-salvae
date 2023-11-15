@@ -4,7 +4,7 @@ export interface PromocaoUpdateDto {
     descricao:         string;
     status:            boolean;
     promocaoCategoria: PromocaoCategoria[];
-    promocaoDia:       number[];
+    promocaoDia:       [number];
     estabelecimento:   Estabelecimento;
     idEstabelecimento: number;
 }

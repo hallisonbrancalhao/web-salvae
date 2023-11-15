@@ -155,7 +155,7 @@ export default function useEstabelecimento() {
   }, [auth.token]);
 
   const listarEstabelecimentoPorId = useCallback(
-    async (id: string) => {
+    async (id: number) => {
       if (!auth.token) return;
       const response = await fetch(
         process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + id,
@@ -214,7 +214,7 @@ export default function useEstabelecimento() {
   };
 
   const excluirEstabelecimento = useCallback(
-    async (id: string) => {
+    async (id: number) => {
       if (!auth.token) return;
       await fetch(
         process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + id,

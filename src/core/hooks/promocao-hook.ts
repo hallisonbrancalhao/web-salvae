@@ -7,8 +7,7 @@ import { schemaFormPromocao } from "../base/schemas/promocao-schema";
 import { FormPromocaoProps } from "../base/types/promocao.zod";
 
 export default function usePromocao() {
-  const [cupom, setCupom] =
-  useState<IPromocao | null>(null);
+  const [promocao, setCupom] = useState<IPromocao | null>(null);
 
   const {
     handleSubmit,
@@ -112,7 +111,7 @@ export default function usePromocao() {
   }, [auth.token]);
 
   const listarCupomPorId = useCallback(
-    async (id: string) => {
+    async (id: number) => {
       if (!auth.token) return;
       const response = await fetch(
         process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/promocao/" + id,
@@ -132,7 +131,7 @@ export default function usePromocao() {
   );
 
   const excluirCupom = useCallback(
-    async (id: string) => {
+    async (id: number) => {
       if (!auth.token) return;
       await fetch(process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/promocao/" + id, {
         method: "DELETE",
@@ -151,7 +150,7 @@ export default function usePromocao() {
   }, [listarCupom]);
 
   return {
-    cupom,
+    promocao,
     handleSubmit,
     register,
     watch,

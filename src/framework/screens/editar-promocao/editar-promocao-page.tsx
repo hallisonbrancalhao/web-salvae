@@ -5,10 +5,10 @@ import usePromocao from '@/core/hooks/promocao-hook';
 import "./styles.scss";
 import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 
-export default function EditarPromocao({ id: params }: { id: string }) {
+export default function EditarPromocao({ id: params }: { id: number }) {
     const {
         errors,
-        cupom: promocao,
+        promocao,
         register,
         watch,
         setValue,
@@ -69,7 +69,9 @@ export default function EditarPromocao({ id: params }: { id: string }) {
 
     useEffect(() => {
         if (dadosCarregados) {
-            if (promocao && promocao.estabelecimento && promocao.descricao && promocao.promocaoCategoria && promocao.promocaoDia) {
+            console.log(promocao)
+            if (promocao && promocao.id && promocao.estabelecimento && promocao.descricao && promocao.promocaoCategoria && promocao.promocaoDia) {
+                setValue('promocao.id', promocao.id)
                 setValue('promocao.idEstabelecimento', promocao.estabelecimento.id);
                 setValue('promocao.descricao', promocao.descricao)
                 setValue('promocao.promocaoCategoria', promocao.promocaoCategoria.map((categoria) => {
@@ -89,7 +91,8 @@ export default function EditarPromocao({ id: params }: { id: string }) {
     const [error, setError] = useState('');
     const { push } = useRouter()
     const redirecionarPagina = () => {
-        push('promocao')
+        console.log(promocao)
+        push('/promocao')
     }
     return (
         <div className='container-restaurente'>

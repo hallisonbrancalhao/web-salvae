@@ -3,10 +3,12 @@ import { AuthContext } from "../context";
 import { IEstabelecimento } from "../base";
 import { schemaFormEstabelecimento } from "@/core/base/schemas/estabelecimento-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { FormEstabelecimentoProps } from "../base/types/estabelecimento.zod";
+import { criarEstabelecimentoUseCase } from "@/services";
 
 export default function useEstabelecimento() {
+  const [isLoading, setIsLoading] = useState(true);
   const [estabelecimento, setEstabelecimento] =
     useState<IEstabelecimento | null>(null);
 
@@ -46,13 +48,14 @@ export default function useEstabelecimento() {
 
   const [categorias, setCategorias] = useState([]);
   const listarCategorias = useCallback(async () => {
-    if (categorias.length) return;
+    if (categorias.length) return setIsLoading(false);
     const response = await fetch(
       process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/categorias",
       {
         method: "GET",
       }
     ).then((res) => res.json());
+    setIsLoading(false);
     setCategorias(response);
   }, [categorias]);
 
@@ -89,7 +92,6 @@ export default function useEstabelecimento() {
 
   useEffect(() => {
     listarCategorias();
-
     const formatFone = (fone: string) => {
       const numericFone = fone.replace(/[^\d]/g, "");
       if (numericFone.length >= 11) {
@@ -151,12 +153,14 @@ export default function useEstabelecimento() {
     ).then((res) => res.json());
     if (response) {
       setListaEstabelencimento(response);
+      setIsLoading(false);
     }
   }, [auth.token]);
 
   const listarEstabelecimentoPorId = useCallback(
     async (id: number) => {
       if (!auth.token) return;
+      setIsLoading(true);
       const response = await fetch(
         process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + id,
         {
@@ -168,28 +172,25 @@ export default function useEstabelecimento() {
         }
       ).then((res) => res.json());
       if (response) {
+        setIsLoading(false);
         setEstabelecimento(response);
       }
+      setIsLoading(false);
     },
     [auth.token]
   );
 
   const criarEstabelecimento = async (data: FormEstabelecimentoProps) => {
-    console.log(data);
-    if (!auth.token) return;
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
-          Authorization: `Bearer ${auth.token}`,
-        },
-        body: JSON.stringify(data.estabelecimento),
-      }
-    );
-    setSuccessMessage("Cadastro realizado com sucesso!");
-    return true;
+    setIsLoading(true);
+    const res = await criarEstabelecimentoUseCase(data, auth);
+    if (res) {
+      setIsLoading(false);
+      setSuccessMessage("Cadastro realizado com sucesso!");
+      return true;
+    }
+    setIsLoading(false);
+    setSuccessMessage("Erro ao cadastrar!");
+    return false;
   };
 
   const editarEstabelecimento = async (data: FormEstabelecimentoProps) => {
@@ -236,6 +237,8 @@ export default function useEstabelecimento() {
   }, [listarEstabelecimento]);
 
   return {
+    isLoading,
+    setIsLoading,
     estabelecimento,
     setValue,
     listaEstabelecimento,

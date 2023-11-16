@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function Restaurantes() {
   const [searchText, setSearchText] = useState("");
-  const { listaEstabelecimento } = useEstabelecimento();
+  const { listaEstabelecimento, isLoading } = useEstabelecimento();
   const restaurantes = listaEstabelecimento;
 
   const filteredRestaurantes = restaurantes.filter((restaurante) => {
@@ -44,18 +44,27 @@ export default function Restaurantes() {
             <div className="item-cabecalho">STATUS</div>
             <div className="item-cabecalho">AÇÕES</div>
           </div>
-
-          {filteredRestaurantes.map((restaurante) => (
-            <div key={restaurante.nome} className="item-cabecalho">
-              <Restaurante
-                id={restaurante.id}
-                nome={restaurante.nome}
-                fotoPerfil={restaurante.fotoPerfil ?? "assets/images/logo.svg"}
-                avaliacao={4.5}
-                status={restaurante.status}
-              />
+          {isLoading && (
+            <div className="cabecalho">
+              <div className="item-cabecalho">
+                <p className="item-cabecalho__loading">CARREGANDO...</p>
+              </div>
             </div>
-          ))}
+          )}
+          {!isLoading &&
+            filteredRestaurantes.map((restaurante) => (
+              <div key={restaurante.nome} className="item-cabecalho">
+                <Restaurante
+                  id={restaurante.id}
+                  nome={restaurante.nome}
+                  fotoPerfil={
+                    restaurante.fotoPerfil ?? "assets/images/logo.svg"
+                  }
+                  avaliacao={4.5}
+                  status={restaurante.status}
+                />
+              </div>
+            ))}
           <div className="container-botao">
             <Link href="/cadastrar-restaurante">
               <button className="botao">+ Adicionar Restaurante</button>

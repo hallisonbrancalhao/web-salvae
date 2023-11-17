@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons'
@@ -7,9 +7,10 @@ import Editar from '../../../../assets/images/editar.svg'
 import Excluir from '../../../../assets/images/excluir.svg'
 import Link from 'next/link';
 import '../../screens/dash-restaurantes/styles.scss'
-import useCupom from '@/core/hooks/cupom-hook'
+import usePromocao from '@/core/hooks/promocao-hook'
+import { IPromocao } from '@/core/base'
 interface CuponsProps {
-    id: string
+    id: number
     nome: string
     status: boolean
 }
@@ -18,15 +19,37 @@ const Cupom: React.FC<CuponsProps> = ({ id, nome, status }) => {
     const [toggleStatus, setToggleStatus] = useState(status);
     const toggleIcon = toggleStatus ? faToggleOn : faToggleOff;
 
-    const handleToggleClick = async () => {
-        // await statusEditado.EditarStatus({
-        //     _id: _id,
-        //     status: !toggleStatus,
-        // })
-        setToggleStatus(!toggleStatus);
-    };
+    const { excluirCupom, listarCupomPorId, editarCupom, promocao, setValue } = usePromocao();
 
-    const { excluirCupom } = useCupom();
+    const fetchData = useCallback(async () => {
+        await listarCupomPorId(id);
+    }, [listarCupomPorId, id])
+
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    const handleToggleClick = async () => {
+        if (!promocao) return;
+        const novoStatus = !toggleStatus;
+        setToggleStatus(novoStatus);
+        promocao.status = novoStatus;
+        console.log(promocao.status)
+
+        const promocaoAtualizada = {
+            promocao: {
+                id: promocao.id,
+                idEstabelecimento: promocao.idEstabelecimento,
+                descricao: promocao.descricao,
+                promocaoCategoria: promocao.promocaoCategoria,
+                promocaoDia: promocao.promocaoDia,
+                status: novoStatus,
+            },
+        };
+
+        editarCupom(promocaoAtualizada);
+
+    };
 
     const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -57,7 +80,7 @@ const Cupom: React.FC<CuponsProps> = ({ id, nome, status }) => {
                 />
             </div>
             <div className="item-cabecalho2">
-                <Link href={`/editar-cupom/${id}`}>
+                <Link href={`/editar-promocao/${id}`}>
                     <Image src={Editar} alt='' style={{ width: '32x', height: '32px' }} />
                 </Link>
                 <button onClick={handleDeleteClick}>

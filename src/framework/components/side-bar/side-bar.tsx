@@ -3,10 +3,13 @@ import "./styles.scss";
 import Logo from "/assets/images/logo.svg";
 import Image from "next/image";
 import "src/app/globals.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Sidebar() {
+  const { push } = useRouter()
+  const [role, setRole] = useState<number | null>(null)
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -14,6 +17,24 @@ export default function Sidebar() {
   const closeSidebar = () => {
     setIsSidebarOpen(false);
   };
+
+  const handleLogout = () => {
+    localStorage.removeItem(process.env.NEXT_PUBLIC_USER_TOKEN)
+    push('/')
+  }
+
+  useEffect(() => {
+    const getrole = () => {
+      const data = localStorage.getItem("@AuthUser");
+      if (data) {
+        const datajson = JSON.parse(data)
+        const role = datajson.role
+        return setRole(role)
+      }
+    }
+    getrole()
+  }, [])
+
   return (
     <>
       <button
@@ -43,20 +64,27 @@ export default function Sidebar() {
           </div>
           <div className="container-sidebar__links">
             <ul>
-              <li><Link href="/restaurantes">Restaurantes</Link></li>
-              <li><Link href="/cupom">Cupons</Link></li>
-              <li><Link href="/patrocinador">Patrocinadores</Link></li>
-              <li>Sair</li>
+              {role == 1 && (
+                <>
+                  <li><Link href="/restaurantes">Restaurantes</Link></li>
+                  <li><Link href="/promocao">Cupons</Link></li>
+                  {/* <li><Link href="/patrocinador">Patrocinadores</Link></li> */}
+                </>
+              )}
+              <button onClick={handleLogout}>Sair</button>
             </ul>
           </div>
         </div>
         <div className="container-sidebar__links">
           <ul>
-            <li><Link href="/restaurantes">Dashbord Restaurantes</Link></li>
-            <li><Link href="/cadastrar-restaurante">Cadastro Restaurantes</Link></li>
-            <li><Link href="/cadastrar-cupom">Cadastro Cupom</Link></li>
-            <li>Vizualizar patrocinador</li>
-            <li>Sair</li>
+            {role == 1 && (
+              <>
+                <li><Link href="/restaurantes">Restaurantes</Link></li>
+                <li><Link href="/promocao">Cupons</Link></li>
+                {/* <li><Link href="/patrocinador">Patrocinadores</Link></li> */}
+              </>
+            )}
+            <button onClick={handleLogout}>Sair</button>
           </ul>
         </div>
       </aside>

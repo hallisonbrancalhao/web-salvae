@@ -1,4 +1,4 @@
 export interface LoginDto {
     cnpj: string,
-    senha: string
+    senha: string,
 }

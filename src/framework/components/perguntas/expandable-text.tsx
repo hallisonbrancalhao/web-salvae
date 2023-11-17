@@ -7,9 +7,11 @@ import '../../screens/perguntas/styles.scss'
 interface ExpandableTextProps {
   initialText: string;
   expandedText: string;
+  expandedText2: string;
+  expandedText3: string;
 }
 
-const ExpandableText: React.FC<ExpandableTextProps> = ({ initialText, expandedText }) => {
+const ExpandableText: React.FC<ExpandableTextProps> = ({ initialText, expandedText, expandedText2, expandedText3 }) => {
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpanded = () => {
@@ -28,7 +30,9 @@ const ExpandableText: React.FC<ExpandableTextProps> = ({ initialText, expandedTe
       </div>
       <div className="description" style={{ display: expanded ? 'block' : 'none' }}>
         <div className="divider"></div>
-        {expandedText}
+        <p>{expandedText}</p>
+        <p>{expandedText2}</p>
+        <p>{expandedText3}</p>
       </div>
     </div>
   );

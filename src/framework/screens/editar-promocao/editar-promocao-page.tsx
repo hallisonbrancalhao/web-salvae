@@ -1,17 +1,34 @@
-"use client"
-import React, { useState } from 'react';
-import useCupom from '@/core/hooks/cupom-hook';
-import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
+'use client'
+import React, { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import usePromocao from '@/core/hooks/promocao-hook';
 import "./styles.scss";
+import useEstabelecimento from '@/core/hooks/estabelecimento-hook';
 
-export default function CadastroCupom() {
-    const { listaEstabelecimento } = useEstabelecimento();
-    const restaurantes = listaEstabelecimento;
-    const { errors, register, criarCupom, handleSubmit, watch, setValue, categorias, diasFuncionamento, successMessage } = useCupom()
+export default function EditarPromocao({ id: params }: { id: number }) {
+    const {
+        errors,
+        promocao,
+        register,
+        watch,
+        setValue,
+        listarCupomPorId,
+        handleSubmit,
+        editarCupom,
+        categorias,
+        diasFuncionamento,
+        successMessage,
+    } = usePromocao();
 
+    const {
+        listaEstabelecimento,
+        listarEstabelecimento,
+    } = useEstabelecimento();
+
+    const [dadosCarregados, setDadosCarregados] = useState(false);
     const handleCategoriaChange = (event: React.ChangeEvent<HTMLInputElement>, categoria: { idCategoriaPromocao: any; label?: string; }) => {
         const isChecked = event.target.checked;
-        const currentCategorias = watch('cupom.promocaoCategoria');
+        const currentCategorias = watch('promocao.promocaoCategoria');
         const categoriaId = categoria.idCategoriaPromocao;
 
         if (isChecked) {
@@ -22,52 +39,84 @@ export default function CadastroCupom() {
                 currentCategorias.splice(index, 1);
             }
         }
-        setValue('cupom.promocaoCategoria', currentCategorias);
+        setValue('promocao.promocaoCategoria', currentCategorias);
     };
 
     const handleDiasChange = (event: React.ChangeEvent<HTMLInputElement>, dia: { idDiaFuncionamento: any; label?: string; }) => {
         const isChecked = event.target.checked;
-        const currentDias = watch('cupom.promocaoDia');
+        const currentDias = watch('promocao.promocaoDia');
         const diaId = dia.idDiaFuncionamento;
 
         if (isChecked) {
-            currentDias.push({ id: diaId });
+            currentDias.push({ idDiaFuncionamento: diaId });
         } else {
-            const index = currentDias.findIndex((d) => d.id === diaId);
+            const index = currentDias.findIndex((d) => d.idDiaFuncionamento === diaId);
             if (index !== -1) {
                 currentDias.splice(index, 1);
             }
         }
-        setValue('cupom.promocaoDia', currentDias);
+        setValue('promocao.promocaoDia', currentDias);
     };
 
-    const [error, setError] = useState('');
-    const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/restaurantes';
-    }
+    const fetchData = useCallback(async () => {
+        await listarCupomPorId(params);
+        setDadosCarregados(true);
+    }, [listarCupomPorId, params])
 
+    useEffect(() => {
+        fetchData();
+    }, [fetchData]);
+
+    useEffect(() => {
+        if (dadosCarregados) {
+            console.log(promocao)
+            if (promocao && promocao.id && promocao.estabelecimento && promocao.descricao && promocao.promocaoCategoria && promocao.promocaoDia) {
+                setValue('promocao.id', promocao.id)
+                setValue('promocao.idEstabelecimento', promocao.estabelecimento.id);
+                setValue('promocao.descricao', promocao.descricao)
+                setValue('promocao.promocaoCategoria', promocao.promocaoCategoria.map((categoria) => {
+                    return {
+                        idCategoriaPromocao: categoria.id
+                    };
+                }));
+                setValue('promocao.promocaoDia', promocao.promocaoDia.map((dia) => {
+                    return {
+                        idDiaFuncionamento: dia
+                    };
+                }));
+            }
+        }
+    }, [promocao, setValue, dadosCarregados]);
+
+    const [error, setError] = useState('');
+    const { push } = useRouter()
+    const redirecionarPagina = () => {
+        console.log(promocao)
+        push('/promocao')
+    }
     return (
         <div className='container-restaurente'>
-            <h1 className='h1'>Cadastro do Cupom</h1>
-            <form className="container-forms" onSubmit={handleSubmit(criarCupom)}>
+            <h1 className='h1'>Editar Cupom</h1>
+            <form className="container-forms" onSubmit={handleSubmit(editarCupom)}>
                 <div className="bloco-2-3">
                     <p>Restaurante</p>
                     <p></p>
-                    <select {...register('cupom.idEstabelecimento', {
+                    <select {...register('promocao.idEstabelecimento', {
                         setValueAs: (value) => parseInt(value, 10),
                     })}
                     >
-                        {restaurantes.map((restaurante) => (
+                        {listaEstabelecimento.map((restaurante) => (
                             <option value={restaurante.id} key={restaurante.id}>
                                 {restaurante.nome}
                             </option>
                         ))}
                     </select>
-                    {errors.cupom?.idEstabelecimento?.message && (<p>{errors.cupom?.idEstabelecimento?.message}</p>)}
+                    {errors.promocao?.idEstabelecimento?.message && (<p>{errors.promocao?.idEstabelecimento?.message}</p>)}
                     <p></p>
                     <p>Sobre o Cupom</p>
                     <p></p>
-                    <input {...register('cupom.descricao')} type="text" placeholder='Sobre o Cupom' />
+                    <input {...register('promocao.descricao')} type="text" placeholder='Sobre o Cupom' />
+                    {errors.promocao?.descricao?.message && (<p>{errors.promocao?.descricao?.message}</p>)}
                 </div>
 
                 <hr className="divisor" />
@@ -81,14 +130,14 @@ export default function CadastroCupom() {
                                 <input
                                     type="checkbox"
                                     onChange={(e) => handleCategoriaChange(e, categoria)}
-                                    checked={watch('cupom.promocaoCategoria')?.some((cat) => cat.idCategoriaPromocao === categoria.idCategoriaPromocao)}
+                                    checked={watch('promocao.promocaoCategoria')?.some((cat) => cat.idCategoriaPromocao === categoria.idCategoriaPromocao)}
                                     value={categoria.idCategoriaPromocao}
                                 />
                                 {categoria.label}
                             </div>
                         ))}
                     </div>
-                    {errors.cupom?.promocaoCategoria?.message && (<p>{errors.cupom?.promocaoCategoria?.message}</p>)}
+                    {errors.promocao?.promocaoCategoria?.message && (<p>{errors.promocao?.promocaoCategoria?.message}</p>)}
                     <p></p>
                     <p>Dias de Funcionamento</p>
                     <p></p>
@@ -98,18 +147,18 @@ export default function CadastroCupom() {
                                 <input
                                     type="checkbox"
                                     onChange={(e) => handleDiasChange(e, dia)}
-                                    checked={watch('cupom.promocaoDia')?.some((d) => d.id === dia.idDiaFuncionamento)}
+                                    checked={watch('promocao.promocaoDia')?.some((d) => d.idDiaFuncionamento === dia.idDiaFuncionamento)}
                                     value={dia.idDiaFuncionamento}
                                 />
                                 {dia.label}
                             </div>
                         ))}
                     </div>
-                    {errors.cupom?.promocaoDia?.message && (<p>{errors.cupom?.promocaoDia?.message}</p>)}
+                    {errors.promocao?.promocaoDia?.message && (<p>{errors.promocao?.promocaoDia?.message}</p>)}
                     <p></p>
                 </div>
                 <div className="container-botao">
-                    <button className="botao" type='submit'>Enviar</button>
+                    <button className="botao" type='submit'>Salvar Alterações</button>
                 </div>
             </form>
             {successMessage && (

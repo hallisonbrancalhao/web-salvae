@@ -34,6 +34,10 @@
 
         .item-cabecalho {
             @apply flex justify-center w-full;
+
+            &__loading {
+                @apply flex justify-center text-green-900 text-3xl;
+            }
         }
     }
 }

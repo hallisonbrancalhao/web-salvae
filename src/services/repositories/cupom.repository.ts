@@ -1,10 +1,10 @@
-import { ICupom } from "../../core/base/types/cupom.interface";
+import { IPromocao } from "../../core/base/types/promocao.interface";
 import { URL_CUPOM } from "@/framework/constantes/URL.API";
 
 export class CupomRepository {
   constructor() {}
 
-  async Salvar(data: ICupom) {
+  async Salvar(data: IPromocao) {
     //   try {
     //     await axios.post(URL_CUPOM, {
     //       restaurante: data.restaurante,
@@ -27,7 +27,7 @@ export class CupomRepository {
     //   });
   }
 
-  async Editar(data: ICupom) {
+  async Editar(data: IPromocao) {
     // console.log(data)
     // const id = data._id;
     // await axios.put(`${URL_CUPOM}/${id}`, {

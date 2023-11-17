@@ -1,20 +1,19 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context";
-import { ICupom } from "../base";
+import { ICupom } from "../base/types/cupom.iterface";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schemaFormCupom } from "../base/schemas/cupom-schema";
-import { FormCupomProps } from "../base/types/cupom.zod";
 
 export default function useCupom() {
-  const [cupom, setCupom] =
-  useState<ICupom | null>(null);
+  const [cupom, setCupom] = useState<ICupom | null>(null);
 
   const {
     handleSubmit,
     register,
     watch,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm({
     criteriaMode: "all",
@@ -22,136 +21,47 @@ export default function useCupom() {
     resolver: zodResolver(schemaFormCupom),
     defaultValues: {
       cupom: {
-        id: 0,
-        idEstabelecimento: 1,
-        descricao: "",
-        promocaoCategoria: [{
-          idCategoriaPromocao: 1,
-        }],
-        promocaoDia: [{
-          idDiaFuncionamento: 1,
-        }],
-        status: true,
+        codigo: "",
       },
     },
   });
 
-  const categorias = [
-    { idCategoriaPromocao: 1, label: "Presencial" },
-    { idCategoriaPromocao: 2, label: "Delivery" },
-    { idCategoriaPromocao: 3, label: "TakeAway" },
-  ];
-
-  const diasFuncionamento = [
-    { idDiaFuncionamento: 1, label: "Segunda-feira" },
-    { idDiaFuncionamento: 2, label: "Terça-feira" },
-    { idDiaFuncionamento: 3, label: "Quarta-feira" },
-    { idDiaFuncionamento: 4, label: "Quinta-feira" },
-    { idDiaFuncionamento: 5, label: "Sexta-feira" },
-    { idDiaFuncionamento: 6, label: "Sábado" },
-    { idDiaFuncionamento: 7, label: "Domingo" },
-  ];
-
   const [successMessage, setSuccessMessage] = useState("");
-
   const auth = useContext(AuthContext);
-  const [listaCupom, setListaCupom] = useState<ICupom[]>([]);
+  const [promocaId, setPromocaId] = useState<string | null>(null);
 
-  const handleRestauranteChange = (event: { target: { value: any } }) => {
-    console.log(event.target.value);
-    const restauranteId = event.target.value;
-    setValue("cupom.idEstabelecimento", restauranteId);
-  };
-
-  const criarCupom = async (data: FormCupomProps) => {
-    console.log('entrou!')
-    console.log(data.cupom);
-    if (!auth.token) return;
-    const res = await fetch(process.env.NEXT_PUBLIC_URL_CUPOM, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.token}`,
-      },
-      body: JSON.stringify(data.cupom),
-    });
-    setSuccessMessage("Cadastro realizado com sucesso!");
-    return true;
-  };
-
-  const editarCupom = async (data: FormCupomProps) => {
-    console.log('entrou');
-    if (!auth.token) return;
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_URL_BASE_AUTH +
-        "/promocao/" +
-        data.cupom.id,
+  const listarIdPromocao = async (id: string) => {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/promocao/estabelecimento/" + id,
       {
-        method: "PATCH",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${auth.token}`,
         },
-        body: JSON.stringify(data.cupom),
+      }
+    ).then((res) => res.json());
+    if (response[0]) {
+      setPromocaId(response[0].id);
+    }
+  };
+
+  const validarCupom = async (id: string, codigo: string) => {
+    console.log(id, codigo);
+    await fetch(
+      process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/cupom/validar/" + id,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.token}`,
+        },
+        body: JSON.stringify({ codigo: codigo }),
       }
     );
-    console.log(res);
-    setSuccessMessage("Edição realizada com sucesso!");
-    return true;
+    setSuccessMessage("Cupom validado com sucesso!");
+    return setSuccessMessage;
   };
-
-  const listarCupom = useCallback(async () => {
-    if (!auth.token) return;
-    const response = await fetch(process.env.NEXT_PUBLIC_URL_CUPOM, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.token}`,
-      },
-    }).then((res) => res.json());
-    if (response) {
-      setListaCupom(response);
-    }
-  }, [auth.token]);
-
-  const listarCupomPorId = useCallback(
-    async (id: string) => {
-      if (!auth.token) return;
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/promocao/" + id,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.token}`,
-          },
-        }
-      ).then((res) => res.json());
-      if (response) {
-        setCupom(response);
-      }
-    },
-    [auth.token]
-  );
-
-  const excluirCupom = useCallback(
-    async (id: string) => {
-      if (!auth.token) return;
-      await fetch(process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/promocao/" + id, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.token}`,
-        },
-      });
-      return true;
-    },
-    [auth.token]
-  );
-
-  useEffect(() => {
-    listarCupom();
-  }, [listarCupom]);
 
   return {
     cupom,
@@ -159,16 +69,11 @@ export default function useCupom() {
     register,
     watch,
     setValue,
+    getValues,
     errors,
-    listaCupom,
-    criarCupom,
-    editarCupom,
-    listarCupom,
-    listarCupomPorId,
-    excluirCupom,
-    categorias,
-    diasFuncionamento,
-    handleRestauranteChange,
+    validarCupom,
+    listarIdPromocao,
+    promocaId,
     successMessage,
   };
 }

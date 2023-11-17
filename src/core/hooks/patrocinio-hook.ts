@@ -69,7 +69,7 @@ export default function usePatrocinio() {
     async (id: string) => {
       if (!auth.token) return;
       const response = await fetch(
-        process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + id,
+        process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/patrocinio" + id,
         {
           method: "GET",
           headers: {
@@ -87,7 +87,7 @@ export default function usePatrocinio() {
 
   const criarPatrocinio = async (data: FormPatrocinioProps) => {
     if (!auth.token) return;
-    const res = await fetch(process.env.NEXT_PUBLIC_URL_RESTAURANTE, {
+    const res = await fetch(process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/patrocinio", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

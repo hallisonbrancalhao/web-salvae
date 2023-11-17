@@ -6,17 +6,16 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/navigation';
 
-export default function EditarRestaurante({ id: params }: { id: string }) {
+export default function EditarRestaurante({ id: params }: { id: number }) {
     const {
         errors,
         estabelecimento,
+        estabelecimentoUpdate,
         setValue,
         register,
         listarEstabelecimentoPorId,
         editarEstabelecimento,
         handleSubmit,
-        handleImagePerfil,
-        handleImageCapa,
         categorias,
         successMessage,
     } = useEstabelecimento();
@@ -34,25 +33,26 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
 
     useEffect(() => {
         if (dadosCarregados) {
-            if (estabelecimento) {
-                setValue('estabelecimento.id', estabelecimento.id ?? '');
-                setValue('estabelecimento.nome', estabelecimento.nome ?? '');
-                setValue('estabelecimento.cnpj', estabelecimento.cnpj ?? '');
-                setValue('estabelecimento.fotoCapa', estabelecimento.fotoCapa ?? '');
-                setValue('estabelecimento.fotoPerfil', estabelecimento.fotoPerfil ?? '');
-                setValue('estabelecimento.instagram', estabelecimento.instagram ?? '');
-                setValue('estabelecimento.whatsapp', estabelecimento.whatsapp ?? '');
-                setValue('estabelecimento.estabelecimentoCategoria', estabelecimento.estabelecimentoCategoria ?? 1);
-                setValue('estabelecimento.endereco.cep', estabelecimento.endereco.cep ?? '');
-                setValue('estabelecimento.endereco.logradouro', estabelecimento.endereco.logradouro ?? '');
-                setValue('estabelecimento.endereco.numero', estabelecimento.endereco.numero ?? '');
-                setValue('estabelecimento.endereco.complemento', estabelecimento.endereco.complemento ?? '');
-                setValue('estabelecimento.endereco.bairro', estabelecimento.endereco.bairro ?? '');
-                setValue('estabelecimento.endereco.cidade', estabelecimento.endereco.cidade ?? '');
-                setValue('estabelecimento.endereco.estado', estabelecimento.endereco.estado ?? '');
+            if (estabelecimentoUpdate) {
+                console.log(estabelecimentoUpdate.estabelecimentoCategoria)
+                setValue('estabelecimento.id', estabelecimentoUpdate.id ?? '');
+                setValue('estabelecimento.nome', estabelecimentoUpdate.nome ?? '');
+                setValue('estabelecimento.cnpj', estabelecimentoUpdate.cnpj ?? '');
+                setValue('estabelecimento.fotoCapa', estabelecimentoUpdate.fotoCapa ?? null);
+                setValue('estabelecimento.fotoPerfil', estabelecimentoUpdate.fotoPerfil ?? '');
+                setValue('estabelecimento.instagram', estabelecimentoUpdate.instagram ?? '');
+                setValue('estabelecimento.whatsapp', estabelecimentoUpdate.whatsapp ?? '');
+                setValue('estabelecimento.estabelecimentoCategoria', estabelecimentoUpdate.estabelecimentoCategoria ?? 1);
+                setValue('estabelecimento.cep', estabelecimentoUpdate.endereco.cep ?? '');
+                setValue('estabelecimento.logradouro', estabelecimentoUpdate.endereco.logradouro ?? '');
+                setValue('estabelecimento.numero', estabelecimentoUpdate.endereco.numero ?? '');
+                setValue('estabelecimento.complemento', estabelecimentoUpdate.endereco.complemento ?? '');
+                setValue('estabelecimento.bairro', estabelecimentoUpdate.endereco.bairro ?? '');
+                setValue('estabelecimento.cidade', estabelecimentoUpdate.endereco.cidade ?? '');
+                setValue('estabelecimento.estado', estabelecimentoUpdate.endereco.estado ?? '');
             }
         }
-    }, [dadosCarregados, estabelecimento, register, setValue]);
+    }, [dadosCarregados, estabelecimento, estabelecimentoUpdate, register, setValue]);
 
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
@@ -60,9 +60,9 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
     };
     const passwordType = showPassword ? 'text' : 'password';
     const [error, setError] = useState('');
-    const {push} = useRouter()
+    const { push } = useRouter()
     const redirecionarPagina = () => {
-        push('restaurantes')
+        push('/restaurantes')
     }
     return (
         <div className='container-restaurente'>
@@ -84,14 +84,14 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                     <input
                         type="file"
                         accept="image/*"
-                        onChange={handleImagePerfil}
-                        className='format-foto'
+                        {...register("estabelecimento.fotoPerfil")}
+                        className="format-foto"
                     />
                     <input
                         type="file"
                         accept="image/*"
-                        onChange={handleImageCapa}
-                        className='format-foto'
+                        {...register("estabelecimento.fotoCapa")}
+                        className="format-foto"
                     />
                     <p>WhatsApp</p>
                     <p>Instagram</p>
@@ -112,7 +112,7 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                 <div className="bloco-1">
                     <p>CEP</p>
                     <input
-                        {...register('estabelecimento.endereco.cep')}
+                        {...register('estabelecimento.cep')}
                         type="text"
                         placeholder='CEP'
                         maxLength={9}
@@ -123,36 +123,36 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                     <p>Rua</p>
                     <p>Número</p>
                     <input
-                        {...register('estabelecimento.endereco.logradouro')}
+                        {...register('estabelecimento.logradouro')}
                         type="text"
                         placeholder='Rua'
                     />
                     <input
-                        {...register('estabelecimento.endereco.numero')}
+                        {...register('estabelecimento.numero')}
                         type="text"
                         placeholder='Número'
                     />
                     <p>Complemento</p>
                     <p>Município</p>
                     <input
-                        {...register('estabelecimento.endereco.complemento')}
+                        {...register('estabelecimento.complemento')}
                         type="text"
                         placeholder='Complemento'
                     />
                     <input
-                        {...register('estabelecimento.endereco.bairro')}
+                        {...register('estabelecimento.bairro')}
                         type="text"
                         placeholder='Município'
                     />
                     <p>Cidade</p>
                     <p>Estado</p>
                     <input
-                        {...register('estabelecimento.endereco.cidade')}
+                        {...register('estabelecimento.cidade')}
                         type="text"
                         placeholder='Cidade'
                     />
                     <input
-                        {...register('estabelecimento.endereco.estado')}
+                        {...register('estabelecimento.estado')}
                         type="text"
                         placeholder='Estado'
                     />
@@ -165,10 +165,10 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                     <p>CNPJ</p>
                     <select
                         {...register('estabelecimento.estabelecimentoCategoria', {
-                            setValueAs: (value) => parseInt(value, 10),
+                            setValueAs: (value) => value,
                         })}
                     >
-                        {categorias.map((categoria) => (
+                        {categorias.map((categoria: any) => (
                             <option key={categoria.value} value={categoria.value}>
                                 {categoria.label}
                             </option>
@@ -179,6 +179,8 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                         {...register('estabelecimento.cnpj')}
                         type="text"
                         placeholder='CNPJ'
+                        disabled
+                        className="campo-cinza"
                     />
                     <p>
                         Senha

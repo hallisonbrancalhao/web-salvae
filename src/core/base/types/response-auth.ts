@@ -1,6 +1,7 @@
 export interface ResponseAuth {
   access_token: string;
   estabelecimento: Estabelecimento;
+  role: number;
 }
 
 export interface Estabelecimento {

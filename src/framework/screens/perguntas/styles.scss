@@ -17,7 +17,7 @@
         @apply w-1/2;
 
         .texto {
-            @apply w-[550px];
+            @apply w-[600px];
         }
     }
 }
@@ -43,7 +43,7 @@ body {
 }
 
 .expandable-text {
-    @apply rounded-lg py-3 px-8 text-sm text-start;
+    @apply rounded-lg py-3 px-8 text-sm text-justify;
     margin: 30px;
     background: #051918;
     color: #A3B8B8;

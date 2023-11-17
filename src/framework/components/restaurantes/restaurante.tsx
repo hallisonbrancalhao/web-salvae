@@ -9,9 +9,10 @@ import Link from "next/link";
 import "../../screens/dash-restaurantes/styles.scss";
 import useEstabelecimento from "@/core/hooks/estabelecimento-hook";
 import { useRouter } from "next/navigation";
+import { File } from "buffer";
 interface RestaurantesProps {
-  id: string;
-  fotoPerfil: string;
+  id: number;
+  fotoPerfil: File;
   nome: string;
   avaliacao: number;
   status: boolean;
@@ -60,7 +61,6 @@ const Restaurante: React.FC<RestaurantesProps> = ({
         {fotoPerfil ? (
           <img src={fotoPerfil} alt={nome} width={100} height={100} />
         ) : (
-          // Se não houver imagem, você pode mostrar um espaço reservado ou mensagem
           <div>Imagem não disponível</div>
         )}
       </div>

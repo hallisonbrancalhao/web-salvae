@@ -8,7 +8,7 @@ $gradient-color-2: rgba(9, 26, 24, 0.00);
     @apply  flex flex-col items-center justify-center text-center py-20 px-4;
 
     &__frase-impacto{
-      @apply text-4xl font-bold mb-4 text-[#FFB133] text-[120px] mt-10;
+      @apply text-4xl font-bold text-[#FFB133] text-[100px] mt-10 mb-10;
     }
 
     &__sub-texto{

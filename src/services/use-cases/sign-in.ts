@@ -3,7 +3,7 @@ import { apiRequest } from "..";
 
 export async function singIn(
   cnpj: string,
-  senha: string
+  senha: string,
 ): Promise<AuthData | undefined> {
   try {
     const data = await fetch(
@@ -23,7 +23,8 @@ export async function singIn(
     if (data.access_token) {
       return {
         access_token: data.access_token,
-        user: data.user,
+        user: data.estabelecimento,
+        role: data.estabelecimento.role,
       };
     }
     return undefined;

@@ -1,14 +1,20 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context";
-import { IEstabelecimento } from "../base";
+import { IEstabelecimento, IEstabelecimentoUpdate } from "../base";
 import { schemaFormEstabelecimento } from "@/core/base/schemas/estabelecimento-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { FormEstabelecimentoProps } from "../base/types/estabelecimento.zod";
+import { criarEstabelecimentoUseCase, editarEstabelecimentoUseCase } from "@/services";
 
 export default function useEstabelecimento() {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [estabelecimento, setEstabelecimento] =
     useState<IEstabelecimento | null>(null);
+
+  const [estabelecimentoUpdate, setEstabelecimentoUpdate] =
+    useState<IEstabelecimentoUpdate | null>(null);
 
   const {
     handleSubmit,
@@ -29,64 +35,34 @@ export default function useEstabelecimento() {
         validasenha: "",
         instagram: "",
         whatsapp: "",
-        fotoPerfil: "",
-        fotoCapa: "",
-        estabelecimentoCategoria: 1,
-        endereco: {
-          cep: "",
-          logradouro: "",
-          numero: "",
-          bairro: "",
-          complemento: "",
-          cidade: "",
-          estado: "",
-          pais: "",
-        },
+        fotoPerfil: null,
+        fotoCapa: null,
+        estabelecimentoCategoria: "",
+        cep: "",
+        logradouro: "",
+        numero: "",
+        bairro: "",
+        complemento: "",
+        cidade: "",
+        estado: "",
+        pais: "",
       },
     },
   });
 
-  const handleImagePerfil = (data) => {
-    const file = data.target.files[0];
-    if (file.size > 64 * 1024) {
-      alert("A imagem é muito grande. Selecione uma imagem menor.");
-      return;
-    } else if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const base64Image = e.target.result;
-        setValue("estabelecimento.fotoPerfil", base64Image);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const [categorias, setCategorias] = useState([]);
+  const listarCategorias = useCallback(async () => {
+    if (categorias.length) return setIsLoading(false);
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/categorias",
+      {
+        method: "GET",
+      }
+    ).then((res) => res.json());
+    setIsLoading(false);
+    setCategorias(response);
+  }, [categorias]);
 
-  const handleImageCapa = (data) => {
-    const file = data.target.files[0];
-    if (file.size > 64 * 1024) {
-      alert("A imagem é muito grande. Selecione uma imagem menor.");
-      return;
-    } else if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const base64Image = e.target.result;
-        setValue("estabelecimento.fotoCapa", base64Image);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-    const[categorias, setCategorias] = useState([]);
-    const listarCategorias = useCallback (async () => {
-      if(categorias.length) return
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/categorias",
-        {
-          method: "GET",
-        }
-      ).then((res) => res.json());
-      setCategorias(response);
-    },[categorias])
-  
   const [successMessage, setSuccessMessage] = useState("");
 
   const handleFetchEndereco = useCallback(
@@ -94,17 +70,17 @@ export default function useEstabelecimento() {
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
       const data = await response.json();
       if (data) {
-        setValue("estabelecimento.endereco.cidade", data.localidade);
-        setValue("estabelecimento.endereco.logradouro", data.logradouro);
-        setValue("estabelecimento.endereco.bairro", data.bairro);
-        setValue("estabelecimento.endereco.estado", data.uf);
-        setValue("estabelecimento.endereco.pais", "Brasil");
+        setValue("estabelecimento.cidade", data.localidade);
+        setValue("estabelecimento.logradouro", data.logradouro);
+        setValue("estabelecimento.bairro", data.bairro);
+        setValue("estabelecimento.estado", data.uf);
+        setValue("estabelecimento.pais", "Brasil");
       }
     },
     [setValue]
   );
 
-  const cep = watch("estabelecimento.endereco.cep");
+  const cep = watch("estabelecimento.cep");
   const cnpj = watch("estabelecimento.cnpj");
   const fone = watch("estabelecimento.whatsapp");
 
@@ -119,8 +95,7 @@ export default function useEstabelecimento() {
   };
 
   useEffect(() => {
-    listarCategorias()
-
+    listarCategorias();
     const formatFone = (fone: string) => {
       const numericFone = fone.replace(/[^\d]/g, "");
       if (numericFone.length >= 11) {
@@ -146,13 +121,21 @@ export default function useEstabelecimento() {
       return cnpj;
     };
 
-    setValue("estabelecimento.endereco.cep", formatCEP(cep));
+    setValue("estabelecimento.cep", formatCEP(cep));
     setValue("estabelecimento.cnpj", formatCNPJ(cnpj));
     setValue("estabelecimento.whatsapp", formatFone(fone));
 
     if (cep.length != 9) return;
     handleFetchEndereco(cep);
-  }, [handleFetchEndereco, setValue, cep, cnpj, fone, listarCategorias, setCategorias]);
+  }, [
+    handleFetchEndereco,
+    setValue,
+    cep,
+    cnpj,
+    fone,
+    listarCategorias,
+    setCategorias,
+  ]);
 
   const auth = useContext(AuthContext);
 
@@ -174,12 +157,14 @@ export default function useEstabelecimento() {
     ).then((res) => res.json());
     if (response) {
       setListaEstabelencimento(response);
+      setIsLoading(false);
     }
   }, [auth.token]);
 
   const listarEstabelecimentoPorId = useCallback(
-    async (id: string) => {
+    async (id: number) => {
       if (!auth.token) return;
+      setIsLoading(true);
       const response = await fetch(
         process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + id,
         {
@@ -191,49 +176,42 @@ export default function useEstabelecimento() {
         }
       ).then((res) => res.json());
       if (response) {
-        setEstabelecimento(response);
+        setIsLoading(false);
+        setEstabelecimentoUpdate(response);
       }
+      setIsLoading(false);
     },
     [auth.token]
   );
 
   const criarEstabelecimento = async (data: FormEstabelecimentoProps) => {
-    if (!auth.token) return;
-    const res = await fetch(process.env.NEXT_PUBLIC_URL_RESTAURANTE, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${auth.token}`,
-      },
-      body: JSON.stringify(data.estabelecimento),
-    });
-    setSuccessMessage("Cadastro realizado com sucesso!");
-    return true;
+    setIsLoading(true);
+    const res = await criarEstabelecimentoUseCase(data, auth);
+    if (res) {
+      setIsLoading(false);
+      setSuccessMessage("Cadastro realizado com sucesso!");
+      return true;
+    }
+    setIsLoading(false);
+    setSuccessMessage("Erro ao cadastrar!");
+    return false;
   };
 
   const editarEstabelecimento = async (data: FormEstabelecimentoProps) => {
-    console.log(data.estabelecimento);
-    if (!auth.token) return;
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_URL_BASE_AUTH +
-        "/estabelecimento/" +
-        data.estabelecimento.id,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.token}`,
-        },
-        body: JSON.stringify(data.estabelecimento),
-      }
-    );
-    console.log(res);
-    setSuccessMessage("Edição realizada com sucesso!");
-    return true;
+    console.log(auth)
+    setIsLoading(true);
+    const res = await editarEstabelecimentoUseCase(data, auth);
+    if (res) {
+      setSuccessMessage("Edição realizada com sucesso!");
+      return true;
+    }
+    setIsLoading(false);
+    setSuccessMessage("Erro ao editar!");
+    return false;
   };
 
   const excluirEstabelecimento = useCallback(
-    async (id: string) => {
+    async (id: number) => {
       if (!auth.token) return;
       await fetch(
         process.env.NEXT_PUBLIC_URL_BASE_AUTH + "/estabelecimento/" + id,
@@ -255,7 +233,10 @@ export default function useEstabelecimento() {
   }, [listarEstabelecimento]);
 
   return {
+    isLoading,
+    setIsLoading,
     estabelecimento,
+    estabelecimentoUpdate,
     setValue,
     listaEstabelecimento,
     listarEstabelecimentoPorId,
@@ -267,8 +248,6 @@ export default function useEstabelecimento() {
     criarEstabelecimento,
     handleSubmit,
     categorias,
-    handleImagePerfil,
-    handleImageCapa,
     successMessage,
   };
 }

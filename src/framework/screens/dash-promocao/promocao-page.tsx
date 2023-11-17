@@ -1,22 +1,22 @@
 "use client";
 import React, { useState } from "react";
 import "./styles.scss";
-import useCupom from "@/core/hooks/cupom-hook";
+import usePromocao from "@/core/hooks/promocao-hook";
 import Cupom from "@/framework/components/cupons/cupom";
 import Link from "next/link";
 import useEstabelecimento from "@/core/hooks/estabelecimento-hook";
 
-export default function Cupons() {
+export default function Promocoes() {
     const [searchText, setSearchText] = useState("");
-    const { listaCupom } = useCupom();
+    const { listaCupom } = usePromocao();
     const { listarEstabelecimentoPorId, listaEstabelecimento } = useEstabelecimento()
     const cupons = listaCupom;
 
-    const filteredCupons = cupons.filter((cupom) => {
+    const filteredCupons = cupons.filter((promocao) => {
         if (searchText.trim() === "") {
             return true;
         }
-        return cupom.descricao.toLowerCase().includes(searchText.toLowerCase());
+        return promocao.descricao!.toLowerCase().includes(searchText.toLowerCase());
     });
 
     return (
@@ -44,18 +44,18 @@ export default function Cupons() {
                         <div className="item-cabecalho">STATUS</div>
                         <div className="item-cabecalho">AÇÕES</div>
                     </div>
-
-                    {filteredCupons.map((cupom) => (
-                        <div key={cupom.descricao} className="item-cabecalho">
+                    
+                    {filteredCupons.length && filteredCupons.map((promocao) => (
+                        <div key={promocao.descricao} className="item-cabecalho">
                             <Cupom
-                                id={cupom.id}
-                                nome={cupom.descricao}
-                                status={cupom.status}
+                                id={promocao.id!}
+                                nome={promocao.descricao!}
+                                status={promocao.status!}
                             />
                         </div>
                     ))}
                     <div className="container-botao">
-                        <Link href="/cadastrar-cupom">
+                        <Link href="/cadastrar-promocao">
                             <button className="botao">+ Adicionar Cupom</button>
                         </Link>
                     </div>

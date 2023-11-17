@@ -1,4 +1,4 @@
-import { IEstabelecimento } from "../../core/base/types/estabelecimento.interface";
+import { IEstabelecimento } from "../../core/base/types/estabelecimento-create.interface";
 
 export class EstabelecimentoRepository {
   constructor() {}

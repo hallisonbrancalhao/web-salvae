@@ -35,12 +35,17 @@
         .botao {
             @apply mt-5 text-[30px] bg-[#FFB133] hover:bg-[#FFB000] text-white px-16 rounded transition duration-300 ease-in-out transform hover:scale-105;
         }
+
+        .campo-cinza {
+            @apply bg-gray-200;
+        }
     }
 }
 
 .password-toggle-icon {
-    font-size: 16px /* Defina o tamanho desejado para o ícone aqui */
-  }
+    font-size: 16px
+        /* Defina o tamanho desejado para o ícone aqui */
+}
 
 .container-erro {
     @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50;
@@ -61,7 +66,7 @@
 .modal {
     position: fixed;
     top: 0;
-    left: 0;    
+    left: 0;
     width: 100%;
     height: 100%;
     background: rgba(132, 130, 130, 0.8);

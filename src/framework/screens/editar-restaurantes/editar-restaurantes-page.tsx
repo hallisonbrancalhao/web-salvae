@@ -6,10 +6,11 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/navigation';
 
-export default function EditarRestaurante({ id: params }: { id: string }) {
+export default function EditarRestaurante({ id: params }: { id: number }) {
     const {
         errors,
         estabelecimento,
+        estabelecimentoUpdate,
         setValue,
         register,
         listarEstabelecimentoPorId,
@@ -32,25 +33,26 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
 
     useEffect(() => {
         if (dadosCarregados) {
-            if (estabelecimento) {
-                setValue('estabelecimento.id', estabelecimento.id ?? '');
-                setValue('estabelecimento.nome', estabelecimento.nome ?? '');
-                setValue('estabelecimento.cnpj', estabelecimento.cnpj ?? '');
-                setValue('estabelecimento.fotoCapa', estabelecimento.fotoCapa ?? '');
-                setValue('estabelecimento.fotoPerfil', estabelecimento.fotoPerfil ?? '');
-                setValue('estabelecimento.instagram', estabelecimento.instagram ?? '');
-                setValue('estabelecimento.whatsapp', estabelecimento.whatsapp ?? '');
-                setValue('estabelecimento.estabelecimentoCategoria', estabelecimento.estabelecimentoCategoria ?? 1);
-                setValue('estabelecimento.cep', estabelecimento.cep ?? '');
-                setValue('estabelecimento.logradouro', estabelecimento.logradouro ?? '');
-                setValue('estabelecimento.numero', estabelecimento.numero ?? '');
-                setValue('estabelecimento.complemento', estabelecimento.complemento ?? '');
-                setValue('estabelecimento.bairro', estabelecimento.bairro ?? '');
-                setValue('estabelecimento.cidade', estabelecimento.cidade ?? '');
-                setValue('estabelecimento.estado', estabelecimento.estado ?? '');
+            if (estabelecimentoUpdate) {
+                console.log(estabelecimentoUpdate.estabelecimentoCategoria)
+                setValue('estabelecimento.id', estabelecimentoUpdate.id ?? '');
+                setValue('estabelecimento.nome', estabelecimentoUpdate.nome ?? '');
+                setValue('estabelecimento.cnpj', estabelecimentoUpdate.cnpj ?? '');
+                setValue('estabelecimento.fotoCapa', estabelecimentoUpdate.fotoCapa ?? '');
+                setValue('estabelecimento.fotoPerfil', estabelecimentoUpdate.fotoPerfil ?? '');
+                setValue('estabelecimento.instagram', estabelecimentoUpdate.instagram ?? '');
+                setValue('estabelecimento.whatsapp', estabelecimentoUpdate.whatsapp ?? '');
+                setValue('estabelecimento.estabelecimentoCategoria', estabelecimentoUpdate.estabelecimentoCategoria ?? 1);
+                setValue('estabelecimento.cep', estabelecimentoUpdate.endereco.cep ?? '');
+                setValue('estabelecimento.logradouro', estabelecimentoUpdate.endereco.logradouro ?? '');
+                setValue('estabelecimento.numero', estabelecimentoUpdate.endereco.numero ?? '');
+                setValue('estabelecimento.complemento', estabelecimentoUpdate.endereco.complemento ?? '');
+                setValue('estabelecimento.bairro', estabelecimentoUpdate.endereco.bairro ?? '');
+                setValue('estabelecimento.cidade', estabelecimentoUpdate.endereco.cidade ?? '');
+                setValue('estabelecimento.estado', estabelecimentoUpdate.endereco.estado ?? '');
             }
         }
-    }, [dadosCarregados, estabelecimento, register, setValue]);
+    }, [dadosCarregados, estabelecimento, estabelecimentoUpdate, register, setValue]);
 
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
@@ -58,7 +60,7 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
     };
     const passwordType = showPassword ? 'text' : 'password';
     const [error, setError] = useState('');
-    const {push} = useRouter()
+    const { push } = useRouter()
     const redirecionarPagina = () => {
         push('/restaurantes')
     }
@@ -82,14 +84,14 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                     <input
                         type="file"
                         accept="image/*"
-                        onChange={handleImagePerfil}
-                        className='format-foto'
+                        {...register("estabelecimento.fotoPerfil")}
+                        className="format-foto"
                     />
                     <input
                         type="file"
                         accept="image/*"
-                        onChange={handleImageCapa}
-                        className='format-foto'
+                        {...register("estabelecimento.fotoCapa")}
+                        className="format-foto"
                     />
                     <p>WhatsApp</p>
                     <p>Instagram</p>
@@ -163,7 +165,7 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                     <p>CNPJ</p>
                     <select
                         {...register('estabelecimento.estabelecimentoCategoria', {
-                            setValueAs: (value) => parseInt(value, 10),
+                            setValueAs: (value) => value,
                         })}
                     >
                         {categorias.map((categoria: any) => (
@@ -177,6 +179,8 @@ export default function EditarRestaurante({ id: params }: { id: string }) {
                         {...register('estabelecimento.cnpj')}
                         type="text"
                         placeholder='CNPJ'
+                        disabled
+                        className="campo-cinza"
                     />
                     <p>
                         Senha

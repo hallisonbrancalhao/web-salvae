@@ -1,16 +1,20 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context";
-import { IEstabelecimento } from "../base";
+import { IEstabelecimento, IEstabelecimentoUpdate } from "../base";
 import { schemaFormEstabelecimento } from "@/core/base/schemas/estabelecimento-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { set, useForm } from "react-hook-form";
 import { FormEstabelecimentoProps } from "../base/types/estabelecimento.zod";
-import { criarEstabelecimentoUseCase } from "@/services";
+import { criarEstabelecimentoUseCase, editarEstabelecimentoUseCase } from "@/services";
 
 export default function useEstabelecimento() {
   const [isLoading, setIsLoading] = useState(true);
+
   const [estabelecimento, setEstabelecimento] =
     useState<IEstabelecimento | null>(null);
+
+  const [estabelecimentoUpdate, setEstabelecimentoUpdate] =
+    useState<IEstabelecimentoUpdate | null>(null);
 
   const {
     handleSubmit,
@@ -173,7 +177,7 @@ export default function useEstabelecimento() {
       ).then((res) => res.json());
       if (response) {
         setIsLoading(false);
-        setEstabelecimento(response);
+        setEstabelecimentoUpdate(response);
       }
       setIsLoading(false);
     },
@@ -194,24 +198,16 @@ export default function useEstabelecimento() {
   };
 
   const editarEstabelecimento = async (data: FormEstabelecimentoProps) => {
-    console.log(data.estabelecimento);
-    if (!auth.token) return;
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_URL_BASE_AUTH +
-        "/estabelecimento/" +
-        data.estabelecimento.id,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${auth.token}`,
-        },
-        body: JSON.stringify(data.estabelecimento),
-      }
-    );
-    console.log(res);
-    setSuccessMessage("Edição realizada com sucesso!");
-    return true;
+    console.log(auth)
+    setIsLoading(true);
+    const res = await editarEstabelecimentoUseCase(data, auth);
+    if (res) {
+      setSuccessMessage("Edição realizada com sucesso!");
+      return true;
+    }
+    setIsLoading(false);
+    setSuccessMessage("Erro ao editar!");
+    return false;
   };
 
   const excluirEstabelecimento = useCallback(
@@ -240,6 +236,7 @@ export default function useEstabelecimento() {
     isLoading,
     setIsLoading,
     estabelecimento,
+    estabelecimentoUpdate,
     setValue,
     listaEstabelecimento,
     listarEstabelecimentoPorId,

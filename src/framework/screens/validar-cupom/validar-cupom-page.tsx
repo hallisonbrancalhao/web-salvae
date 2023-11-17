@@ -3,14 +3,16 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Logo from '../../../../assets/images/logo.svg';
 import useCupom from '@/core/hooks/cupom-hook';
+import { useRouter } from 'next/navigation';
 import './styles.scss';
 
 export default function Login() {
+    const { push } = useRouter()
     const [codigo, setCodigo] = useState('');
     const [error, setError] = useState('');
     const { errors, register, validarCupom, handleSubmit, successMessage } = useCupom()
     const redirecionarPagina = () => {
-        window.location.href = 'http://localhost:3000/restaurantes';
+        push('/restaurantes')
     }
 
     return (

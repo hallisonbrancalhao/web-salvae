@@ -10,7 +10,6 @@ import "../../screens/dash-restaurantes/styles.scss";
 import useEstabelecimento from "@/core/hooks/estabelecimento-hook";
 import { useRouter } from "next/navigation";
 import { File } from "buffer";
-import { number } from "zod";
 interface RestaurantesProps {
   id: number;
   fotoPerfil: File;
@@ -62,7 +61,6 @@ const Restaurante: React.FC<RestaurantesProps> = ({
         {fotoPerfil ? (
           <img src={fotoPerfil} alt={nome} width={100} height={100} />
         ) : (
-          // Se não houver imagem, você pode mostrar um espaço reservado ou mensagem
           <div>Imagem não disponível</div>
         )}
       </div>

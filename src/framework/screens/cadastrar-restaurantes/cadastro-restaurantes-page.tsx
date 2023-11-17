@@ -128,11 +128,6 @@ export default function CadastroEstabelecimento() {
             type="text"
             placeholder="Estado"
           />
-          {/* <p></p>
-                    <p></p>
-                    <p>País</p>
-                    <p></p>
-                    <input {...register('estabelecimento.endereco.pais')} type="text" placeholder='País' /> */}
         </div>
 
         <hr className="divisor" />
@@ -173,11 +168,13 @@ export default function CadastroEstabelecimento() {
             {...register("estabelecimento.senha")}
             type={passwordType}
             placeholder="Senha"
+            autoComplete="off"
           />
           <input
             {...register("estabelecimento.validasenha")}
             type={passwordType}
             placeholder="Confirmar Senha"
+            autoComplete="off"
           />
         </div>
 

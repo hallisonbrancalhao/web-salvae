@@ -8,5 +8,6 @@ export interface User {
   export interface AuthData {
     access_token: string;
     user: User;
+    role: number;
   }
   

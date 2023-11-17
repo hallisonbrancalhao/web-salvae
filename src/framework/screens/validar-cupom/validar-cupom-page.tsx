@@ -1,18 +1,48 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Logo from '../../../../assets/images/logo.svg';
 import useCupom from '@/core/hooks/cupom-hook';
 import { useRouter } from 'next/navigation';
 import './styles.scss';
 
-export default function Login() {
+export default function Valida() {
     const { push } = useRouter()
-    const [codigo, setCodigo] = useState('');
     const [error, setError] = useState('');
-    const { errors, register, validarCupom, handleSubmit, successMessage } = useCupom()
+    const { errors, register, getValues, validarCupom, handleSubmit, listarIdPromocao, successMessage, promocaId } = useCupom()
     const redirecionarPagina = () => {
-        push('/restaurantes')
+        //     push('/restaurantes')
+    }
+    const [idEstabelecimento, setIdEstabelecimento] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (!idEstabelecimento) {
+            const getuser = () => {
+                const data = localStorage.getItem(process.env.NEXT_PUBLIC_USER_TOKEN);
+                if (data) {
+                    const datajson = JSON.parse(data)
+                    const user = datajson.user.id
+                    return setIdEstabelecimento(user)
+                }
+            }
+            getuser()
+        }
+
+        if (!promocaId) {
+            const getPromocaoId = () => {
+                if (idEstabelecimento)
+                    listarIdPromocao(idEstabelecimento)
+            }
+            getPromocaoId()
+        }
+        console.log(idEstabelecimento, promocaId)
+    }, [listarIdPromocao, idEstabelecimento, promocaId])
+
+    const handleValidar = async () => {
+        event?.preventDefault()
+        const codigo = getValues('cupom.codigo')
+        if (promocaId)
+            validarCupom(promocaId, codigo)
     }
 
     return (
@@ -20,14 +50,17 @@ export default function Login() {
             <header className="header">
                 <Image src={Logo} alt='' width={452} height={192} className="logo" />
             </header>
-            <form className="main" onSubmit={handleSubmit(validarCupom())}>
+            <form className="main" onSubmit={handleSubmit(handleValidar)}>
                 <div className="bloco-2-3">
                     <p>Código do Cupom</p>
                     <p></p>
                     <input {...register('cupom.codigo')} type="text" placeholder='Código' />
                 </div>
                 <div className="container-botao">
-                    <button className="botao" type='submit'>Validar</button>
+                    <button
+                        className="botao"
+                        type="submit"
+                    >Validar</button>
                 </div>
             </form>
             {successMessage && (
@@ -49,7 +82,6 @@ export default function Login() {
                     <div className="erro">
                         <p className="erro2">{error}</p>
                         <button
-
                             className="erro-botao">
                             Fechar
                         </button>

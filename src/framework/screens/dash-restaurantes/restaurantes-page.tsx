@@ -10,11 +10,15 @@ export default function Restaurantes() {
   const { listaEstabelecimento, isLoading } = useEstabelecimento();
   const restaurantes = listaEstabelecimento;
 
+  const excludedName = "Administrador";
   const filteredRestaurantes = restaurantes.filter((restaurante) => {
     if (searchText.trim() === "") {
-      return true;
+      return restaurante.nome !== excludedName;
     }
-    return restaurante.nome.toLowerCase().includes(searchText.toLowerCase());
+    return (
+      restaurante.nome.toLowerCase().includes(searchText.toLowerCase()) &&
+      restaurante.nome !== excludedName
+    );
   });
 
   return (

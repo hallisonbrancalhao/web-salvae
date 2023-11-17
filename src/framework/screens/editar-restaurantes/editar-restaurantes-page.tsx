@@ -38,7 +38,7 @@ export default function EditarRestaurante({ id: params }: { id: number }) {
                 setValue('estabelecimento.id', estabelecimentoUpdate.id ?? '');
                 setValue('estabelecimento.nome', estabelecimentoUpdate.nome ?? '');
                 setValue('estabelecimento.cnpj', estabelecimentoUpdate.cnpj ?? '');
-                setValue('estabelecimento.fotoCapa', estabelecimentoUpdate.fotoCapa ?? '');
+                setValue('estabelecimento.fotoCapa', estabelecimentoUpdate.fotoCapa ?? null);
                 setValue('estabelecimento.fotoPerfil', estabelecimentoUpdate.fotoPerfil ?? '');
                 setValue('estabelecimento.instagram', estabelecimentoUpdate.instagram ?? '');
                 setValue('estabelecimento.whatsapp', estabelecimentoUpdate.whatsapp ?? '');

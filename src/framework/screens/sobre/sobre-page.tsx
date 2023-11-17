@@ -7,7 +7,7 @@ import './styles.scss'
 
 export default function Sobre() {
     return (
-        <div className="container">
+        <div className="container-sobre">
             <h1 className='sobrenos'>Sobre nós</h1>
             <div className="divisor"></div>
             <div className="container-timeline">

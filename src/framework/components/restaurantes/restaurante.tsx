@@ -10,6 +10,7 @@ import "../../screens/dash-restaurantes/styles.scss";
 import useEstabelecimento from "@/core/hooks/estabelecimento-hook";
 import { useRouter } from "next/navigation";
 import { File } from "buffer";
+
 interface RestaurantesProps {
   id: number;
   fotoPerfil: File;
@@ -29,15 +30,23 @@ const Restaurante: React.FC<RestaurantesProps> = ({
   const [toggleStatus, setToggleStatus] = useState(status);
   const toggleIcon = toggleStatus ? faToggleOn : faToggleOff;
 
-  const { excluirEstabelecimento } = useEstabelecimento();
+  const { excluirEstabelecimento, listarEstabelecimentoPorId, editarEstabelecimento, estabelecimento } = useEstabelecimento();
 
   const handleToggleClick = async () => {
-    // await statusEditado.EditarStatus({
-    //     _id: _id,
-    //     status: !toggleStatus,
-    // })
-    setToggleStatus(!toggleStatus);
-  };
+    if (!estabelecimento) return;
+    const novoStatus = !toggleStatus;
+    setToggleStatus(novoStatus);
+    estabelecimento.status = novoStatus;
+    console.log(estabelecimento.status)
+
+    const estabelecimentoAtualizado = {
+      estabelecimento: {
+            id: estabelecimento.id,
+            status: novoStatus,
+        },
+    };
+    editarEstabelecimento(estabelecimentoAtualizado);
+};
 
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -65,14 +74,14 @@ const Restaurante: React.FC<RestaurantesProps> = ({
         )}
       </div>
       <div className="item-cabecalho2">{nome}</div>
-      <div className="item-cabecalho2">{avaliacao}</div>
-      <div className="item-cabecalho2">
+      {/* <div className="item-cabecalho2">{avaliacao}</div> */}
+      {/* <div className="item-cabecalho2">
         <FontAwesomeIcon
           icon={toggleIcon}
           className={toggleStatus ? "ativado" : "desativado"}
           onClick={handleToggleClick}
         />
-      </div>
+      </div> */}
       <div className="item-cabecalho2">
         <Link href={`/editar-restaurante/${id}`}>
           <Image src={Editar} alt="" style={{ width: "32x", height: "32px" }} />

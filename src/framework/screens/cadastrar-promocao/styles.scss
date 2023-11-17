@@ -1,5 +1,5 @@
 .container-restaurente {
-    @apply flex flex-col bg-gradient-to-t from-[#081918] to-[#052C2C] sm:ml-64 ml-3 h-full;
+    @apply flex h-screen flex-col bg-gradient-to-t from-[#081918] to-[#052C2C] sm:ml-64;
 
     .h1 {
         @apply font-bold text-[70px] text-[#FFFFFF] mt-5 ml-[30px];

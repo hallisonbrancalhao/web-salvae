@@ -1,47 +1,74 @@
 .container-cupom {
-    @apply flex h-screen flex-col items-center bg-gradient-to-t from-[#081918] to-[#052C2C];
-  
-    .header {
-      @apply mt-28;
+  @apply flex h-screen flex-col items-center bg-gradient-to-t from-[#081918] to-[#052C2C];
+
+  .header {
+    @apply mt-28;
+  }
+
+  .main {
+    @apply w-1/4 mt-16;
+
+    .cupom {
+      @apply text-[30px] mb-2 text-white;
     }
-  
-    .main {
-      @apply w-1/4 mt-16 text-white;
-  
-      .usuario {
-        @apply text-[30px] mb-2;
-      }
-  
-      .form {
-        @apply mb-4 text-[#052C2C];
-  
-        .input {
-          @apply rounded-lg w-[500px] h-[45px];
-        }
-      }
-  
-      .container-botao {
-        @apply flex justify-center;
-  
-        .botao {
-          @apply mt-5 text-[30px] bg-[#FFB133] hover:bg-[#FFB000] text-white px-16 rounded transition duration-300 ease-in-out transform hover:scale-105;
-        }
-      }
-    }
-  
-    .container-erro {
-      @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50;
-  
-      .erro {
-        @apply bg-white p-6 rounded-lg shadow-lg text-center;
-  
-        .erro2 {
-          @apply text-red-500 justify-center;
-        }
-  
-        .erro-botao {
-          @apply mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600;
-        }
-      }
+
+    .input {
+      @apply rounded-lg w-[500px] h-[45px] text-[#052C2C];
     }
   }
+
+  .container-botao {
+    @apply flex justify-center;
+
+    .botao {
+      @apply mt-20 text-[30px] bg-[#FFB133] hover:bg-[#FFB000] text-white px-16 rounded transition duration-300 ease-in-out transform hover:scale-105;
+    }
+  }
+}
+
+.container-erro {
+  @apply fixed inset-0 flex items-center justify-center bg-black bg-opacity-50;
+
+  .erro {
+    @apply bg-white p-6 rounded-lg shadow-lg text-center;
+
+    .erro2 {
+      @apply text-red-500 justify-center;
+    }
+
+    .erro-botao {
+      @apply mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600;
+    }
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(132, 130, 130, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 30px;
+  text-align: center;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.modal-content button {
+  margin: 5px;
+  padding: 10px 20px;
+  background: #ffcc00;
+  color: #006600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

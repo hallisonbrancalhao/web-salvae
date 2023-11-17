@@ -55,7 +55,7 @@ $gradient-color-2: rgba(9, 26, 24, 0.00);
   }
   
   .frase-3 {
-    @apply font-bold mb-28 mt-64 text-[#fff] text-[80px];
+    @apply font-bold mb-28 mt-44 text-[#fff] text-[80px];
   }
   
   .tabela-olho {
@@ -85,8 +85,8 @@ $gradient-color-2: rgba(9, 26, 24, 0.00);
     @apply flex items-center justify-between;
   }
 
-  &__cleular{
-    @apply ml-10;
+  &__celular{
+    @apply ml-10 mb-12;
   }
 
   &__teste{

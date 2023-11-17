@@ -44,8 +44,8 @@ export default function Restaurantes() {
           <div className="cabecalho">
             <div className="item-cabecalho">FOTO</div>
             <div className="item-cabecalho">NOME</div>
-            <div className="item-cabecalho">AVALIAÇÃO</div>
-            <div className="item-cabecalho">STATUS</div>
+            {/* <div className="item-cabecalho">AVALIAÇÃO</div> */}
+            {/* <div className="item-cabecalho">STATUS</div> */}
             <div className="item-cabecalho">AÇÕES</div>
           </div>
           {isLoading && (

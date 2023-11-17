@@ -30,10 +30,7 @@ export default function CadastroEstabelecimento() {
   return (
     <div className="container-restaurente">
       <h1 className="h1">Cadastro do Restaurante</h1>
-      <form
-        className="container-forms"
-        onSubmit={handleSubmit(criarEstabelecimento)}
-      >
+      <form className="container-forms" onSubmit={handleSubmit(criarEstabelecimento)}>
         <div className="bloco-2-3">
           <p></p>
           <p></p>
@@ -177,7 +174,6 @@ export default function CadastroEstabelecimento() {
             autoComplete="off"
           />
         </div>
-
         <div className="container-botao">
           <button className="botao" type="submit">
             Enviar

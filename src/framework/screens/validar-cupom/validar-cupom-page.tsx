@@ -11,7 +11,7 @@ export default function Valida() {
     const [error, setError] = useState('');
     const { errors, register, getValues, validarCupom, handleSubmit, listarIdPromocao, successMessage, promocaId } = useCupom()
     const redirecionarPagina = () => {
-        //     push('/restaurantes')
+        location.reload();
     }
     const [idEstabelecimento, setIdEstabelecimento] = useState<string | null>(null)
 
@@ -51,10 +51,10 @@ export default function Valida() {
                 <Image src={Logo} alt='' width={452} height={192} className="logo" />
             </header>
             <form className="main" onSubmit={handleSubmit(handleValidar)}>
-                <div className="bloco-2-3">
-                    <p>Código do Cupom</p>
+                <div className="input">
+                    <p className='cupom'>Código do Cupom</p>
                     <p></p>
-                    <input {...register('cupom.codigo')} type="text" placeholder='Código' />
+                    <input {...register('cupom.codigo')} type="text" placeholder='Código' className='input'/>
                 </div>
                 <div className="container-botao">
                     <button

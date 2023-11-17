@@ -46,19 +46,16 @@ export default function HomePage() {
             </div>
             {showVideo && (
               <div className="video-container">
-                <iframe
-                  width="560"
-                  height="315"
-                  src="https://www.youtube.com/watch?v=k1JfQ-y9zcU"
-                  title="YouTube video"
-                  allowFullScreen
-                  allow="autoplay"
-                ></iframe>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/0_AR7giN0CU?si=06roeGzE4Zw4MQgr"
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen>
+                </iframe>
               </div>
             )}
           </div>
-          <div className="restaurantes">
-            <div className="fundo-2">
+          {/*<div className="restaurantes">
+             <div className="fundo-2">
               <div className="frase-3">
                 <h1>
                   Desconto para todos <p>os tipos de comida</p>
@@ -81,7 +78,7 @@ export default function HomePage() {
                   </table>
                 </div>
               </div>
-            </div>
+            </div> 
           </div>
           <div className="carrocel">
             <Image src={Carrocel} width={223} height={334} alt="" />
@@ -89,7 +86,7 @@ export default function HomePage() {
             <Image src={Carrocel} width={223} height={334} alt="" />
             <Image src={Carrocel} width={223} height={334} alt="" />
             <Image src={Carrocel} width={223} height={334} alt="" />
-          </div>
+          </div>*/}
           {/* Seção 3 */}
           <div className="parceiros">
             <div className="parceiros__frase">
@@ -109,7 +106,7 @@ export default function HomePage() {
           <div className="container-bg">
             <div className="container-bg__campo-clpl">
               <div className="container-bg__celular">
-                <Image src={Phone} width={270} height={80} alt="" />
+                <Image src={Phone} width={338} height={100} alt=""/>
               </div>
               <div className="container-bg__teste">
                 <div className="container-bg__logo">

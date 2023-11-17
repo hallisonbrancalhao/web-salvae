@@ -8,7 +8,7 @@ import Excluir from '../../../../assets/images/excluir.svg'
 import Link from 'next/link';
 import '../../screens/dash-restaurantes/styles.scss'
 import usePromocao from '@/core/hooks/promocao-hook'
-import { IPromocao } from '@/core/base'
+
 interface CuponsProps {
     id: number
     nome: string
@@ -19,7 +19,7 @@ const Cupom: React.FC<CuponsProps> = ({ id, nome, status }) => {
     const [toggleStatus, setToggleStatus] = useState(status);
     const toggleIcon = toggleStatus ? faToggleOn : faToggleOff;
 
-    const { excluirCupom, listarCupomPorId, editarCupom, promocao, setValue } = usePromocao();
+    const { excluirCupom, listarCupomPorId, editarCupom, promocao } = usePromocao();
 
     const fetchData = useCallback(async () => {
         await listarCupomPorId(id);
@@ -46,9 +46,7 @@ const Cupom: React.FC<CuponsProps> = ({ id, nome, status }) => {
                 status: novoStatus,
             },
         };
-
         editarCupom(promocaoAtualizada);
-
     };
 
     const [showConfirmModal, setShowConfirmModal] = useState(false);

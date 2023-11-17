@@ -1,12 +1,12 @@
 .container-restaurente {
-    @apply flex h-screen flex-col items-start bg-gradient-to-t from-[#081918] to-[#052C2C] sm:ml-64;
+    @apply flex h-screen flex-col bg-gradient-to-t from-[#081918] to-[#052C2C] sm:ml-64;
 
     .h1 {
         @apply font-bold text-[70px] text-[#FFB133] mt-5 px-[20px];
     }
 
     .container-pesquisa {
-        @apply flex items-center justify-between w-full pr-10;
+        @apply flex items-center justify-between w-full pr-2;
 
         .h2 {
             @apply font-bold text-[50px] text-[#FFFFFF] px-[20px];
@@ -30,7 +30,7 @@
     }
 
     .cabecalho {
-        @apply flex justify-center bg-white text-[#052C2C] w-full h-[50px] rounded-lg ml-5 mr-5 mb-5 items-center font-bold;
+        @apply flex justify-center bg-white text-[#052C2C] pr-20 h-[50px] rounded-lg ml-5 mr-5 mb-5 items-center font-bold;
 
         .item-cabecalho {
             @apply flex justify-center w-full;
@@ -39,7 +39,7 @@
 }
 
 .container-componente {
-    @apply flex justify-center bg-white text-[#052C2C] w-full rounded-lg m-[20px] items-center;
+    @apply flex justify-center bg-white text-[#052C2C] pr-20 rounded-lg m-[20px] items-center;
 
     .item-cabecalho2 {
         @apply flex justify-center w-full;
